@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connect With Us — Christian Faith Centre</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #ffffff;
+    --text: #1C1C1E;
+    --text-secondary: #48484A;
+    --muted: #6C6C70;
+    --placeholder: #AEAEB2;
+    --border: #E5E5EA;
+    --border-strong: #D1D1D6;
+    --bg: #F2F2F7;
+    --purple: #6B3FA0;
+    --purple-hover: #5a3488;
+    --purple-light: #EDE5F5;
+    --purple-mid: #9B6FC8;
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-focus: 0 0 0 3px rgba(107,63,160,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .card-wrap {
+    width: 100%;
+    max-width: 460px;
+    padding-bottom: 60px;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(145deg, #4a2070 0%, #6B3FA0 60%, #8B5FC0 100%);
+    padding: 0;
+    text-align: center;
+  }
+
+  .hero-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 20px;
+    min-height: 36px;
+  }
+
+  .hero-back {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    gap: 4px;
+    padding: 7px 12px;
+    transition: background 0.15s;
+  }
+
+  .hero-back:hover { background: rgba(255,255,255,0.25); }
+
+  .hero-spacer { width: 70px; visibility: hidden; }
+
+  .hero-content {
+    padding: 0 32px 18px;
+  }
+
+  .church-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+    line-height: 1.2;
+    letter-spacing: 0.3px;
+  }
+
+  .tagline {
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.5;
+    max-width: 260px;
+    margin: 0 auto;
+  }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .progress-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--purple);
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+
+  /* FORM */
+  .form-body {
+    background: var(--bg);
+    padding: 20px 16px 40px;
+  }
+
+  .step {
+    display: none;
+  }
+
+  .step.active {
+    display: block;
+    animation: fadeUp 0.35s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-section {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    padding: 20px;
+    margin-bottom: 14px;
+    text-align: left;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 14px;
+    text-align: left;
+  }
+
+  .field-group { margin-bottom: 12px; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    background: white;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+
+  input::placeholder, textarea::placeholder { color: var(--placeholder); font-weight: 400; }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--purple);
+    box-shadow: var(--shadow-focus);
+  }
+
+  textarea { resize: vertical; min-height: 85px; }
+
+  /* Toggle */
+  .toggle-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .toggle-option input { display: none; }
+
+  .toggle-option label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    background: white;
+    border: 1px solid var(--border-strong);
+    transition: all 0.15s;
+  }
+
+  .toggle-option input:checked + label {
+    background: var(--purple);
+    color: white;
+    border-color: var(--purple);
+    box-shadow: 0 2px 8px rgba(107,63,160,0.3);
+  }
+
+  .toggle-option input:checked + label svg { stroke: white; }
+
+  /* Interests */
+  .interests-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .interest-item input { display: none; }
+
+  .interest-item label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: white;
+    border: 1px solid var(--border-strong);
+    transition: all 0.15s;
+  }
+
+  .interest-item label svg { stroke: var(--text-secondary); flex-shrink: 0; transition: stroke 0.15s; }
+
+  .interest-item input:checked + label {
+    background: var(--purple);
+    color: white;
+    border-color: var(--purple);
+    box-shadow: 0 2px 8px rgba(107,63,160,0.3);
+  }
+
+  .interest-item input:checked + label svg { stroke: white; }
+
+  /* Conditional */
+  .conditional-field { display: none; margin-top: 10px; animation: fadeUp 0.3s ease both; }
+  .conditional-field.visible { display: block; }
+
+  .select-wrap { position: relative; }
+  .select-wrap::after {
+    content: '';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    width: 12px; height: 8px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B3FA0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  select option { background: white; color: var(--text); }
+
+  .optional-note {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--placeholder);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-left: 6px;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    width: 100%;
+    padding: 15px;
+    background: var(--purple);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 16px rgba(107,63,160,0.32);
+  }
+
+  .btn-primary:hover {
+    background: var(--purple-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(107,63,160,0.4);
+  }
+
+  .btn-primary:active { transform: translateY(0); }
+
+  /* THANK YOU */
+  #thankYou {
+    display: none;
+    background: var(--bg);
+    padding: 40px 16px 56px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .ty-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    padding: 32px 24px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .ty-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    background: var(--purple);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(107,63,160,0.3);
+  }
+
+  .ty-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .ty-subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .next-steps {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    padding: 20px;
+    margin-bottom: 14px;
+  }
+
+  .next-steps h3 {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .next-step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .next-step-item strong {
+    display: block;
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .next-step-item .step-dot {
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-dot-icon {
+    font-size: 20px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .next-step-item:last-child { border-bottom: none; }
+
+  .step-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ty-footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    padding: 0 16px;
+  }
+  .ty-footer strong { color: var(--purple); }
+
+  .powered {
+    text-align: center;
+    padding: 24px;
+    font-size: 11px;
+    color: #AEAEB2;
+    background: white;
+    letter-spacing: 0;
+    text-transform: none;
+    border-top: 1px solid var(--border);
+  }
+  .powered span { color: #AEAEB2; font-weight: 600; }
+
+  .error-msg {
+    font-size: 12px;
+    color: #D0021B;
+    margin-top: 5px;
+    font-weight: 500;
+    display: none;
+    animation: fadeUp 0.2s ease both;
+  }
+
+  .error-msg.visible { display: block; }
+
+  input.error {
+    border-color: #D0021B;
+    box-shadow: 0 0 0 3px rgba(208,2,27,0.1);
+  }
+
+
+</style>
+</head>
+<body>
+<div class="card-wrap">
+
+  <div class="hero">
+    <div class="hero-nav">
+      <button class="hero-back" id="heroBack" onclick="goBack()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <div class="hero-spacer"></div>
+    </div>
+    <div class="hero-content">
+      <div class="church-name">Christian Faith Centre</div>
+    <div class="tagline">We're really glad you're here, we'd love to stay connected with you.</div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap" id="progressWrap">
+    <span class="progress-label" id="progressLabel">Step 1 of 2</span>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width: 50%"></div>
+    </div>
+  </div>
+
+  <div class="form-body" id="formBody">
+
+    <!-- STEP 1 -->
+    <div class="step active" id="step1">
+
+      <div class="form-section">
+        <div class="section-label">Is This Your First Visit?</div>
+        <div class="toggle-group">
+          <div class="toggle-option">
+            <input type="radio" name="visitType" id="firstTime" value="first" checked onchange="handleVisitType()">
+            <label for="firstTime">First Visit</label>
+          </div>
+          <div class="toggle-option">
+            <input type="radio" name="visitType" id="returning" value="returning" onchange="handleVisitType()">
+            <label for="returning">Visited Before</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-label">About You</div>
+        <div class="field-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" placeholder="Your name" oninput="clearFieldError('fullName')">
+          <div class="error-msg" id="err-fullName"></div>
+        </div>
+        <div class="field-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="your@email.com" oninput="clearFieldError('email')">
+          <div class="error-msg" id="err-email"></div>
+        </div>
+        <div class="field-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" placeholder="(555) 000-0000">
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-label">How'd You Find Us?</div>
+        <div class="select-wrap">
+          <select id="heardAbout" onchange="handleHeardAbout(this.value)">
+            <option value="" disabled selected>Select one...</option>
+            <option value="friend">A Friend or Family Member</option>
+            <option value="social">Social Media</option>
+            <option value="online">Online Search</option>
+            <option value="drive">Drove By</option>
+            <option value="event">A Church Event</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="conditional-field" id="field-friend">
+          <input type="text" id="friendName" placeholder="Who can we thank for inviting you?">
+        </div>
+        <div class="conditional-field" id="field-other">
+          <input type="text" id="otherHow" placeholder="Tell us how you heard about us...">
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="goToStep2()">
+        Continue
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step" id="step2">
+
+      <div class="form-section">
+        <div class="section-label" id="nextStepLabel">What would you like to learn more about? <span class="optional-note">optional</span></div>
+        <div class="interests-grid">
+          <div class="interest-item">
+            <input type="checkbox" id="int-baptism" value="baptism">
+            <label for="int-baptism">
+            Baptism
+            </label>
+          </div>
+          <div class="interest-item">
+            <input type="checkbox" id="int-salvation" value="salvation">
+            <label for="int-salvation">
+            Salvation
+            </label>
+          </div>
+          <div class="interest-item">
+            <input type="checkbox" id="int-membership" value="membership">
+            <label for="int-membership">
+            Membership
+            </label>
+          </div>
+          <div class="interest-item">
+            <input type="checkbox" id="int-prayer" value="prayer">
+            <label for="int-prayer">
+            Prayer
+            </label>
+          </div>
+          <div class="interest-item">
+            <input type="checkbox" id="int-kids" value="kids">
+            <label for="int-kids">
+            Kids / Youth
+            </label>
+          </div>
+          <div class="interest-item" id="serving-item">
+            <input type="checkbox" id="int-serving" value="serving">
+            <label for="int-serving">
+            Serving
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="section-label">Prayer Requests <span class="optional-note">optional</span></div>
+        <textarea id="prayer" placeholder="How can we pray for you?"></textarea>
+      </div>
+
+      <button class="btn-primary" onclick="submitForm()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Submit &amp; Connect
+      </button>
+
+
+    </div>
+
+  </div>
+
+  <!-- Thank You -->
+  <div id="thankYou">
+    <div class="ty-card">
+      <div class="ty-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="ty-title" id="tyTitle">You're Connected!</div>
+      <p class="ty-subtitle" id="tySubtitle">Thank you for taking a moment to connect with us. We're honored you joined us today and look forward to getting to know you.</p>
+    </div>
+
+    <div class="next-steps" id="tyMessageBox">
+      <div id="tyInterests"></div><p id="tyMessage" style="font-size:14px; color:#48484A; line-height:1.7; margin-top:10px;"></p>
+      <div style="margin-top:16px; padding-top:16px; border-top:1px solid #E5E5EA; font-size:13px; color:#6C6C70;">
+        <strong style="display:block; color:#1C1C1E; margin-bottom:4px;">Sunday Morning Worship</strong> 10:30 AM
+      </div>
+      <div style="margin-top:12px; padding-top:12px; border-top:1px solid #E5E5EA; font-size:13px; color:#6C6C70;">
+        <strong style="display:block; color:#1C1C1E; margin-bottom:4px;">Wednesday Night Reset</strong>
+        <span style="display:block; font-size:12px; color:#AEAEB2; margin-top:2px; margin-bottom:4px;">Grow deeper in God's Word and be encouraged.</span>
+        7:00 PM
+      </div>
+    </div>
+
+    <p class="ty-footer">Questions? Reach us at<br><strong>hello@christianfaithcentre.com</strong></p>
+  </div>
+
+  <div class="powered">Powered by <span>Anchor &amp; Craft</span></div>
+
+</div>
+
+<!-- Checkmark overlay -->
+<div id="checkOverlay" style="display:none; position:fixed; inset:0; background:rgba(107,63,160,0.18); z-index:100; align-items:center; justify-content:center;">
+  <div class="check-circle">
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  </div>
+</div>
+
+<script>
+  // =============================================
+  // PASTE YOUR MAILERLITE API KEY ON THE LINE BELOW
+  // =============================================
+
+  function formatPhone(input) {
+    let raw = input.value;
+    let digits = raw.replace(/\D/g, '').substring(0, 10);
+    let formatted = '';
+    if (digits.length === 0) {
+      input.value = '';
+      return;
+    }
+    if (digits.length <= 3) {
+      formatted = '(' + digits;
+    } else if (digits.length <= 6) {
+      formatted = '(' + digits.substring(0, 3) + ') ' + digits.substring(3);
+    } else {
+      formatted = '(' + digits.substring(0, 3) + ') ' + digits.substring(3, 6) + '-' + digits.substring(6);
+    }
+    input.value = formatted;
+  }
+
+  // iOS fallback for phone formatting
+  document.addEventListener('DOMContentLoaded', function() {
+    const phoneInput = document.getElementById('phone');
+    if (phoneInput) {
+      ['input', 'keyup', 'change'].forEach(function(evt) {
+        phoneInput.addEventListener(evt, function() { formatPhone(phoneInput); });
+      });
+    }
+  });
+
+  function clearFieldError(fieldId) {
+    document.getElementById(fieldId).classList.remove('error');
+    const err = document.getElementById('err-' + fieldId);
+    if (err) { err.classList.remove('visible'); err.textContent = ''; }
+  }
+
+  function showError(fieldId, msg) {
+    const input = document.getElementById(fieldId);
+    const err = document.getElementById('err-' + fieldId);
+    input.classList.add('error');
+    err.textContent = msg;
+    err.classList.add('visible');
+    input.focus();
+  }
+
+  function clearErrors() {
+    ['fullName', 'email', 'phone'].forEach(id => {
+      document.getElementById(id).classList.remove('error');
+      const err = document.getElementById('err-' + id);
+      if (err) { err.classList.remove('visible'); err.textContent = ''; }
+    });
+  }
+
+  function goBack() {
+    try {
+      var s1 = document.getElementById('step1');
+      var s2 = document.getElementById('step2');
+      var back = document.getElementById('heroBack');
+
+      // Force hide step2
+      s2.setAttribute('style', 'display:none !important');
+      s2.className = 'step';
+
+      // Force show step1
+      s1.setAttribute('style', 'display:block !important; opacity:1 !important; transform:none !important');
+      s1.className = 'step active';
+
+      // Update progress
+      document.getElementById('progressLabel').textContent = 'Step 1 of 2';
+      document.getElementById('progressFill').style.width = '50%';
+
+      // Hide back button
+      back.setAttribute('style', 'display:none');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch(e) {
+      console.error('goBack error:', e);
+    }
+  }
+
+  function handleVisitType() {
+    const returning = document.getElementById('returning').checked;
+    document.getElementById('serving-item').style.display = returning ? 'block' : 'none';
+    const label = document.getElementById('nextStepLabel');
+    if (label) {
+      label.innerHTML = returning
+        ? "What would you like to learn more about? <span class='optional-note'>optional</span>"
+        : "What would you like to learn more about? <span class='optional-note'>optional</span>";
+    }
+  }
+
+  function handleHeardAbout(val) {
+    document.getElementById('field-friend').classList.remove('visible');
+    document.getElementById('field-other').classList.remove('visible');
+    if (val === 'friend') document.getElementById('field-friend').classList.add('visible');
+    if (val === 'other') document.getElementById('field-other').classList.add('visible');
+  }
+
+  function goToStep2() {
+    const name = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    if (!name) {
+      showError('fullName', 'Please enter your name.');
+      return;
+    }
+    if (!email) {
+      showError('email', 'We need your email so we can follow up with you.');
+      return;
+    }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if (!emailPattern.test(email)) {
+      showError('email', 'Please enter a valid email address (e.g. name@example.com).');
+      return;
+    }
+    const phone = document.getElementById('phone').value.trim();
+    if (phone) {
+      const digitsOnly = phone.replace(/\D/g, '');
+      if (digitsOnly.length < 10) {
+        showError('phone', 'Please enter a valid 10-digit phone number.');
+        return;
+      }
+    }
+    const heard = document.getElementById('heardAbout').value;
+    if (!heard) {
+      const sel = document.getElementById('heardAbout');
+      sel.style.borderColor = '#D0021B';
+      sel.style.boxShadow = '0 0 0 3px rgba(208,2,27,0.1)';
+      sel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => { sel.style.borderColor = ''; sel.style.boxShadow = ''; }, 2500);
+      return;
+    }
+    clearErrors();
+    const overlay = document.getElementById('checkOverlay');
+    overlay.style.display = 'flex';
+    setTimeout(function() {
+      overlay.style.display = 'none';
+      var s1 = document.getElementById('step1');
+      var s2 = document.getElementById('step2');
+      s1.style.display = 'none';
+      s1.classList.remove('active');
+      s2.style.display = 'block';
+      s2.classList.add('active');
+      document.getElementById('progressLabel').textContent = 'Step 2 of 2';
+      document.getElementById('progressFill').style.width = '100%';
+      document.getElementById('heroBack').style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 700);
+  }
+
+  function submitForm() {
+    const isReturning = document.getElementById('returning').checked;
+    const name = document.getElementById('fullName').value.trim().split(' ')[0];
+    const baptism = document.getElementById('int-baptism').checked;
+    const salvation = document.getElementById('int-salvation').checked;
+    const servingEl = document.getElementById('int-serving');
+    const serving = servingEl ? servingEl.checked : false;
+    const membership = document.getElementById('int-membership').checked;
+    const prayer = document.getElementById('int-prayer').checked;
+    const kids = document.getElementById('int-kids').checked;
+
+    // Personalize title with first name
+    document.getElementById('tyTitle').textContent = isReturning
+      ? "Welcome Back, " + name + "!"
+      : "Welcome, " + name + "!";
+
+    // Personalize subtitle
+    if (isReturning) {
+      document.getElementById('tySubtitle').textContent = "Thank you for visiting us again and taking the time to connect. We're glad you're here and look forward to continuing to grow with you.";
+    } else {
+      document.getElementById('tySubtitle').textContent = "Thank you for taking a moment to connect with us. We're honored you joined us today and look forward to getting to know you.";
+    }
+
+    // Build interest tags and message
+    const selected = [];
+    if (baptism) selected.push("Baptism");
+    if (salvation) selected.push("Salvation");
+    if (membership) selected.push("Membership");
+    if (prayer) selected.push("Prayer");
+    if (kids) selected.push("Kids / Youth");
+    if (serving) selected.push("Serving");
+
+    let interestHTML = '';
+    if (selected.length > 0) {
+      interestHTML = '<p style="font-size:14px; color:#48484A; line-height:1.7; margin-bottom:10px;"><strong>Your Interests</strong><br>' + selected.join(' &bull; ') + '</p>';
+    }
+    document.getElementById('tyInterests').innerHTML = interestHTML;
+
+    let msg = "";
+    if (selected.length > 0) {
+      msg += "Someone from our team will personally reach out to answer your questions and connect with you.";
+      if (prayer) msg += " We\'re already praying for you.";
+    } else {
+      msg = "Someone from our team will personally reach out to connect with you.";
+    }
+
+    if (isReturning) {
+      msg += " We\'re grateful you\'re continuing to connect with us.";
+    } else {
+      msg += " We look forward to getting to know you and seeing you again soon.";
+    }
+
+    document.getElementById('tyMessage').innerHTML = msg;
+
+    // Show thank you screen immediately
+    document.getElementById('heroBack').setAttribute('style', 'display:none');
+    document.getElementById('formBody').style.display = 'none';
+    document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('thankYou').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Send to MailerLite in background
+    sendToMailerLite({
+      name: document.getElementById('fullName').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      visitType: isReturning ? 'Returning Guest' : 'First Visit',
+      interests: selected.length > 0 ? selected.join(', ') : 'None selected',
+      prayer: document.getElementById('prayer').value.trim(),
+      heardAbout: document.getElementById('heardAbout').value,
+      friendName: document.getElementById('friendName') ? document.getElementById('friendName').value.trim() : '',
+      otherHow: document.getElementById('otherHow') ? document.getElementById('otherHow').value.trim() : ''
+    });
+  }
+
+  async function sendToMailerLite(data) {
+    const API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiYjhhMTg1Yzk4NTZjNmI0ZTgxMmQ1MzQ0YTg1NWJiMzlkMjBiNjM5MWJkMTI2MDEzODQ0MGU4MzIwMmYzNTBkYmQyYWJhOGNjNDIwOGU2NGMiLCJpYXQiOjE3ODAzNTI3MTMuMjYwODYzLCJuYmYiOjE3ODAzNTI3MTMuMjYwODY3LCJleHAiOjQ5MzYwMjYzMTMuMjU1MjM2LCJzdWIiOiIyNDE2NzY5Iiwic2NvcGVzIjpbXX0.oEiEtNvdrsEstrFVr_VPZgZi6fZG_sa782TtSUTbyVw-PmB5fIWT3iiijN2OUxFVUaY9x6p7jAVKSg9z373futnFwuLoohA0I7ds3-eDj9CPIbMQrcZfTm0Nax9hFs6CL2PYQnhCGnB7znvAiueRilH1bELgTE_vU7yWgIbAI6izKf5-njACGxKO0TUlh5mDYFQLssSnpdrDgjvHUR4YjYRZXzSKb6r1Q0fhB8tODzwXSTrwFmSWew_xE86hJyKdjE5DliEuKD-PGKmSZWFuUpPegAN7Wmz8MxHPOaiDfu1k6foE2K1RcUKREMMBni4s2qugRzueho9ywCe3WBm2OQpYKGnoRrphbfBs7RR_5SVTdUXgWAGGGmHMk1cpQeuSHoSfgdMW0zZsMADrqmiiNEKuoTKSWqRMxV75OWXKd7h3Es0ShKehUyRXKQ-_TY0mUrafJeYlGXdKizgHjno5PzOWMjDcUHdZrjvslHgebpFVarc3TfSmIa00_aVf2eCuRd_W3tGlyV1G5xzZFQJ1G1pYju71ikq7n_hf-eW7KS76pLxGdkISUqYF_c1Z_1fxoalS8YrZaF112gXi2alKufdKX9rnTtV3y6uC3uE6seBazw8zBWNtfyEfsNf_9r5HDw8o7bAQ-z0w1l9xN3jQr_7qj0N0JRqI6AWIcfDl8eY';
+    const GROUP_ID = '189113619277940717';
+
+    const fields = {
+      phone: data.phone,
+      visit_type: data.visitType,
+      interests: data.interests,
+      prayer_request: data.prayer,
+      heard_about: data.heardAbout + (data.friendName ? ' - ' + data.friendName : '') + (data.otherHow ? ' - ' + data.otherHow : '')
+    };
+
+    try {
+      // First create/update subscriber
+      const subResponse = await fetch('https://connect.mailerlite.com/api/subscribers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + API_KEY
+        },
+        body: JSON.stringify({
+          email: data.email,
+          fields: {
+            name: data.name,
+            ...fields
+          },
+          groups: [GROUP_ID]
+        })
+      });
+
+      if (!subResponse.ok) {
+        console.error('MailerLite error:', await subResponse.text());
+      } else {
+        console.log('Subscriber added to MailerLite successfully');
+      }
+    } catch(err) {
+      console.error('MailerLite connection error:', err);
+    }
+  }
+
+</script>
+</body>
+</html>
