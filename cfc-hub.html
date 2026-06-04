@@ -69,11 +69,11 @@
 
   /* FORM */
   .form-section { background:#efefef; border-radius:26px; padding:24px; margin-bottom:16px; }
-  .section-label { font-size:13px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; color:#1C1C1E; margin-bottom:14px; display:block; }
+  .section-label { font-size:13px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; color:#1C1C1E; margin-bottom:20px; display:block; }
   .optional-note { font-size:10px; font-weight:500; color:#AEAEB2; letter-spacing:1px; text-transform:uppercase; margin-left:6px; }
   .field-group { margin-bottom:18px; }
   .field-group:last-child { margin-bottom:0; }
-  label { display:block; font-size:12px; font-weight:700; color:#1C1C1E; margin-bottom:6px; text-align:left; }
+  label { display:block; font-size:12px; font-weight:600; color:#48484A; margin-bottom:6px; text-align:left; }
   input[type="text"],input[type="email"],input[type="tel"],textarea,select { width:100%; padding:12px 14px; border:none; border-radius:26px; font-family:'Inter',sans-serif; font-size:15px; color:#1C1C1E; background:#ffffff; transition:box-shadow 0.15s; outline:none; -webkit-appearance:none; }
   input::placeholder,textarea::placeholder { color:#AEAEB2; }
   input:focus,textarea:focus,select:focus { box-shadow:0 0 0 3px rgba(0,0,0,0.12); }
@@ -122,10 +122,8 @@
 
   /* Accordion */
   .accordion-day { background:#ffffff; border-radius:26px; margin-bottom:14px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,0.06); }
-  .accordion-day.active-day { background:#ffffff; }
   .accordion-header { display:flex; align-items:center; justify-content:space-between; padding:20px 24px; cursor:pointer; user-select:none; }
-  .accordion-day-name { font-size:22px; font-weight:800; color:#1C1C1E; text-transform:uppercase; letter-spacing:-0.3px; padding:6px 0; border-radius:99px; }
-  .accordion-day.active-day .accordion-day-name { font-size:22px; letter-spacing:-0.3px; padding:6px 0; }
+  .accordion-day-name { font-size:22px; font-weight:800; color:#1C1C1E; text-transform:uppercase; letter-spacing:-0.3px; padding:6px 0; }
   .accordion-meta { display:flex; align-items:center; gap:8px; }
   .accordion-count { font-size:11px; font-weight:700; color:#8E8E93; }
   .accordion-count.has-events { color:#1C1C1E; }
@@ -136,15 +134,13 @@
   .accordion-day.open .accordion-body { grid-template-rows:1fr; padding:0 24px 20px; }
   .week-event-item { background:#efefef; border-radius:16px; padding:14px 16px; margin-bottom:10px; border-bottom:none; }
   .week-event-item:last-child { margin-bottom:0; border-bottom:none; padding-bottom:14px; }
-  .week-event-time { font-size:12px; font-weight:500; color:#57f9ba; filter:brightness(0.75); letter-spacing:0.5px; text-transform:uppercase; margin-bottom:8px; }
+  .week-event-time { font-size:12px; font-weight:500; color:#8E8E93; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:8px; }
   .week-event-name { font-size:15px; font-weight:700; color:#1C1C1E; margin-bottom:6px; }
   .week-event-detail { font-size:13px; color:#1C1C1E; line-height:1.5; }
   .day-empty { font-size:13px; color:#AEAEB2; font-style:italic; padding:4px 0 0; }
   .map-btn { display:flex; align-items:center; justify-content:center; gap:8px; padding:16px; background:#ffffff; color:#1C1C1E; border-radius:26px; font-size:13px; font-weight:700; text-decoration:none; margin-top:4px; box-shadow:0 2px 12px rgba(0,0,0,0.06); }
   .tab-panel { animation:fadeUp 0.2s ease both; }
 
-  /* WEEK VIEW */
-  .week-day-block-OLD { display:none; }
 
   /* CALENDAR */
   .cal-header { padding:16px 0 12px; }
@@ -154,9 +150,6 @@
   .cal-day { text-align:center; padding:8px 4px; font-size:14px; font-weight:500; color:#1C1C1E; position:relative; }
   .cal-day.empty { color:transparent; pointer-events:none; }
   .cal-day.has-event { font-weight:600; }
-  .cal-day.has-event::after { content:''; position:absolute; bottom:2px; left:50%; transform:translateX(-50%); width:4px; height:4px; border-radius:50%; background:#57f9ba; }
-  .cal-day.today { background:#57f9ba; color:#1C1C1E!important; border-radius:8px; font-weight:600; }
-  .cal-day.today::after { background:rgba(255,255,255,0.7); }
   .cal-events-list { border-top:2px solid rgba(0,0,0,0.07); padding-top:16px; }
   .cal-event-row { display:flex; align-items:flex-start; gap:14px; padding:10px 0; border-bottom:1px solid rgba(0,0,0,0.05); }
   .cal-event-row:last-child { border-bottom:none; }
@@ -168,19 +161,14 @@
 
   .service-row { display:flex; align-items:flex-start; gap:12px; padding:12px 0; border-bottom:1px solid rgba(0,0,0,0.05); }
   .service-row:last-child { border-bottom:none; }
-  .service-dot { width:8px; height:8px; border-radius:50%; background:#57f9ba; flex-shrink:0; margin-top:6px; }
   .service-name { font-size:14px; font-weight:700; color:#1C1C1E; }
   .service-desc { font-size:12px; color:#8E8E93; margin-top:2px; line-height:1.4; }
   .service-time { font-size:12px; color:#8E8E93; margin-top:2px; }
-  .event-badge { display:inline-flex; background:#6B3FA0; color:white; font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:3px 10px; border-radius:20px; margin-bottom:7px; }
-  .event-name { font-size:14px; font-weight:700; color:#1C1C1E; margin-bottom:3px; }
-  .event-detail { font-size:12px; color:#8E8E93; line-height:1.5; }
-  .event-divider { border:none; border-top:1px solid rgba(0,0,0,0.06); margin:14px 0; }
-  .give-btn { display:flex; align-items:center; justify-content:center; width:100%; padding:15px; border-radius:26px; font-family:'Inter',sans-serif; font-size:15px; font-weight:700; cursor:pointer; text-decoration:none; margin-bottom:12px; border:none; transition:opacity 0.15s; }
-  .give-btn:last-child { margin-bottom:0; }
-  .give-btn:active { opacity:0.85; }
-  .give-givelify { background:#6B3FA0; color:white; }
-  .give-cash { background:#00C244; color:white; }
+  .give-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:0; }
+  .give-card { display:flex; flex-direction:column; justify-content:space-between; background:#efefef; border-radius:26px; padding:20px; text-decoration:none; aspect-ratio:1/1; transition:opacity 0.15s; }
+  .give-card:active { opacity:0.8; }
+  .give-card-icon { margin-bottom:auto; }
+  .give-card-label { font-size:18px; font-weight:700; color:#1C1C1E; line-height:1.3; margin-top:auto; }
 
 
 
@@ -260,7 +248,7 @@
 <div class="modal-overlay" id="modal-connect">
   <div class="modal">
     <div class="modal-hero">
-      <div class="modal-hero-row"><div><div class="modal-title">New Here? Let's Get Connected</div><div class="modal-subtitle"></div></div><button class="modal-close" onclick="connectBack()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back</button></div>
+      <div class="modal-hero-row"><div><div class="modal-title">New Here?<br>Let's Get Connected</div><div class="modal-subtitle"></div></div><button class="modal-close" onclick="connectBack()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button></div>
     </div>
     <div class="progress-wrap" id="connect-progress">
       <span class="progress-label" id="connect-progress-label">Step 1 of 2</span>
@@ -291,7 +279,7 @@
       </div>
       <div id="connect-step2" style="display:none;">
         <div class="form-section">
-          <span class="section-label" id="step2-label">What Would You Like to Learn More About? <span class="optional-note">optional</span></span>
+          <span class="section-label" id="step2-label">I'm Interested In... <span class="optional-note">optional</span></span>
           <div class="interests-grid">
             <div class="interest-item"><input type="checkbox" id="int-baptism" value="Baptism"><label for="int-baptism">Baptism</label></div>
             <div class="interest-item"><input type="checkbox" id="int-salvation" value="Salvation"><label for="int-salvation">Salvation</label></div>
@@ -308,18 +296,26 @@
         <button class="btn-primary" onclick="connectSubmit()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Submit &amp; Connect</button>
       </div>
       <div class="success-state" id="connect-success">
-        <div class="ty-card">
-          <div class="ty-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="ty-title" id="connect-ty-title">Welcome!</div>
+        <div class="ty-card" style="padding:28px 24px 20px;">
+          <div class="ty-icon" style="width:70px;height:70px;margin:0 auto 12px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="ty-title" id="connect-ty-title" style="font-size:26px;">Welcome!</div>
           <p class="ty-subtitle" id="connect-ty-sub"></p>
         </div>
         <div class="form-section">
           <div id="connect-ty-interests"></div>
           <p id="connect-ty-msg" style="font-size:14px;color:#48484A;line-height:1.7;text-align:left;"></p>
-          <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(0,0,0,0.06);font-size:13px;color:var(--muted);"><strong style="display:block;color:var(--text);margin-bottom:2px;">Sunday Morning Worship</strong>10:30 AM</div>
-          <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(0,0,0,0.06);font-size:13px;color:var(--muted);"><strong style="display:block;color:var(--text);margin-bottom:2px;">Wednesday Night Reset</strong><span style="display:block;font-size:12px;color:var(--placeholder);margin-bottom:2px;">Grow deeper in God's Word and be encouraged.</span>7:00 PM</div>
+          <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(0,0,0,0.06);">
+            <div style="background:#ffffff;border-radius:16px;padding:14px 16px;margin-bottom:10px;">
+              <strong style="display:block;color:#1C1C1E;font-size:14px;margin-bottom:2px;">Sunday Morning Worship</strong>
+              <span style="font-size:13px;color:#8E8E93;">10:30 AM</span>
+            </div>
+            <div style="background:#ffffff;border-radius:16px;padding:14px 16px;">
+              <strong style="display:block;color:#1C1C1E;font-size:14px;margin-bottom:2px;">Wednesday Night Reset</strong>
+              <span style="font-size:13px;color:#8E8E93;">7:00 PM</span>
+            </div>
+          </div>
         </div>
-        <p style="text-align:center;font-size:12px;color:var(--muted);line-height:1.6;">Questions? <strong style="color:var(--purple);">hello@christianfaithcentre.com</strong></p>
+        <p style="text-align:center;font-size:12px;color:#8E8E93;line-height:1.6;">Questions? <strong style="color:#1C1C1E;">hello@christianfaithcentre.com</strong></p>
       </div>
     </div>
   </div>
@@ -329,13 +325,13 @@
 <div class="modal-overlay" id="modal-prayer">
   <div class="modal">
     <div class="modal-hero">
-      <div class="modal-hero-row"><div><div class="modal-title">We'd Love to Pray With You</div><div class="modal-subtitle"></div></div><button class="modal-close" onclick="closeModal('prayer')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back</button></div>
+      <div class="modal-hero-row"><div><div class="modal-title">We'd Love to Pray<br>&amp; Agree With You</div><div class="modal-subtitle"></div></div><button class="modal-close" onclick="closeModal('prayer')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button></div>
     </div>
     <div class="modal-body">
       <div id="prayer-form-wrap">
         <div class="form-section">
           <span class="section-label">Your Name <span class="optional-note">optional</span></span>
-          <input type="text" id="p-name" placeholder="First name, or leave blank to stay anonymous">
+          <input type="text" id="p-name" placeholder="First name, or stay anonymous">
         </div>
         <div class="form-section">
           <span class="section-label">Email <span class="optional-note">optional</span></span>
@@ -357,7 +353,7 @@
           </div>
           <div class="interest-item" style="margin-top:14px;">
             <input type="checkbox" id="pc-praise" value="Praise Report">
-            <label for="pc-praise" style="width:100%; background:#57f9ba; color:#1C1C1E; justify-content:center; gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Praise Report</label>
+            <label for="pc-praise" style="width:100%; justify-content:center;">Share a Praise Report</label>
           </div>
         </div>
         <div class="form-section">
@@ -396,7 +392,7 @@
 <div class="modal-overlay" id="modal-events">
   <div class="modal">
     <div class="modal-hero">
-      <div class="modal-hero-row"><div><div class="modal-title">Upcoming Events &amp; Activities</div><div class="modal-subtitle"></div></div><button class="modal-close" onclick="closeModal('events')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back</button></div>
+      <div class="modal-hero-row"><div><div class="modal-title">Events &amp; Activities<br>That Are Coming Up</div><div class="modal-subtitle"></div></div><button class="modal-close" onclick="closeModal('events')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button></div>
     </div>
     <div class="tab-bar">
       <button class="tab-btn active" id="tab-btn-weekly" onclick="switchTab('thisweek',this)">Weekly</button>
@@ -421,13 +417,13 @@
 <div class="modal-overlay" id="modal-serve">
   <div class="modal">
     <div class="modal-hero">
-      <div class="modal-hero-row"><div><div class="modal-title">Find Your Place to Serve</div><div class="modal-subtitle">Find where your gifts fit.</div></div><button class="modal-close" onclick="closeModal('serve')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back</button></div>
+      <div class="modal-hero-row"><div><div class="modal-title">Use Your God<br>Given Gifts to Serve</div><div class="modal-subtitle"></div></div><button class="modal-close" onclick="closeModal('serve')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button></div>
     </div>
     <div class="modal-body">
       <div id="serve-form-wrap">
         <div class="form-section"><span class="section-label">About You</span><div class="field-group"><label for="s-name">Full Name</label><input type="text" id="s-name" placeholder="Your name"></div><div class="field-group"><label for="s-contact">Email or Phone</label><input type="text" id="s-contact" placeholder="So we can follow up with you"></div></div>
         <div class="form-section">
-          <span class="section-label">Ministry Areas <span class="optional-note">select all that interest you</span></span>
+          <span class="section-label">Ministry Areas <span class="optional-note">select all that apply</span></span>
           <div class="interests-grid">
             <div class="interest-item"><input type="checkbox" id="m-worship" value="Worship &amp; Music"><label for="m-worship">Worship &amp; Music</label></div>
             <div class="interest-item"><input type="checkbox" id="m-kids" value="Kids Ministry"><label for="m-kids">Kids Ministry</label></div>
@@ -437,7 +433,7 @@
             <div class="interest-item"><input type="checkbox" id="m-media" value="Media &amp; Tech"><label for="m-media">Media &amp; Tech</label></div>
             <div class="interest-item"><input type="checkbox" id="m-prayteam" value="Prayer Team"><label for="m-prayteam">Prayer Team</label></div>
             <div class="interest-item"><input type="checkbox" id="m-out" value="Outreach"><label for="m-out">Outreach</label></div>
-            <div class="interest-item"><input type="checkbox" id="m-setup" value="Setup / Teardown"><label for="m-setup">Setup / Teardown</label></div>
+            <div class="interest-item"><input type="checkbox" id="m-bus" value="Bus Ministry"><label for="m-bus">Bus Ministry</label></div>
             <div class="interest-item"><input type="checkbox" id="m-unsure" value="Not sure yet"><label for="m-unsure">Not sure yet</label></div>
           </div>
         </div>
@@ -455,15 +451,28 @@
 <div class="modal-overlay" id="modal-give">
   <div class="modal">
     <div class="modal-hero">
-      <div class="modal-hero-row"><div><div class="modal-title">Your Generosity Matters</div><div class="modal-subtitle">Support the ministry of CFC.</div></div><button class="modal-close" onclick="closeModal('give')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back</button></div>
+      <div class="modal-hero-row"><div><div class="modal-title">Every Gift<br>Makes a Difference</div><div class="modal-subtitle"></div></div><button class="modal-close" onclick="closeModal('give')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button></div>
     </div>
     <div class="modal-body">
-      <div class="form-section">
-        <span class="section-label">Choose a Method</span>
-        <a href="https://www.givelify.com/donate/NTgwMDQ" target="_blank" rel="noopener" class="give-btn give-givelify">Give with Givelify</a>
-        <a href="https://cash.app/$wellfavoredman" target="_blank" rel="noopener" class="give-btn give-cash">Give with Cash App</a>
+      <div class="give-grid">
+        <a href="https://www.givelify.com/donate/NTgwMDQ" target="_blank" rel="noopener" class="give-card">
+          <div class="give-card-icon">
+            <img src="data:image/png;base64,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" width="52" height="52" style="display:block;">
+          </div>
+          <div class="give-card-label">Give with<br>Givelify</div>
+        </a>
+        <a href="https://cash.app/$wellfavoredman" target="_blank" rel="noopener" class="give-card">
+          <div class="give-card-icon">
+            <img src="data:image/png;base64,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" width="52" height="52" style="display:block;">
+          </div>
+          <div class="give-card-label">Give with<br>Cash App</div>
+        </a>
       </div>
-      <div class="form-section" style="text-align:center;"><p style="font-size:13px;color:var(--muted);line-height:1.8;font-style:italic;">"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."<br><strong style="font-style:normal;color:var(--text-secondary);">— 2 Corinthians 9:7</strong></p></div>
+      <div class="form-section" style="margin-top:28px;">
+        <span class="section-label">Give In Person</span>
+        <p style="font-size:14px; color:#48484A; line-height:1.7; margin:0;">We also accept <strong>check</strong> and <strong>card</strong> during Sunday service. Offering envelopes can be found on the back of the pews.</p>
+      </div>
+      <p style="font-size:13px; color:#8E8E93; line-height:1.8; font-style:italic; margin-top:16px; text-align:center;">"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."<br><strong style="font-style:normal; color:#48484A;">— 2 Corinthians 9:7</strong></p>
     </div>
   </div>
 </div>
@@ -472,19 +481,24 @@
 <div class="modal-overlay" id="modal-here">
   <div class="modal">
     <div class="modal-hero">
-      <div class="modal-hero-row"><div><div class="modal-title">We're Just a Phone Call Away</div><div class="modal-subtitle">Reach out anytime — we mean it.</div></div><button class="modal-close" onclick="closeModal('here')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back</button></div>
+      <div class="modal-hero-row"><div><div class="modal-title">Reach Out,<br>We're Here for You</div><div class="modal-subtitle"></div></div><button class="modal-close" onclick="closeModal('here')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button></div>
     </div>
     <div class="modal-body">
       <div class="form-section">
-        <div class="event-badge">Mon – Sat · Anytime</div>
-        <div class="event-name">Prayer Line</div>
-        <div class="event-detail">An intercessor is waiting to talk, listen and pray with you.</div>
-        <a href="tel:3162034751" style="display:inline-block;margin-top:8px;font-size:15px;color:var(--purple);font-weight:700;text-decoration:none;">(316) 203-4751</a>
-        <hr class="event-divider">
-        <div class="event-badge">Sundays Only</div>
-        <div class="event-name">Church Van</div>
-        <div class="event-detail">Transportation available for Sunday Morning Worship. Call or text to arrange a ride.</div>
-        <a href="tel:3166704570" style="display:inline-block;margin-top:8px;font-size:15px;color:var(--purple);font-weight:700;text-decoration:none;">(316) 670-4570</a>
+        <span class="section-label">Call Our Prayer Line</span>
+        <p style="font-size:14px; color:#48484A; line-height:1.7; margin:0 0 12px 0;">An intercessor is waiting to talk, listen and pray with you. Available Mon – Sat, anytime.</p>
+        <a href="tel:3162034751" style="display:inline-flex; align-items:center; gap:10px; font-size:14px; color:#1C1C1E; font-weight:600; text-decoration:none; background:#ffffff; padding:12px 18px; border-radius:26px; margin-top:4px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          (316) 203-4751
+        </a>
+      </div>
+      <div class="form-section">
+        <span class="section-label">Need a Ride to Church?</span>
+        <p style="font-size:14px; color:#48484A; line-height:1.7; margin:0 0 12px 0;">Transportation is available for Sunday Morning Worship. Call or text to arrange a ride.</p>
+        <a href="tel:3166704570" style="display:inline-flex; align-items:center; gap:10px; font-size:14px; color:#1C1C1E; font-weight:600; text-decoration:none; background:#ffffff; padding:12px 18px; border-radius:26px; margin-top:4px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          (316) 670-4570
+        </a>
       </div>
     </div>
   </div>
@@ -503,6 +517,12 @@ try {
   var SHEETS_MONTHLY_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=2083357897&single=true&output=csv';
   var SHEETS_SPECIAL_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=584706428&single=true&output=csv';
   // ─────────────────────────────────────────────────────────────────
+
+  var CORS_PROXY = 'https://corsproxy.io/?';
+
+  function fetchSheet(url) {
+    return fetch(CORS_PROXY + encodeURIComponent(url)).then(function(r){ return r.text(); });
+  }
 
   var eventsLoaded = false;
 
@@ -596,7 +616,7 @@ try {
       '<div class="accordion-header">' +
         '<div>' +
           '<span class="accordion-day-name">' + title + '</span>' +
-          '<div style="font-size:11px;font-weight:600;color:#57f9ba;filter:brightness(0.75);letter-spacing:0.5px;text-transform:uppercase;margin-top:4px;">' + dateStr + '</div>' +
+          '<div style="font-size:11px;font-weight:600;color:#8E8E93;letter-spacing:0.5px;text-transform:uppercase;margin-top:4px;">' + dateStr + '</div>' +
         '</div>' +
         '<div class="accordion-meta"><svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>' +
       '</div>' +
@@ -634,8 +654,7 @@ try {
     if (eventsLoaded) return;
 
     // SHEET 1: Weekly services
-    fetch(SHEETS_WEEKLY_URL)
-      .then(function(r){ return r.text(); })
+    fetchSheet(SHEETS_WEEKLY_URL)
       .then(function(csv) {
         var rows = parseCSV(csv);
         var byDay = {};
@@ -661,8 +680,8 @@ try {
     // SHEET 2: Monthly recurring (dynamic dates)
     // SHEET 3: Special one-off events
     Promise.all([
-      fetch(SHEETS_MONTHLY_URL).then(function(r){ return r.text(); }),
-      fetch(SHEETS_SPECIAL_URL).then(function(r){ return r.text(); })
+      fetchSheet(SHEETS_MONTHLY_URL),
+      fetchSheet(SHEETS_SPECIAL_URL)
     ]).then(function(results) {
       var monthlyRows = parseCSV(results[0]);
       var specialRows = parseCSV(results[1]);
@@ -711,6 +730,27 @@ try {
   function closeModal(id) {
     document.getElementById('modal-' + id).classList.remove('open');
     document.body.style.overflow = '';
+    if (id === 'connect') {
+      var t = document.querySelector('#modal-connect .modal-title');
+      if (t) t.style.display = 'block';
+      var h = document.querySelector('#modal-connect .modal-hero');
+      if (h) h.style.padding = '52px 24px 28px';
+      var b = document.querySelector('#modal-connect .modal-body');
+      if (b) b.style.paddingTop = '20px';
+      var btn = document.querySelector('#modal-connect .modal-close');
+      if (btn) btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home';
+      // Reset form state
+      var success = document.getElementById('connect-success');
+      if (success) success.style.display = 'none';
+      var step1 = document.getElementById('connect-step1');
+      if (step1) step1.style.display = 'block';
+      var step2 = document.getElementById('connect-step2');
+      if (step2) step2.style.display = 'none';
+      var progress = document.getElementById('connect-progress');
+      if (progress) progress.style.display = 'flex';
+      document.getElementById('connect-progress-label').textContent = 'Step 1 of 2';
+      document.getElementById('connect-progress-fill').style.width = '50%';
+    }
   }
 
   function formatPhone(input) {
@@ -762,11 +802,16 @@ try {
 
   function connectBack() {
     var step2 = document.getElementById('connect-step2');
-    if (step2 && step2.style.display !== 'none') {
+    var success = document.getElementById('connect-success');
+    if (success && success.style.display === 'block') {
+      closeModal('connect');
+    } else if (step2 && step2.style.display !== 'none') {
       step2.style.display = 'none';
       document.getElementById('connect-step1').style.display = 'block';
       document.getElementById('connect-progress-label').textContent = 'Step 1 of 2';
       document.getElementById('connect-progress-fill').style.width = '50%';
+      // Restore Back button text
+      document.querySelector('#modal-connect .modal-close').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back';
       document.querySelector('#modal-connect .modal').scrollTop = 0;
     } else {
       closeModal('connect');
@@ -816,20 +861,21 @@ try {
     var selected = [];
     for (var i = 0; i < checkboxes.length; i++) { selected.push(checkboxes[i].value); }
 
+    document.getElementById('connect-ty-title').style.display = 'block';
     document.getElementById('connect-ty-title').textContent = isReturning ? 'Welcome Back, ' + firstName + '!' : 'Welcome, ' + firstName + '!';
     document.getElementById('connect-ty-sub').textContent = isReturning
       ? "Thank you for visiting us again. We're glad you're here."
-      : "Thank you for taking a moment to connect with us. We're honored you joined us today.";
+      : "Thank you for taking a moment to connect with us. We're honored you joined us today and look forward to getting to know you.";
 
     var msg = '';
     if (selected.length > 0) {
       var copy = selected.slice();
       var last = copy.pop();
       var boldList = copy.length > 0
-        ? copy.map(function(s) { return '<strong>' + s.toUpperCase() + '</strong>'; }).join(', ') + ', and <strong>' + last.toUpperCase() + '</strong>'
-        : '<strong>' + last.toUpperCase() + '</strong>';
+        ? copy.map(function(s) { return '<strong>' + s + '</strong>'; }).join(', ') + ', and <strong>' + last + '</strong>'
+        : '<strong>' + last + '</strong>';
       msg = "We see you're interested in " + boldList + ". Someone from our team will personally reach out to answer your questions and connect with you.";
-      if (selected.indexOf('Prayer') !== -1) msg += " We're already praying for you.";
+      if (selected.indexOf('Prayer') !== -1) msg += "";
     } else {
       msg = "Someone from our team will personally reach out to connect with you.";
     }
@@ -839,6 +885,10 @@ try {
     document.getElementById('connect-step2').style.display = 'none';
     document.getElementById('connect-progress').style.display = 'none';
     document.getElementById('connect-success').style.display = 'block';
+    document.querySelector('#modal-connect .modal-title').style.display = 'none';
+    document.querySelector('#modal-connect .modal-close').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home';
+    document.querySelector('#modal-connect .modal-hero').style.padding = '52px 24px 4px';
+    document.querySelector('#modal-connect .modal-body').style.paddingTop = '4px';
     document.querySelector('#modal-connect .modal').scrollTop = 0;
 
     sendToMailerLite({
