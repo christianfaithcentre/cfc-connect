@@ -517,6 +517,7 @@ try {
   var MAILERLITE_GROUP_ID = '189113619277940717';
   var MAILERLITE_PRAYER_PUBLIC_ID = '189218429932144119';
   var MAILERLITE_PRAYER_PRIVATE_ID = '189218439438533715';
+  var MAILERLITE_SERVE_ID = '189376699262043584';
 
   // ── GOOGLE SHEETS CONFIG ──────────────────────────────────────────
   var SHEETS_WEEKLY_URL   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=0&single=true&output=csv';
@@ -616,8 +617,9 @@ try {
   // ── HTML BUILDERS ────────────────────────────────────────────────
   var DAY_ORDER = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
-  function buildAccordion(title, dateStr, description, isFirst) {
+  function buildAccordion(title, dateStr, description, isFirst, imageUrl) {
     var openClass = isFirst ? ' active-day open' : '';
+    var imgHTML = imageUrl ? '<img src="' + imageUrl + '" alt="' + title + '" style="width:100%;border-radius:16px;margin-bottom:14px;display:block;">' : '';
     return '<div class="accordion-day' + openClass + '" onclick="toggleAccordion(this)">' +
       '<div class="accordion-header">' +
         '<div>' +
@@ -628,6 +630,7 @@ try {
       '</div>' +
       '<div class="accordion-body"><div class="accordion-body-inner">' +
         '<div class="week-event-item">' +
+          imgHTML +
           '<div class="week-event-detail">' + cleanDesc(description) + '</div>' +
         '</div>' +
       '</div></div>' +
@@ -638,7 +641,9 @@ try {
     var openClass = isFirst ? ' active-day open' : '';
     var countText = events.length + ' event' + (events.length !== 1 ? 's' : '');
     var evHTML = events.map(function(e) {
+      var imgHTML = e['Image URL'] ? '<img src="' + e['Image URL'] + '" alt="' + e.Title + '" style="width:100%;border-radius:16px;margin-bottom:12px;display:block;">' : '';
       return '<div class="week-event-item">' +
+        imgHTML +
         '<div class="week-event-time">' + e.Time + '</div>' +
         '<div class="week-event-name">' + e.Title + '</div>' +
         '<div class="week-event-detail">' + cleanDesc(e.Description) + '</div>' +
@@ -700,7 +705,7 @@ try {
         var dateStr = nextDate
           ? formatDate(nextDate) + ' · ' + r['Time']
           : r['Time'];
-        allItems.push({ title: r['Title'], dateStr: dateStr, desc: r['Description'], sortDate: nextDate || new Date(9999,0,1) });
+        allItems.push({ title: r['Title'], dateStr: dateStr, desc: r['Description'], imageUrl: r['Image URL'] || '', sortDate: nextDate || new Date(9999,0,1) });
       });
 
       // Special one-off events — parse date, hide if passed
@@ -708,7 +713,7 @@ try {
         var eventDate = new Date(r['Date']);
         if (isNaN(eventDate) || eventDate < now) return; // skip past events
         var dateStr = formatDate(eventDate) + (r['Time'] ? ' · ' + r['Time'] : '');
-        allItems.push({ title: r['Title'], dateStr: dateStr, desc: r['Description'], sortDate: eventDate });
+        allItems.push({ title: r['Title'], dateStr: dateStr, desc: r['Description'], imageUrl: r['Image URL'] || '', sortDate: eventDate });
       });
 
       // Sort everything by next date
@@ -716,7 +721,7 @@ try {
 
       var html = '';
       allItems.forEach(function(item, i) {
-        html += buildAccordion(item.title, item.dateStr, item.desc, i === 0);
+        html += buildAccordion(item.title, item.dateStr, item.desc, i === 0, item.imageUrl);
       });
       html += '<p style="text-align:center;font-size:13px;color:#AEAEB2;padding:20px 0;font-style:italic;">More activities will be added as they are scheduled.</p>';
       document.getElementById('upcoming-events-container').innerHTML = html;
@@ -1000,8 +1005,34 @@ try {
     var contact = document.getElementById('s-contact').value.trim();
     if (!name) { document.getElementById('s-name').focus(); return; }
     if (!contact) { document.getElementById('s-contact').focus(); return; }
+
+    var areas = [];
+    var boxes = document.querySelectorAll('#modal-serve input[type=checkbox]:checked');
+    for (var i = 0; i < boxes.length; i++) { areas.push(boxes[i].value); }
+
     document.getElementById('serve-form-wrap').style.display = 'none';
     document.getElementById('serve-success').style.display = 'block';
+
+    // Send to MailerLite
+    try {
+      var email = contact.indexOf('@') > -1 ? contact : ('phone-' + Date.now() + '@cfc-serve.local');
+      var phone = contact.indexOf('@') === -1 ? contact : '';
+      fetch('https://connect.mailerlite.com/api/subscribers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + MAILERLITE_API_KEY },
+        body: JSON.stringify({
+          email: email,
+          fields: {
+            name: name,
+            phone: phone,
+            ministry_areas: areas.length > 0 ? areas.join(', ') : 'Not specified'
+          },
+          groups: [MAILERLITE_SERVE_ID]
+        })
+      }).then(function(res) {
+        if (!res.ok) res.text().then(function(t) { console.log('ML serve err:', t); });
+      });
+    } catch(e) { console.log('ML serve error:', e); }
   }
 
   function toggleAccordion(el) {
