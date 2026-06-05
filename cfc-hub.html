@@ -395,7 +395,7 @@
       <div class="modal-hero-row"><div><div class="modal-title">Events &amp; Activities<br>That Are Coming Up</div><div class="modal-subtitle"></div></div><button class="modal-close" onclick="closeModal('events')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button></div>
     </div>
     <div class="tab-bar">
-      <button class="tab-btn active" id="tab-btn-weekly" onclick="switchTab('thisweek',this)">Weekly</button>
+      <button class="tab-btn active" id="tab-btn-weekly" onclick="switchTab('thisweek',this)">This Week</button>
       <button class="tab-btn" id="tab-btn-upcoming" onclick="switchTab('thismonth',this)">Upcoming Activities</button>
     </div>
     <div class="modal-body">
@@ -661,71 +661,110 @@ try {
   }
 
   // ── LOAD EVENTS ──────────────────────────────────────────────────
+  function getWeekRange() {
+    var now = new Date(); now.setHours(0,0,0,0);
+    var day = now.getDay();
+    var sunday = new Date(now); sunday.setDate(now.getDate() - day);
+    var saturday = new Date(sunday); saturday.setDate(sunday.getDate() + 6);
+    return { start: sunday, end: saturday };
+  }
+
   function loadEvents() {
     if (eventsLoaded) return;
 
-    // SHEET 1: Weekly services
-    fetchSheet(SHEETS_WEEKLY_URL)
-      .then(function(csv) {
-        var rows = parseCSV(csv);
-        var byDay = {};
-        rows.forEach(function(r) {
-          var day = r['Day'];
-          if (!byDay[day]) byDay[day] = [];
-          byDay[day].push(r);
-        });
-        var html = ''; var first = true;
-        DAY_ORDER.forEach(function(day) {
-          if (byDay[day] && byDay[day].length > 0) {
-            html += buildWeeklyAccordion(day, byDay[day], first);
-            first = false;
-          }
-        });
-        if (!html) html = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">No weekly events found.</p>';
-        document.getElementById('weekly-events-container').innerHTML = html;
-      })
-      .catch(function() {
-        document.getElementById('weekly-events-container').innerHTML = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">Could not load events. Please check back later.</p>';
-      });
+    var week = getWeekRange();
 
-    // SHEET 2: Monthly recurring (dynamic dates)
-    // SHEET 3: Special one-off events
+    // Load all three sheets together
     Promise.all([
+      fetchSheet(SHEETS_WEEKLY_URL),
       fetchSheet(SHEETS_MONTHLY_URL),
       fetchSheet(SHEETS_SPECIAL_URL)
     ]).then(function(results) {
-      var monthlyRows = parseCSV(results[0]);
-      var specialRows = parseCSV(results[1]);
+      var weeklyRows = parseCSV(results[0]);
+      var monthlyRows = parseCSV(results[1]);
+      var specialRows = parseCSV(results[2]);
       var now = new Date(); now.setHours(0,0,0,0);
-      var allItems = [];
 
-      // Monthly recurring — calculate next date from rule
+      // ── THIS WEEK TAB ──────────────────────────────────────────
+      // Start with recurring weekly services grouped by day
+      var byDay = {};
+      weeklyRows.forEach(function(r) {
+        var day = r['Day'];
+        if (!byDay[day]) byDay[day] = [];
+        byDay[day].push(r);
+      });
+
+      // Add monthly recurring events that fall this week
       monthlyRows.forEach(function(r) {
         var nextDate = calcNextDate(r['Recurrence'] || '');
-        var dateStr = nextDate
-          ? formatDate(nextDate) + ' · ' + r['Time']
-          : r['Time'];
+        if (!nextDate) return;
+        if (nextDate >= week.start && nextDate <= week.end) {
+          var dayName = DAY_ORDER[nextDate.getDay()];
+          if (!byDay[dayName]) byDay[dayName] = [];
+          byDay[dayName].push({
+            Title: r['Title'],
+            Time: r['Time'],
+            Description: r['Description'],
+            'Image URL': r['Image URL'] || '',
+            _isSpecial: true
+          });
+        }
+      });
+
+      // Add special one-off events that fall this week
+      specialRows.forEach(function(r) {
+        var eventDate = new Date(r['Date']);
+        if (isNaN(eventDate)) return;
+        if (eventDate >= week.start && eventDate <= week.end) {
+          var dayName = DAY_ORDER[eventDate.getDay()];
+          if (!byDay[dayName]) byDay[dayName] = [];
+          byDay[dayName].push({
+            Title: r['Title'],
+            Time: r['Time'],
+            Description: r['Description'],
+            'Image URL': r['Image URL'] || '',
+            _isSpecial: true
+          });
+        }
+      });
+
+      var weekHtml = ''; var first = true;
+      DAY_ORDER.forEach(function(day) {
+        if (byDay[day] && byDay[day].length > 0) {
+          weekHtml += buildWeeklyAccordion(day, byDay[day], first);
+          first = false;
+        }
+      });
+      if (!weekHtml) weekHtml = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">No events found this week.</p>';
+      document.getElementById('weekly-events-container').innerHTML = weekHtml;
+
+      // ── UPCOMING ACTIVITIES TAB ────────────────────────────────
+      var allItems = [];
+
+      monthlyRows.forEach(function(r) {
+        var nextDate = calcNextDate(r['Recurrence'] || '');
+        var dateStr = nextDate ? formatDate(nextDate) + ' · ' + r['Time'] : r['Time'];
         allItems.push({ title: r['Title'], dateStr: dateStr, desc: r['Description'], imageUrl: r['Image URL'] || '', sortDate: nextDate || new Date(9999,0,1) });
       });
 
-      // Special one-off events — parse date, hide if passed
       specialRows.forEach(function(r) {
         var eventDate = new Date(r['Date']);
-        if (isNaN(eventDate) || eventDate < now) return; // skip past events
+        if (isNaN(eventDate) || eventDate < now) return;
         var dateStr = formatDate(eventDate) + (r['Time'] ? ' · ' + r['Time'] : '');
         allItems.push({ title: r['Title'], dateStr: dateStr, desc: r['Description'], imageUrl: r['Image URL'] || '', sortDate: eventDate });
       });
 
-      // Sort everything by next date
       allItems.sort(function(a,b){ return a.sortDate - b.sortDate; });
 
-      var html = '';
+      var upcomingHtml = '';
       allItems.forEach(function(item, i) {
-        html += buildAccordion(item.title, item.dateStr, item.desc, i === 0, item.imageUrl);
+        upcomingHtml += buildAccordion(item.title, item.dateStr, item.desc, i === 0, item.imageUrl);
       });
-      html += '<p style="text-align:center;font-size:13px;color:#AEAEB2;padding:20px 0;font-style:italic;">More activities will be added as they are scheduled.</p>';
-      document.getElementById('upcoming-events-container').innerHTML = html;
+      upcomingHtml += '<p style="text-align:center;font-size:13px;color:#AEAEB2;padding:20px 0;font-style:italic;">More activities will be added as they are scheduled.</p>';
+      document.getElementById('upcoming-events-container').innerHTML = upcomingHtml;
+
     }).catch(function() {
+      document.getElementById('weekly-events-container').innerHTML = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">Could not load events. Please check back later.</p>';
       document.getElementById('upcoming-events-container').innerHTML = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">Could not load activities. Please check back later.</p>';
     });
 
