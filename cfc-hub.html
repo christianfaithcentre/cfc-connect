@@ -744,12 +744,16 @@ try {
       monthlyRows.forEach(function(r) {
         var nextDate = calcNextDate(r['Recurrence'] || '');
         var dateStr = nextDate ? formatDate(nextDate) + ' · ' + r['Time'] : r['Time'];
+        // Skip if it's showing in This Week already
+        if (nextDate && nextDate >= week.start && nextDate <= week.end) return;
         allItems.push({ title: r['Title'], dateStr: dateStr, desc: r['Description'], imageUrl: r['Image URL'] || '', sortDate: nextDate || new Date(9999,0,1) });
       });
 
       specialRows.forEach(function(r) {
         var eventDate = new Date(r['Date']);
         if (isNaN(eventDate) || eventDate < now) return;
+        // Skip if it's showing in This Week already
+        if (eventDate >= week.start && eventDate <= week.end) return;
         var dateStr = formatDate(eventDate) + (r['Time'] ? ' · ' + r['Time'] : '');
         allItems.push({ title: r['Title'], dateStr: dateStr, desc: r['Description'], imageUrl: r['Image URL'] || '', sortDate: eventDate });
       });
