@@ -397,7 +397,7 @@
     <div class="tab-bar">
       <button class="tab-btn active" id="tab-btn-weekly" onclick="switchTab('thisweek',this)">This Week</button>
       <button class="tab-btn" id="tab-btn-upcoming" onclick="switchTab('thismonth',this)">Coming Up</button>
-      <button class="tab-btn" id="tab-btn-announce" onclick="switchTab('announcements',this)">News & Updates</button>
+      <button class="tab-btn" id="tab-btn-announce" onclick="switchTab('announcements',this)">Announcements</button>
     </div>
     <div class="modal-body">
       <div class="tab-panel" id="tab-thisweek">
@@ -686,11 +686,13 @@ try {
     Promise.all([
       fetchSheet(SHEETS_WEEKLY_URL),
       fetchSheet(SHEETS_MONTHLY_URL),
-      fetchSheet(SHEETS_SPECIAL_URL)
+      fetchSheet(SHEETS_SPECIAL_URL),
+      fetchSheet(SHEETS_ANNOUNCE_URL)
     ]).then(function(results) {
       var weeklyRows = parseCSV(results[0]);
       var monthlyRows = parseCSV(results[1]);
       var specialRows = parseCSV(results[2]);
+      var announceRows = parseCSV(results[3]);
       var now = new Date(); now.setHours(0,0,0,0);
 
       // ── THIS WEEK TAB ──────────────────────────────────────────
@@ -775,34 +777,28 @@ try {
       upcomingHtml += '<p style="text-align:center;font-size:13px;color:#AEAEB2;padding:20px 0;font-style:italic;">More activities will be added as they are scheduled.</p>';
       document.getElementById('upcoming-events-container').innerHTML = upcomingHtml;
 
+      // ── ANNOUNCEMENTS TAB ─────────────────────────────────────
+      var announceHtml = '';
+      announceRows.forEach(function(r, i) {
+        var imgHTML = r['Image URL'] ? '<img src="' + r['Image URL'] + '" alt="' + r['Title'] + '" style="width:100%;border-radius:16px;margin-bottom:12px;display:block;">' : '';
+        announceHtml += '<div class="accordion-day' + (i === 0 ? ' active-day open' : '') + '" onclick="toggleAccordion(this)">' +
+          '<div class="accordion-header">' +
+            '<span class="accordion-day-name">' + r['Title'] + '</span>' +
+            '<div class="accordion-meta"><svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>' +
+          '</div>' +
+          '<div class="accordion-body"><div class="accordion-body-inner">' +
+            '<div class="week-event-item">' + imgHTML + '<div class="week-event-detail">' + cleanDesc(r['Description']) + '</div></div>' +
+          '</div></div>' +
+        '</div>';
+      });
+      if (!announceHtml) announceHtml = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">No announcements at this time.</p>';
+      document.getElementById('announcements-container').innerHTML = announceHtml;
+
     }).catch(function() {
       document.getElementById('weekly-events-container').innerHTML = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">Could not load events. Please check back later.</p>';
       document.getElementById('upcoming-events-container').innerHTML = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">Could not load activities. Please check back later.</p>';
+      document.getElementById('announcements-container').innerHTML = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">Could not load announcements. Please check back later.</p>';
     });
-
-    // Load announcements
-    fetchSheet(SHEETS_ANNOUNCE_URL)
-      .then(function(csv) {
-        var rows = parseCSV(csv);
-        var html = '';
-        rows.forEach(function(r, i) {
-          var imgHTML = r['Image URL'] ? '<img src="' + r['Image URL'] + '" alt="' + r['Title'] + '" style="width:100%;border-radius:16px;margin-bottom:12px;display:block;">' : '';
-          html += '<div class="accordion-day' + (i === 0 ? ' active-day open' : '') + '" onclick="toggleAccordion(this)">' +
-            '<div class="accordion-header">' +
-              '<span class="accordion-day-name">' + r['Title'] + '</span>' +
-              '<div class="accordion-meta"><svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>' +
-            '</div>' +
-            '<div class="accordion-body"><div class="accordion-body-inner">' +
-              '<div class="week-event-item">' + imgHTML + '<div class="week-event-detail">' + cleanDesc(r['Description']) + '</div></div>' +
-            '</div></div>' +
-          '</div>';
-        });
-        if (!html) html = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">No announcements at this time.</p>';
-        document.getElementById('announcements-container').innerHTML = html;
-      })
-      .catch(function() {
-        document.getElementById('announcements-container').innerHTML = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">Could not load announcements.</p>';
-      });
 
     eventsLoaded = true;
   }
