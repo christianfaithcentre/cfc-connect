@@ -40,7 +40,7 @@
 
   /* Teal tile for I'm New Here - same size, teal bg */
   .grid-tile.tile-teal {
-    background: #57f9ba;
+    background: #8B4FCF;
     box-shadow: none;
     overflow: hidden;
     border-radius: 26px;
@@ -51,13 +51,13 @@
   .tile-bottom { display:flex; flex-direction:column; gap:6px; margin-bottom:10px; position:relative; z-index:1; }
   .tile-icon { position:relative; z-index:1; }
   .tile-label { font-size:22px; font-weight:700; color:#1C1C1E; line-height:1.15; letter-spacing:-0.5px; }
-  .grid-tile.tile-teal .tile-label { color: #1C1C1E; }
+  .grid-tile.tile-teal .tile-label { color: #ffffff; }
 
   /* MODAL */
-  .modal-overlay { display:none; position:fixed; inset:0; z-index:100; justify-content:center; align-items:flex-start; background:#ffffff; overflow-y:auto; overflow-x:hidden; max-width:100vw; }
-  .modal-overlay.open { display:flex; }
-  .modal { background:#ffffff; width:100%; max-width:460px; min-height:100vh; animation:slideUp 0.28s cubic-bezier(0.32,0.72,0,1); }
-  @keyframes slideUp { from{transform:translateY(40px);opacity:0} to{transform:translateY(0);opacity:1} }
+  .modal-overlay { display:flex; position:fixed; inset:0; z-index:100; justify-content:center; align-items:flex-start; background:#ffffff; overflow-y:auto; overflow-x:hidden; max-width:100vw; opacity:0; visibility:hidden; pointer-events:none; transition:opacity 0.3s ease, visibility 0.3s ease; }
+  .modal-overlay.open { opacity:1; visibility:visible; pointer-events:auto; }
+  .modal { background:#ffffff; width:100%; max-width:460px; min-height:100vh; transform:translateY(32px); transition:transform 0.38s cubic-bezier(0.32,0.72,0,1); }
+  .modal-overlay.open .modal { transform:translateY(0); }
   .modal-hero { background:#ffffff; padding:52px 24px 28px; }
   .modal-hero-row { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
   .modal-hero-row > div:first-child { flex:1; min-width:0; }
@@ -83,31 +83,26 @@
   .toggle-group { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
   .toggle-option input { display:none; }
   .toggle-option label { display:flex; align-items:center; justify-content:center; padding:13px 10px; border-radius:26px; cursor:pointer; font-size:13px; font-weight:700; color:#8E8E93; background:#ffffff; border:none; transition:all 0.15s; margin-bottom:0; }
-  .toggle-option input:checked+label { background:#57f9ba; color:#1C1C1E; }
+  .toggle-option input:checked+label { background:#8B4FCF; color:#ffffff; }
 
-  /* Private checkbox style */
-  .private-toggle input { display:none; }
-  .private-toggle label { display:flex; align-items:center; justify-content:flex-start; gap:12px; padding:14px 16px; border-radius:26px; cursor:pointer; font-size:13px; font-weight:700; color:#48484A; background:#ffffff; border:none; transition:all 0.15s; margin-bottom:0; width:100%; }
-  .private-toggle label .check-box { width:22px; height:22px; border-radius:8px; border:2px solid #C7C7CC; background:#ffffff; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
-  .private-toggle label .check-box svg { display:none; }
-  .private-toggle input:checked+label { color:#1C1C1E; }
-  .private-toggle input:checked+label .check-box { background:#57f9ba; border-color:#57f9ba; }
-  .private-toggle input:checked+label .check-box svg { display:block; }
+
   .interests-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
   .interest-item input { display:none; }
   .interest-item label { display:flex; align-items:center; justify-content:center; padding:13px 14px; border-radius:26px; cursor:pointer; font-size:13px; font-weight:700; color:#48484A; background:#ffffff; border:none; transition:all 0.15s; margin-bottom:0; }
-  .interest-item input:checked+label { background:#57f9ba; color:#1C1C1E; }
+  .interest-item input:checked+label { background:#8B4FCF; color:#ffffff; }
   .interest-item input:checked+label span { color:#1C1C1E !important; }
-  .btn-primary { width:100%; padding:15px; background:#57f9ba; color:#1C1C1E; border:none; border-radius:26px; font-family:'Inter',sans-serif; font-size:16px; font-weight:800; cursor:pointer; transition:opacity 0.15s; display:flex; align-items:center; justify-content:center; gap:8px; }
+  .btn-primary { width:100%; padding:15px; background:#8B4FCF; color:#ffffff; border:none; border-radius:26px; font-family:'Inter',sans-serif; font-size:16px; font-weight:800; cursor:pointer; transition:opacity 0.15s; display:flex; align-items:center; justify-content:center; gap:8px; }
   .btn-primary:active { opacity:0.85; }
   .progress-wrap { background:#ffffff; padding:16px 24px 8px; display:flex; align-items:center; gap:12px; }
   .progress-label { font-size:13px; font-weight:800; color:#1C1C1E; white-space:nowrap; }
   .progress-track { flex:1; height:4px; background:rgba(0,0,0,0.1); border-radius:99px; overflow:hidden; }
-  .progress-fill { height:100%; background:#57f9ba; border-radius:99px; transition:width 0.4s ease; }
-  .success-state { display:none; animation:fadeUp 0.4s ease both; }
+  .progress-fill { height:100%; background:#8B4FCF; border-radius:99px; transition:width 0.4s ease; }
+  .success-state { display:none; animation:fadeUp 0.35s ease both; }
   @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+  .step-transition { animation:stepIn 0.32s cubic-bezier(0.32,0.72,0,1) both; }
+  @keyframes stepIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
   .ty-card { background:#ffffff; border-radius:26px; padding:28px 24px; text-align:center; margin-bottom:12px; }
-  .ty-icon { width:60px; height:60px; margin:0 auto 16px; background:#57f9ba; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+  .ty-icon { width:60px; height:60px; margin:0 auto 16px; background:#8B4FCF; border-radius:50%; display:flex; align-items:center; justify-content:center; }
   .ty-title { font-size:22px; font-weight:800; color:#1C1C1E; margin-bottom:8px; letter-spacing:-0.4px; }
   .ty-subtitle { font-size:14px; color:#8E8E93; line-height:1.7; }
   .error-msg { font-size:12px; color:#D0021B; margin-top:5px; font-weight:500; display:none; }
@@ -119,7 +114,7 @@
   .tab-bar { display:flex; background:#ffffff; padding:16px 20px 0; gap:0; border-bottom:2px solid #efefef; }
   .tab-bar::-webkit-scrollbar { display:none; }
   .tab-btn { flex:1; padding:12px 10px; background:none; border:none; border-bottom:3px solid transparent; margin-bottom:-2px; font-family:'Inter',sans-serif; font-size:13px; font-weight:700; color:#8E8E93; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
-  .tab-btn.active { color:#1C1C1E; border-bottom-color:#57f9ba; }
+  .tab-btn.active { color:#1C1C1E; border-bottom-color:#8B4FCF; }
 
   /* Accordion */
   .accordion-day { background:#ffffff; border-radius:26px; margin-bottom:14px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,0.06); }
@@ -205,7 +200,7 @@
 
     <div class="grid-tile tile-teal" onclick="openModal('connect')">
       <div class="tile-icon" style="position:absolute;top:18px;right:18px;">
-        <img src="data:image/svg+xml;base64,PHN2ZyBpZD0iQ2FwYV8xIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIuMDA1IDUxMi4wMDUiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyLjAwNSA1MTIuMDA1IiB3aWR0aD0iNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnPjxwYXRoIGQ9Im0xMjEuMjkyIDQ4Mi4wNTljLTI3LjYwOC0zLjQ2My01Mi4yMzMtMTcuNjAzLTY5LjM0LTM5LjgxNi0xNy4xMjItMjIuMjMyLTI0LjYyNS00OS44MzctMjEuMTI2LTc3LjcyOC41MTUtNC4xMS0yLjM5OC03Ljg2LTYuNTA4LTguMzc1LTQuMTE0LS41MTQtNy44NiAyLjM5OC04LjM3NSA2LjUwOC0zLjk5NCAzMS44NDIgNC41NzQgNjMuMzYgMjQuMTI1IDg4Ljc0OCAxOS41NjcgMjUuNDA3IDQ3Ljc1IDQxLjU4MyA3OS4zNTcgNDUuNTQ4IDQuMDI5LjUwNSA3Ljg1Ny0yLjM2OSA4LjM3NS02LjUwOC41MTUtNC4xMTEtMi4zOTgtNy44NjEtNi41MDgtOC4zNzd6bTMxNC4wMzItMTU5LjA2M2MtNC4xMjEtLjMxMS03LjczMyAyLjc3OS04LjA0OCA2LjkwOWwtMi44NzYgMzcuNzY0Yy0yLjk5IDM5LjI2OS0yMi4zOTkgNzUuNjY1LTUzLjI1MSA5OS44NTUtMjkuMjI4IDIyLjkxOC02NS41MyAzMy4wMDUtMTAyLjIxMSAyOC40MDQtMzYuNjg0LTQuNjAyLTY5LjM2Ny0yMy4zNDItOTIuMDMtNTIuNzY5bC0xMDMuMzctMTM0LjIyNWMtMi41MjgtMy4yODItNy4yMzctMy44OTQtMTAuNTE4LTEuMzY2LTMuMjgyIDIuNTI3LTMuODkzIDcuMjM2LTEuMzY2IDEwLjUxOGwxMDMuMzcxIDEzNC4yMjVjMjUuMTIyIDMyLjYyMSA2MS4zNjMgNTMuMzk2IDEwMi4wNDcgNTguNSA0MC4zMDQgNS4wNTUgODAuODk1LTYuMDQ4IDExMy4zMzQtMzEuNDgzIDM0LjE1NS0yNi43ODEgNTUuNjQzLTY3LjA2NCA1OC45NTItMTEwLjUybDIuODc2LTM3Ljc2NGMuMzE0LTQuMTMtMi43OC03LjczNC02LjkxLTguMDQ4em0tMzA5LjU4NCAxMjMuNjAyYy0zNy43MzEtNC43MzItNjQuNTQtMzkuNTc3LTU5Ljc2MS03Ny42NzQuNTE1LTQuMTEtMi4zOTgtNy44Ni02LjUwOC04LjM3NS00LjExMi0uNTEyLTcuODU5IDIuMzk5LTguMzc1IDYuNTA4LTUuODA4IDQ2LjMwNCAyNi44NCA4OC42NjMgNzIuNzc4IDk0LjQyNSA0LjAyOS41MDUgNy44NTctMi4zNjkgOC4zNzUtNi41MDguNTE0LTQuMTEtMi4zOTktNy44Ni02LjUwOS04LjM3NnptMjgxLjgxNi00NDYuNTM5Yy00LjExOC0uNTE3LTcuODU5IDIuMzk4LTguMzc1IDYuNTA4czIuMzk4IDcuODYgNi41MDggOC4zNzVjNTcuMTE1IDcuMTY0IDk3LjY5OCA1OS44OTUgOTAuNDY3IDExNy41NDQtLjUxNiA0LjExIDIuMzk4IDcuODYgNi41MDggOC4zNzUgNC4wMjkuNTA2IDcuODU2LTIuMzY4IDguMzc1LTYuNTA4IDguMjYtNjUuODU1LTM4LjE2Mi0xMjYuMS0xMDMuNDgzLTEzNC4yOTR6bS0xMS42MDggMTAwLjczM2MtMTEuMjE0LS41OTMtMjEuMDQgNy4wMDEtMjMuMzQ2IDE4LjA2NmwtMTkuMDMgOTEuMzQxLTEyMy41NjgtMTYwLjQ1MWMtMTQuMjQxLTE4LjY2OS00MS41MTQtMjEuODc1LTU5LjgzOS03LjUwNi04LjMxMyA2LjUxOC0xMy41NjcgMTUuNTQ5LTE1LjU0OCAyNS4yMDdsLTMxLjMzNy00MC42OTFjLTE0LjIzOS0xOC42NjgtNDEuNTEyLTIxLjg3NS01OS44MzgtNy41MDUtMTguNTI4IDE0LjUyOC0yMS45MTQgNDEuNTIzLTcuNTQ4IDYwLjE3N2w1LjgzNyA3LjU4Yy0xMC4xNjEtLjQ4OC0yMC4wNjEgMi42NDktMjguMTgxIDkuMDE3LTE4LjUyOCAxNC41MjgtMjEuOTE1IDQxLjUyMy03LjU0OCA2MC4xNzhsMTguNjQzIDI0LjIwOGMtMTAuMTYyLS40ODctMjAuMDYyIDIuNjQ5LTI4LjE4MiA5LjAxNi0xOC41MjggMTQuNTI4LTIxLjkxNCA0MS41MjQtNy41NDggNjAuMTc4bDMxLjMzOCA0MC42OTFjMi41MjYgMy4yODIgNy4yMzcgMy44OTUgMTAuNTE4IDEuMzY2IDMuMjgyLTIuNTI3IDMuODkzLTcuMjM2IDEuMzY2LTEwLjUxOGwtMzEuMzM4LTQwLjY5MWMtOS4zNjMtMTIuMTU4LTcuMTU2LTI5Ljc1MiA0LjkyLTM5LjIyMiAxMS44NDYtOS4yODkgMjkuNTA1LTcuMjA3IDM4LjY5OCA0Ljg1NGw4Ny43MDQgMTEzLjg4MWMyLjU0MiAzLjMwMiA3LjI2IDMuODc1IDEwLjUxOCAxLjM2NiAzLjI4Mi0yLjUyNyAzLjg5My03LjIzNiAxLjM2Ni0xMC41MThsLTEyNi4xMTktMTYzLjc2NGMtOS4zNjMtMTIuMTU4LTcuMTU2LTI5Ljc1MyA0LjkyLTM5LjIyMiAxMS44NDQtOS4yODcgMjkuNTAyLTcuMjA3IDM4LjY5NyA0Ljg1MmwxMjYuMTIxIDE2My43NjZjMi41MjcgMy4yODIgNy4yMzcgMy44OTUgMTAuNTE4IDEuMzY2IDMuMjgyLTIuNTI3IDMuODkzLTcuMjM2IDEuMzY2LTEwLjUxOGwtMjUuNjA5LTMzLjI1MmMwLS4wMDEtLjAwMS0uMDAyLS4wMDItLjAwM2wtMTAwLjUwOS0xMzAuNTA5Yy0uMDAxLS4wMDEtLjAwMS0uMDAyLS4wMDItLjAwM2wtMjUuNjA4LTMzLjI1MWMtOS4zNjMtMTIuMTU4LTcuMTU2LTI5Ljc1MyA0LjkyLTM5LjIyMiAxMS44NDQtOS4yODcgMjkuNTA1LTcuMjA3IDM4LjY5OSA0Ljg1NGwxMjYuMTE5IDE2My43NjRjMCAuMDAxLjAwMS4wMDEuMDAxLjAwMmwyNS42MDkgMzMuMjUzYzIuNTQzIDMuMzAyIDcuMjYgMy44NzQgMTAuNTE5IDEuMzY2IDMuMjgyLTIuNTI3IDMuODk0LTcuMjM2IDEuMzY2LTEwLjUxOGwtMTAwLjUxLTEzMC41MWMtOS4zNjMtMTIuMTU4LTcuMTU1LTI5Ljc1MiA0LjkyMS0zOS4yMjEgMTEuODQyLTkuMjg1IDI5LjUwNS03LjIwOCAzOC42OTggNC44NTRsMTI4LjQ1OCAxNjYuOGMtMS41ODIgMS45NjUtMy4zODUgMy43NTktNS4zOTEgNS4zMzEtMTkuNjQ0IDE1LjQwMy0zNS43OTMgMzUuNDYtNDYuNyA1OC4wMDUtMTAuOTA1IDIyLjU0LTE2LjYzNyA0Ny42OTgtMTYuNTczIDcyLjc1NmwuMDA5IDMuNDAzYy4wMTEgNC4xMzUgMy4zNjYgNy40OCA3LjUgNy40OGguMDJjNC4xNDItLjAxMSA3LjQ5MS0zLjM3NyA3LjQ4LTcuNTJsLS4wMDktMy40MDJjLS4wNTgtMjIuNzk1IDUuMTU1LTQ1LjY4MiAxNS4wNzUtNjYuMTg1IDkuOTE4LTIwLjQ5OSAyNC41OTktMzguNzM0IDQyLjQ1NC01Mi43MzQgOC45ODQtNy4wNDUgMTUuMjE3LTE3LjEzOSAxNy41NTEtMjguMzFsMTkuMjk0LTkyLjYwOWMuNzgzLTMuNzYyIDQuMDY5LTYuMzUgNy44NjQtNi4xNDYgMTIuNzEuNjc3IDI0LjM1NiA2LjMzOSAzMi43OTMgMTUuOTQzIDguNTYgOS43NDQgMTIuNzI5IDIyLjI3MiAxMS43MzggMzUuMjc2bC05LjczNyAxMjcuODU4Yy0uMzE0IDQuMTMgMi43NzkgNy43MzMgNi45MDkgOC4wNDggNC4xMS4zMDcgNy43MzMtMi43NzkgOC4wNDgtNi45MDlsOS43MzctMTI3Ljg1OGMxLjI5OS0xNy4wNjMtNC4xNzktMzMuNTEyLTE1LjQyNi00Ni4zMTQtMTEuMTI0LTEyLjY2Mi0yNi40ODktMjAuMTI4LTQzLjI2Ni0yMS4wMjF6bTcuMTYtNjUuMjcyYy00LjExOC0uNTE3LTcuODU5IDIuMzk4LTguMzc1IDYuNTA4czIuMzk4IDcuODYgNi41MDggOC4zNzVjMzcuNzMxIDQuNzMzIDY0LjU0IDM5LjU3OCA1OS43NjIgNzcuNjc0LS41MTYgNC4xMSAyLjM5OCA3Ljg2IDYuNTA4IDguMzc1IDQuMDI5LjUwNiA3Ljg1Ni0yLjM2OCA4LjM3NS02LjUwOCA1LjgwOC00Ni4zMDMtMjYuODQxLTg4LjY2Mi03Mi43NzgtOTQuNDI0eiIvPjwvZz48L3N2Zz4=" width="40" height="40" style="display:block;filter:brightness(0);" alt="">
+        <img src="data:image/svg+xml;base64,PHN2ZyBpZD0iQ2FwYV8xIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIuMDA1IDUxMi4wMDUiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyLjAwNSA1MTIuMDA1IiB3aWR0aD0iNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnPjxwYXRoIGQ9Im0xMjEuMjkyIDQ4Mi4wNTljLTI3LjYwOC0zLjQ2My01Mi4yMzMtMTcuNjAzLTY5LjM0LTM5LjgxNi0xNy4xMjItMjIuMjMyLTI0LjYyNS00OS44MzctMjEuMTI2LTc3LjcyOC41MTUtNC4xMS0yLjM5OC03Ljg2LTYuNTA4LTguMzc1LTQuMTE0LS41MTQtNy44NiAyLjM5OC04LjM3NSA2LjUwOC0zLjk5NCAzMS44NDIgNC41NzQgNjMuMzYgMjQuMTI1IDg4Ljc0OCAxOS41NjcgMjUuNDA3IDQ3Ljc1IDQxLjU4MyA3OS4zNTcgNDUuNTQ4IDQuMDI5LjUwNSA3Ljg1Ny0yLjM2OSA4LjM3NS02LjUwOC41MTUtNC4xMTEtMi4zOTgtNy44NjEtNi41MDgtOC4zNzd6bTMxNC4wMzItMTU5LjA2M2MtNC4xMjEtLjMxMS03LjczMyAyLjc3OS04LjA0OCA2LjkwOWwtMi44NzYgMzcuNzY0Yy0yLjk5IDM5LjI2OS0yMi4zOTkgNzUuNjY1LTUzLjI1MSA5OS44NTUtMjkuMjI4IDIyLjkxOC02NS41MyAzMy4wMDUtMTAyLjIxMSAyOC40MDQtMzYuNjg0LTQuNjAyLTY5LjM2Ny0yMy4zNDItOTIuMDMtNTIuNzY5bC0xMDMuMzctMTM0LjIyNWMtMi41MjgtMy4yODItNy4yMzctMy44OTQtMTAuNTE4LTEuMzY2LTMuMjgyIDIuNTI3LTMuODkzIDcuMjM2LTEuMzY2IDEwLjUxOGwxMDMuMzcxIDEzNC4yMjVjMjUuMTIyIDMyLjYyMSA2MS4zNjMgNTMuMzk2IDEwMi4wNDcgNTguNSA0MC4zMDQgNS4wNTUgODAuODk1LTYuMDQ4IDExMy4zMzQtMzEuNDgzIDM0LjE1NS0yNi43ODEgNTUuNjQzLTY3LjA2NCA1OC45NTItMTEwLjUybDIuODc2LTM3Ljc2NGMuMzE0LTQuMTMtMi43OC03LjczNC02LjkxLTguMDQ4em0tMzA5LjU4NCAxMjMuNjAyYy0zNy43MzEtNC43MzItNjQuNTQtMzkuNTc3LTU5Ljc2MS03Ny42NzQuNTE1LTQuMTEtMi4zOTgtNy44Ni02LjUwOC04LjM3NS00LjExMi0uNTEyLTcuODU5IDIuMzk5LTguMzc1IDYuNTA4LTUuODA4IDQ2LjMwNCAyNi44NCA4OC42NjMgNzIuNzc4IDk0LjQyNSA0LjAyOS41MDUgNy44NTctMi4zNjkgOC4zNzUtNi41MDguNTE0LTQuMTEtMi4zOTktNy44Ni02LjUwOS04LjM3NnptMjgxLjgxNi00NDYuNTM5Yy00LjExOC0uNTE3LTcuODU5IDIuMzk4LTguMzc1IDYuNTA4czIuMzk4IDcuODYgNi41MDggOC4zNzVjNTcuMTE1IDcuMTY0IDk3LjY5OCA1OS44OTUgOTAuNDY3IDExNy41NDQtLjUxNiA0LjExIDIuMzk4IDcuODYgNi41MDggOC4zNzUgNC4wMjkuNTA2IDcuODU2LTIuMzY4IDguMzc1LTYuNTA4IDguMjYtNjUuODU1LTM4LjE2Mi0xMjYuMS0xMDMuNDgzLTEzNC4yOTR6bS0xMS42MDggMTAwLjczM2MtMTEuMjE0LS41OTMtMjEuMDQgNy4wMDEtMjMuMzQ2IDE4LjA2NmwtMTkuMDMgOTEuMzQxLTEyMy41NjgtMTYwLjQ1MWMtMTQuMjQxLTE4LjY2OS00MS41MTQtMjEuODc1LTU5LjgzOS03LjUwNi04LjMxMyA2LjUxOC0xMy41NjcgMTUuNTQ5LTE1LjU0OCAyNS4yMDdsLTMxLjMzNy00MC42OTFjLTE0LjIzOS0xOC42NjgtNDEuNTEyLTIxLjg3NS01OS44MzgtNy41MDUtMTguNTI4IDE0LjUyOC0yMS45MTQgNDEuNTIzLTcuNTQ4IDYwLjE3N2w1LjgzNyA3LjU4Yy0xMC4xNjEtLjQ4OC0yMC4wNjEgMi42NDktMjguMTgxIDkuMDE3LTE4LjUyOCAxNC41MjgtMjEuOTE1IDQxLjUyMy03LjU0OCA2MC4xNzhsMTguNjQzIDI0LjIwOGMtMTAuMTYyLS40ODctMjAuMDYyIDIuNjQ5LTI4LjE4MiA5LjAxNi0xOC41MjggMTQuNTI4LTIxLjkxNCA0MS41MjQtNy41NDggNjAuMTc4bDMxLjMzOCA0MC42OTFjMi41MjYgMy4yODIgNy4yMzcgMy44OTUgMTAuNTE4IDEuMzY2IDMuMjgyLTIuNTI3IDMuODkzLTcuMjM2IDEuMzY2LTEwLjUxOGwtMzEuMzM4LTQwLjY5MWMtOS4zNjMtMTIuMTU4LTcuMTU2LTI5Ljc1MiA0LjkyLTM5LjIyMiAxMS44NDYtOS4yODkgMjkuNTA1LTcuMjA3IDM4LjY5OCA0Ljg1NGw4Ny43MDQgMTEzLjg4MWMyLjU0MiAzLjMwMiA3LjI2IDMuODc1IDEwLjUxOCAxLjM2NiAzLjI4Mi0yLjUyNyAzLjg5My03LjIzNiAxLjM2Ni0xMC41MThsLTEyNi4xMTktMTYzLjc2NGMtOS4zNjMtMTIuMTU4LTcuMTU2LTI5Ljc1MyA0LjkyLTM5LjIyMiAxMS44NDQtOS4yODcgMjkuNTAyLTcuMjA3IDM4LjY5NyA0Ljg1MmwxMjYuMTIxIDE2My43NjZjMi41MjcgMy4yODIgNy4yMzcgMy44OTUgMTAuNTE4IDEuMzY2IDMuMjgyLTIuNTI3IDMuODkzLTcuMjM2IDEuMzY2LTEwLjUxOGwtMjUuNjA5LTMzLjI1MmMwLS4wMDEtLjAwMS0uMDAyLS4wMDItLjAwM2wtMTAwLjUwOS0xMzAuNTA5Yy0uMDAxLS4wMDEtLjAwMS0uMDAyLS4wMDItLjAwM2wtMjUuNjA4LTMzLjI1MWMtOS4zNjMtMTIuMTU4LTcuMTU2LTI5Ljc1MyA0LjkyLTM5LjIyMiAxMS44NDQtOS4yODcgMjkuNTA1LTcuMjA3IDM4LjY5OSA0Ljg1NGwxMjYuMTE5IDE2My43NjRjMCAuMDAxLjAwMS4wMDEuMDAxLjAwMmwyNS42MDkgMzMuMjUzYzIuNTQzIDMuMzAyIDcuMjYgMy44NzQgMTAuNTE5IDEuMzY2IDMuMjgyLTIuNTI3IDMuODk0LTcuMjM2IDEuMzY2LTEwLjUxOGwtMTAwLjUxLTEzMC41MWMtOS4zNjMtMTIuMTU4LTcuMTU1LTI5Ljc1MiA0LjkyMS0zOS4yMjEgMTEuODQyLTkuMjg1IDI5LjUwNS03LjIwOCAzOC42OTggNC44NTRsMTI4LjQ1OCAxNjYuOGMtMS41ODIgMS45NjUtMy4zODUgMy43NTktNS4zOTEgNS4zMzEtMTkuNjQ0IDE1LjQwMy0zNS43OTMgMzUuNDYtNDYuNyA1OC4wMDUtMTAuOTA1IDIyLjU0LTE2LjYzNyA0Ny42OTgtMTYuNTczIDcyLjc1NmwuMDA5IDMuNDAzYy4wMTEgNC4xMzUgMy4zNjYgNy40OCA3LjUgNy40OGguMDJjNC4xNDItLjAxMSA3LjQ5MS0zLjM3NyA3LjQ4LTcuNTJsLS4wMDktMy40MDJjLS4wNTgtMjIuNzk1IDUuMTU1LTQ1LjY4MiAxNS4wNzUtNjYuMTg1IDkuOTE4LTIwLjQ5OSAyNC41OTktMzguNzM0IDQyLjQ1NC01Mi43MzQgOC45ODQtNy4wNDUgMTUuMjE3LTE3LjEzOSAxNy41NTEtMjguMzFsMTkuMjk0LTkyLjYwOWMuNzgzLTMuNzYyIDQuMDY5LTYuMzUgNy44NjQtNi4xNDYgMTIuNzEuNjc3IDI0LjM1NiA2LjMzOSAzMi43OTMgMTUuOTQzIDguNTYgOS43NDQgMTIuNzI5IDIyLjI3MiAxMS43MzggMzUuMjc2bC05LjczNyAxMjcuODU4Yy0uMzE0IDQuMTMgMi43NzkgNy43MzMgNi45MDkgOC4wNDggNC4xMS4zMDcgNy43MzMtMi43NzkgOC4wNDgtNi45MDlsOS43MzctMTI3Ljg1OGMxLjI5OS0xNy4wNjMtNC4xNzktMzMuNTEyLTE1LjQyNi00Ni4zMTQtMTEuMTI0LTEyLjY2Mi0yNi40ODktMjAuMTI4LTQzLjI2Ni0yMS4wMjF6bTcuMTYtNjUuMjcyYy00LjExOC0uNTE3LTcuODU5IDIuMzk4LTguMzc1IDYuNTA4czIuMzk4IDcuODYgNi41MDggOC4zNzVjMzcuNzMxIDQuNzMzIDY0LjU0IDM5LjU3OCA1OS43NjIgNzcuNjc0LS41MTYgNC4xMSAyLjM5OCA3Ljg2IDYuNTA4IDguMzc1IDQuMDI5LjUwNiA3Ljg1Ni0yLjM2OCA4LjM3NS02LjUwOCA1LjgwOC00Ni4zMDMtMjYuODQxLTg4LjY2Mi03Mi43NzgtOTQuNDI0eiIvPjwvZz48L3N2Zz4=" width="40" height="40" style="display:block;filter:brightness(0) invert(1);" alt="">
       </div>
       <div class="tile-bottom"><div class="tile-label">Let's Get<br>Connected</div></div>
     </div>
@@ -216,7 +211,7 @@
     </div>
 
     <div class="grid-tile" onclick="openModal('events')">
-      <div class="tile-icon" style="position:absolute;top:18px;right:18px;"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMjUgMjUiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIj48ZyBpZD0iTGF5ZXJfNDMiIGRhdGEtbmFtZT0iTGF5ZXIgNDMiPjxwYXRoIGQ9Ik0yMC4xOSw0SDE4VjIuNWEuNS41LDAsMCwwLTEsMFY0SDhWMi41YS41LjUsMCwwLDAtMSwwVjRINC44MUEyLjgxLDIuODEsMCwwLDAsMiw2LjgxVjIwLjE5QTIuODEsMi44MSwwLDAsMCw0LjgxLDIzSDIwLjE5QTIuODEsMi44MSwwLDAsMCwyMywyMC4xOVY2LjgxQTIuODEsMi44MSwwLDAsMCwyMC4xOSw0Wk00LjgxLDVIMjAuMTlBMS44MSwxLjgxLDAsMCwxLDIyLDYuODFWOEgzVjYuODFBMS44MSwxLjgxLDAsMCwxLDQuODEsNVpNMjAuMTksMjJINC44MUExLjgxLDEuODEsMCwwLDEsMywyMC4xOVY5SDIyVjIwLjE5QTEuODEsMS44MSwwLDAsMSwyMC4xOSwyMloiLz48L2c+PC9zdmc+" width="34" height="34" style="display:block;" alt=""></div>
+      <div class="tile-icon" style="position:absolute;top:18px;right:18px;"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMjUgMjUiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIj48ZyBpZD0iTGF5ZXJfNDMiIGRhdGEtbmFtZT0iTGF5ZXIgNDMiPjxwYXRoIGQ9Ik0yMC4xOSw0SDE4VjIuNWEuNS41LDAsMCwwLTEsMFY0SDhWMi41YS41LjUsMCwwLDAtMSwwVjRINC44MUEyLjgxLDIuODEsMCwwLDAsMiw2LjgxVjIwLjE5QTIuODEsMi44MSwwLDAsMCw0LjgxLDIzSDIwLjE5QTIuODEsMi44MSwwLDAsMCwyMywyMC4xOVY2LjgxQTIuODEsMi44MSwwLDAsMCwyMC4xOSw0Wk00LjgxLDVIMjAuMTlBMS44MSwxLjgxLDAsMCwxLDIyLDYuODFWOEgzVjYuODFBMS44MSwxLjgxLDAsMCwxLDQuODEsNVpNMjAuMTksMjJINC44MUExLjgxLDEuODEsMCwwLDEsMywyMC4xOVY5SDIyVjIwLjE5QTEuODEsMS44MSwwLDAsMSwyMC4xOSwyMloiLz48L2c+PC9zdmc+Cg==" width="34" height="34" style="display:block;" alt=""></div>
       <div class="tile-bottom"><div class="tile-label">What's<br>Happening</div></div>
     </div>
 
@@ -231,7 +226,7 @@
     </div>
 
     <div class="grid-tile" onclick="openModal('here')">
-      <div class="tile-icon" style="position:absolute;top:18px;right:18px;"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB2aWV3Qm94PSIwIDAgNDgyLjYgNDgyLjYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4Mi42IDQ4Mi42OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPHBhdGggZD0iTTk4LjMzOSwzMjAuOGM0Ny42LDU2LjksMTA0LjksMTAxLjcsMTcwLjMsMTMzLjRjMjQuOSwxMS44LDU4LjIsMjUuOCw5NS4zLDI4LjJjMi4zLDAuMSw0LjUsMC4yLDYuOCwwLjIKCQljMjQuOSwwLDQ0LjktOC42LDYxLjItMjYuM2MwLjEtMC4xLDAuMy0wLjMsMC40LTAuNWM1LjgtNywxMi40LTEzLjMsMTkuMy0yMGM0LjctNC41LDkuNS05LjIsMTQuMS0xNAoJCWMyMS4zLTIyLjIsMjEuMy01MC40LTAuMi03MS45bC02MC4xLTYwLjFjLTEwLjItMTAuNi0yMi40LTE2LjItMzUuMi0xNi4yYy0xMi44LDAtMjUuMSw1LjYtMzUuNiwxNi4xbC0zNS44LDM1LjgKCQljLTMuMy0xLjktNi43LTMuNi05LjktNS4yYy00LTItNy43LTMuOS0xMS02Yy0zMi42LTIwLjctNjIuMi00Ny43LTkwLjUtODIuNGMtMTQuMy0xOC4xLTIzLjktMzMuMy0zMC42LTQ4LjgKCQljOS40LTguNSwxOC4yLTE3LjQsMjYuNy0yNi4xYzMtMy4xLDYuMS02LjIsOS4yLTkuM2MxMC44LTEwLjgsMTYuNi0yMy4zLDE2LjYtMzZzLTUuNy0yNS4yLTE2LjYtMzZsLTI5LjgtMjkuOAoJCWMtMy41LTMuNS02LjgtNi45LTEwLjItMTAuNGMtNi42LTYuOC0xMy41LTEzLjgtMjAuMy0yMC4xYy0xMC4zLTEwLjEtMjIuNC0xNS40LTM1LjItMTUuNGMtMTIuNywwLTI0LjksNS4zLTM1LjYsMTUuNWwtMzcuNCwzNy40CgkJYy0xMy42LDEzLjYtMjEuMywzMC4xLTIyLjksNDkuMmMtMS45LDIzLjksMi41LDQ5LjMsMTMuOSw4MEMzMi43MzksMjI5LjYsNTkuMTM5LDI3My43LDk4LjMzOSwzMjAuOHogTTI1LjczOSwxMDQuMgoJCWMxLjItMTMuMyw2LjMtMjQuNCwxNS45LTM0bDM3LjItMzcuMmM1LjgtNS42LDEyLjItOC41LDE4LjQtOC41YzYuMSwwLDEyLjMsMi45LDE4LDguN2M2LjcsNi4yLDEzLDEyLjcsMTkuOCwxOS42CgkJYzMuNCwzLjUsNi45LDcsMTAuNCwxMC42bDI5LjgsMjkuOGM2LjIsNi4yLDkuNCwxMi41LDkuNCwxOC43cy0zLjIsMTIuNS05LjQsMTguN2MtMy4xLDMuMS02LjIsNi4zLTkuMyw5LjQKCQljLTkuMyw5LjQtMTgsMTguMy0yNy42LDI2LjhjLTAuMiwwLjItMC4zLDAuMy0wLjUsMC41Yy04LjMsOC4zLTcsMTYuMi01LDIyLjJjMC4xLDAuMywwLjIsMC41LDAuMywwLjgKCQljNy43LDE4LjUsMTguNCwzNi4xLDM1LjEsNTcuMWMzMCwzNyw2MS42LDY1LjcsOTYuNCw4Ny44YzQuMywyLjgsOC45LDUsMTMuMiw3LjJjNCwyLDcuNywzLjksMTEsNmMwLjQsMC4yLDAuNywwLjQsMS4xLDAuNgoJCWMzLjMsMS43LDYuNSwyLjUsOS43LDIuNWM4LDAsMTMuMi01LjEsMTQuOS02LjhsMzcuNC0zNy40YzUuOC01LjgsMTIuMS04LjksMTguMy04LjljNy42LDAsMTMuOCw0LjcsMTcuNyw4LjlsNjAuMyw2MC4yCgkJYzEyLDEyLDExLjksMjUtMC4zLDM3LjdjLTQuMiw0LjUtOC42LDguOC0xMy4zLDEzLjNjLTcsNi44LTE0LjMsMTMuOC0yMC45LDIxLjdjLTExLjUsMTIuNC0yNS4yLDE4LjItNDIuOSwxOC4yCgkJYy0xLjcsMC0zLjUtMC4xLTUuMi0wLjJjLTMyLjgtMi4xLTYzLjMtMTQuOS04Ni4yLTI1LjhjLTYyLjItMzAuMS0xMTYuOC03Mi44LTE2Mi4xLTEyN2MtMzcuMy00NC45LTYyLjQtODYuNy03OS0xMzEuNQoJCUMyOC4wMzksMTQ2LjQsMjQuMTM5LDEyNC4zLDI1LjczOSwxMDQuMnoiLz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4=" width="34" height="34" style="display:block;" alt=""></div>
+      <div class="tile-icon" style="position:absolute;top:18px;right:18px;"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB2aWV3Qm94PSIwIDAgNDgyLjYgNDgyLjYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4Mi42IDQ4Mi42OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPHBhdGggZD0iTTk4LjMzOSwzMjAuOGM0Ny42LDU2LjksMTA0LjksMTAxLjcsMTcwLjMsMTMzLjRjMjQuOSwxMS44LDU4LjIsMjUuOCw5NS4zLDI4LjJjMi4zLDAuMSw0LjUsMC4yLDYuOCwwLjIKCQljMjQuOSwwLDQ0LjktOC42LDYxLjItMjYuM2MwLjEtMC4xLDAuMy0wLjMsMC40LTAuNWM1LjgtNywxMi40LTEzLjMsMTkuMy0yMGM0LjctNC41LDkuNS05LjIsMTQuMS0xNAoJCWMyMS4zLTIyLjIsMjEuMy01MC40LTAuMi03MS45bC02MC4xLTYwLjFjLTEwLjItMTAuNi0yMi40LTE2LjItMzUuMi0xNi4yYy0xMi44LDAtMjUuMSw1LjYtMzUuNiwxNi4xbC0zNS44LDM1LjgKCQljLTMuMy0xLjktNi43LTMuNi05LjktNS4yYy00LTItNy43LTMuOS0xMS02Yy0zMi42LTIwLjctNjIuMi00Ny43LTkwLjUtODIuNGMtMTQuMy0xOC4xLTIzLjktMzMuMy0zMC42LTQ4LjgKCQljOS40LTguNSwxOC4yLTE3LjQsMjYuNy0yNi4xYzMtMy4xLDYuMS02LjIsOS4yLTkuM2MxMC44LTEwLjgsMTYuNi0yMy4zLDE2LjYtMzZzLTUuNy0yNS4yLTE2LjYtMzZsLTI5LjgtMjkuOAoJCWMtMy41LTMuNS02LjgtNi45LTEwLjItMTAuNGMtNi42LTYuOC0xMy41LTEzLjgtMjAuMy0yMC4xYy0xMC4zLTEwLjEtMjIuNC0xNS40LTM1LjItMTUuNGMtMTIuNywwLTI0LjksNS4zLTM1LjYsMTUuNWwtMzcuNCwzNy40CgkJYy0xMy42LDEzLjYtMjEuMywzMC4xLTIyLjksNDkuMmMtMS45LDIzLjksMi41LDQ5LjMsMTMuOSw4MEMzMi43MzksMjI5LjYsNTkuMTM5LDI3My43LDk4LjMzOSwzMjAuOHogTTI1LjczOSwxMDQuMgoJCWMxLjItMTMuMyw2LjMtMjQuNCwxNS45LTM0bDM3LjItMzcuMmM1LjgtNS42LDEyLjItOC41LDE4LjQtOC41YzYuMSwwLDEyLjMsMi45LDE4LDguN2M2LjcsNi4yLDEzLDEyLjcsMTkuOCwxOS42CgkJYzMuNCwzLjUsNi45LDcsMTAuNCwxMC42bDI5LjgsMjkuOGM2LjIsNi4yLDkuNCwxMi41LDkuNCwxOC43cy0zLjIsMTIuNS05LjQsMTguN2MtMy4xLDMuMS02LjIsNi4zLTkuMyw5LjQKCQljLTkuMyw5LjQtMTgsMTguMy0yNy42LDI2LjhjLTAuMiwwLjItMC4zLDAuMy0wLjUsMC41Yy04LjMsOC4zLTcsMTYuMi01LDIyLjJjMC4xLDAuMywwLjIsMC41LDAuMywwLjgKCQljNy43LDE4LjUsMTguNCwzNi4xLDM1LjEsNTcuMWMzMCwzNyw2MS42LDY1LjcsOTYuNCw4Ny44YzQuMywyLjgsOC45LDUsMTMuMiw3LjJjNCwyLDcuNywzLjksMTEsNmMwLjQsMC4yLDAuNywwLjQsMS4xLDAuNgoJCWMzLjMsMS43LDYuNSwyLjUsOS43LDIuNWM4LDAsMTMuMi01LjEsMTQuOS02LjhsMzcuNC0zNy40YzUuOC01LjgsMTIuMS04LjksMTguMy04LjljNy42LDAsMTMuOCw0LjcsMTcuNyw4LjlsNjAuMyw2MC4yCgkJYzEyLDEyLDExLjksMjUtMC4zLDM3LjdjLTQuMiw0LjUtOC42LDguOC0xMy4zLDEzLjNjLTcsNi44LTE0LjMsMTMuOC0yMC45LDIxLjdjLTExLjUsMTIuNC0yNS4yLDE4LjItNDIuOSwxOC4yCgkJYy0xLjcsMC0zLjUtMC4xLTUuMi0wLjJjLTMyLjgtMi4xLTYzLjMtMTQuOS04Ni4yLTI1LjhjLTYyLjItMzAuMS0xMTYuOC03Mi44LTE2Mi4xLTEyN2MtMzcuMy00NC45LTYyLjQtODYuNy03OS0xMzEuNQoJCUMyOC4wMzksMTQ2LjQsMjQuMTM5LDEyNC4zLDI1LjczOSwxMDQuMnoiLz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K" width="34" height="34" style="display:block;" alt=""></div>
       <div class="tile-bottom"><div class="tile-label">How Can<br>We Help?</div></div>
     </div>
   </div>
@@ -298,7 +293,7 @@
       </div>
       <div class="success-state" id="connect-success">
         <div class="ty-card" style="padding:28px 24px 20px;">
-          <div class="ty-icon" style="width:70px;height:70px;margin:0 auto 12px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="ty-icon" style="width:70px;height:70px;margin:0 auto 12px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
           <div class="ty-title" id="connect-ty-title" style="font-size:26px;">Welcome!</div>
           <p class="ty-subtitle" id="connect-ty-sub"></p>
         </div>
@@ -335,8 +330,16 @@
           <input type="text" id="p-name" placeholder="First name, or stay anonymous">
         </div>
         <div class="form-section">
-          <span class="section-label">Email <span class="optional-note">optional</span></span>
-          <input type="email" id="p-email" placeholder="your@email.com">
+          <span class="section-label">How Can We Reach You? <span class="optional-note">optional</span></span>
+          <p style="font-size:13px;color:#8E8E93;margin:-4px 0 14px;line-height:1.5;">Leave your contact info if you'd like us to follow up. Everything is optional.</p>
+          <div class="field-group">
+            <label for="p-email">Email</label>
+            <input type="email" id="p-email" placeholder="your@email.com">
+          </div>
+          <div class="field-group">
+            <label for="p-phone">Phone</label>
+            <input type="tel" id="p-phone" placeholder="(000) 000-0000">
+          </div>
         </div>
         <div class="form-section">
           <span class="section-label">Category <span class="optional-note">optional</span></span>
@@ -366,21 +369,29 @@
           <div class="select-wrap"><select id="p-for" onchange="handlePrayerFor(this.value)"><option value="" disabled selected>Select...</option><option value="Myself">Myself</option><option value="A family member">A family member</option><option value="A friend">A friend</option><option value="Someone I know">Someone I know</option><option value="Our community / nation">Our community / nation</option></select></div>
           <div class="conditional-field" id="field-prayer-person"><input type="text" id="p-person-name" placeholder="What's their first name? (optional)"></div>
         </div>
-        <div class="form-section">
-          <div class="private-toggle">
-            <input type="checkbox" id="p-private">
-            <label for="p-private">
-              <span class="check-box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-              Keep this private — only seen by the pastor
-            </label>
+
+        <div class="form-section" id="p-followup-section" style="display:none;">
+          <span class="section-label">Would You Like Us to Follow Up?</span>
+          <div class="toggle-group" style="grid-template-columns:1fr 1fr 1fr;">
+            <div class="toggle-option">
+              <input type="radio" name="p-followup" id="p-followup-email" value="email">
+              <label for="p-followup-email">By email</label>
+            </div>
+            <div class="toggle-option">
+              <input type="radio" name="p-followup" id="p-followup-phone" value="phone">
+              <label for="p-followup-phone">By phone</label>
+            </div>
+            <div class="toggle-option">
+              <input type="radio" name="p-followup" id="p-followup-none" value="none" checked>
+              <label for="p-followup-none">Just pray</label>
+            </div>
           </div>
-          <p id="p-private-note" style="display:none;font-size:12px;color:#8E8E93;margin-top:10px;line-height:1.6;">This request will be marked private and shared only with the pastor.</p>
         </div>
         <button class="btn-primary" onclick="submitPrayer()">Submit Prayer Request</button>
       </div>
       <div class="success-state" id="prayer-success">
         <div class="ty-card">
-          <div class="ty-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div class="ty-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
           <div class="ty-title" id="prayer-ty-title">Request Received</div>
           <p class="ty-subtitle" id="prayer-success-msg">Thank you for trusting us with what's on your heart. Our team will be praying for you.</p>
         </div>
@@ -462,7 +473,7 @@
 
       <!-- SUCCESS -->
       <div class="success-state" id="serve-success" style="display:none;">
-        <div class="ty-card" style="padding:28px 24px 20px;"><div class="ty-icon" style="width:70px;height:70px;margin:0 auto 12px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="ty-title" id="ns-ty-title">Thank You!</div></div><p id="ns-success-msg" style="font-size:14px;color:#48484A;line-height:1.7;text-align:center;margin:16px 0 0;">Someone from our team will reach out to you soon.</p>
+        <div class="ty-card" style="padding:28px 24px 20px;"><div class="ty-icon" style="width:70px;height:70px;margin:0 auto 12px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="ty-title" id="ns-ty-title">Thank You!</div></div><p id="ns-success-msg" style="font-size:14px;color:#48484A;line-height:1.7;text-align:center;margin:16px 0 0;">Someone from our team will reach out to you soon.</p>
       </div>
 
     </div>
@@ -522,7 +533,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             Call
           </a>
-          <a href="sms:3166704570&body=Hi%2C%20I%27m%20interested%20in%20getting%20a%20ride%20to%20Sunday%20Morning%20Worship%20at%20Christian%20Faith%20Centre.%20Can%20you%20help%20me%20arrange%20one%3F" style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px; font-size:14px; color:#1C1C1E; font-weight:600; text-decoration:none; background:#57f9ba; padding:12px 14px; border-radius:26px;">
+          <a href="sms:3166704570&body=Hi%2C%20I%27m%20interested%20in%20getting%20a%20ride%20to%20Sunday%20Morning%20Worship%20at%20Christian%20Faith%20Centre.%20Can%20you%20help%20me%20arrange%20one%3F" style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px; font-size:14px; color:#1C1C1E; font-weight:600; text-decoration:none; background:#8B4FCF; padding:12px 14px; border-radius:26px;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             Text
           </a>
@@ -535,18 +546,41 @@
 
 <script>
 try {
-  var MAILERLITE_API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiYjhhMTg1Yzk4NTZjNmI0ZTgxMmQ1MzQ0YTg1NWJiMzlkMjBiNjM5MWJkMTI2MDEzODQ0MGU4MzIwMmYzNTBkYmQyYWJhOGNjNDIwOGU2NGMiLCJpYXQiOjE3ODAzNTI3MTMuMjYwODYzLCJuYmYiOjE3ODAzNTI3MTMuMjYwODY3LCJleHAiOjQ5MzYwMjYzMTMuMjU1MjM2LCJzdWIiOiIyNDE2NzY5Iiwic2NvcGVzIjpbXX0.oEiEtNvdrsEstrFVr_VPZgZi6fZG_sa782TtSUTbyVw-PmB5fIWT3iiijN2OUxFVUaY9x6p7jAVKSg9z373futnFwuLoohA0I7ds3-eDj9CPIbMQrcZfTm0Nax9hFs6CL2PYQnhCGnB7znvAiueRilH1bELgTE_vU7yWgIbAI6izKf5-njACGxKO0TUlh5mDYFQLssSnpdrDgjvHUR4YjYRZXzSKb6r1Q0fhB8tODzwXSTrwFmSWew_xE86hJyKdjE5DliEuKD-PGKmSZWFuUpPegAN7Wmz8MxHPOaiDfu1k6foE2K1RcUKREMMBni4s2qugRzueho9ywCe3WBm2OQpYKGnoRrphbfBs7RR_5SVTdUXgWAGGGmHMk1cpQeuSHoSfgdMW0zZsMADrqmiiNEKuoTKSWqRMxV75OWXKd7h3Es0ShKehUyRXKQ-_TY0mUrafJeYlGXdKizgHjno5PzOWMjDcUHdZrjvslHgebpFVarc3TfSmIa00_aVf2eCuRd_W3tGlyV1G5xzZFQJ1G1pYju71ikq7n_hf-eW7KS76pLxGdkISUqYF_c1Z_1fxoalS8YrZaF112gXi2alKufdKX9rnTtV3y6uC3uE6seBazw8zBWNtfyEfsNf_9r5HDw8o7bAQ-z0w1l9xN3jQr_7qj0N0JRqI6AWIcfDl8eY';
-  var MAILERLITE_GROUP_ID = '189113619277940717';
-  var MAILERLITE_PRAYER_PUBLIC_ID = '189218429932144119';
-  var MAILERLITE_PRAYER_PRIVATE_ID = '189218439438533715';
-  var MAILERLITE_SERVE_ID = '189376699262043584';
 
-  // ── GOOGLE SHEETS CONFIG ──────────────────────────────────────────
-  var SHEETS_WEEKLY_URL   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=0&single=true&output=csv';
-  var SHEETS_MONTHLY_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=2083357897&single=true&output=csv';
-  var SHEETS_SPECIAL_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=584706428&single=true&output=csv';
-  var SHEETS_ANNOUNCE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=324725209&single=true&output=csv';
-  // ─────────────────────────────────────────────────────────────────
+  // ================================================================
+  // HELLOPEW CLIENT CONFIG — update this block for each new church
+  // ================================================================
+  var CONFIG = {
+    // Church identity
+    church_name:     'Christian Faith Centre',
+    pastor_name:     'Pastor Moore',
+    church_email:    'hello@christianfaithcentre.com',
+    church_website:  'christianfaithcentre.com',
+    accent_color:    '#8B4FCF',
+
+    // MailerLite
+    ml_api_key:      'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiYjhhMTg1Yzk4NTZjNmI0ZTgxMmQ1MzQ0YTg1NWJiMzlkMjBiNjM5MWJkMTI2MDEzODQ0MGU4MzIwMmYzNTBkYmQyYWJhOGNjNDIwOGU2NGMiLCJpYXQiOjE3ODAzNTI3MTMuMjYwODYzLCJuYmYiOjE3ODAzNTI3MTMuMjYwODY3LCJleHAiOjQ5MzYwMjYzMTMuMjU1MjM2LCJzdWIiOiIyNDE2NzY5Iiwic2NvcGVzIjpbXX0.oEiEtNvdrsEstrFVr_VPZgZi6fZG_sa782TtSUTbyVw-PmB5fIWT3iiijN2OUxFVUaY9x6p7jAVKSg9z373futnFwuLoohA0I7ds3-eDj9CPIbMQrcZfTm0Nax9hFs6CL2PYQnhCGnB7znvAiueRilH1bELgTE_vU7yWgIbAI6izKf5-njACGxKO0TUlh5mDYFQLssSnpdrDgjvHUR4YjYRZXzSKb6r1Q0fhB8tODzwXSTrwFmSWew_xE86hJyKdjE5DliEuKD-PGKmSZWFuUpPegAN7Wmz8MxHPOaiDfu1k6foE2K1RcUKREMMBni4s2qugRzueho9ywCe3WBm2OQpYKGnoRrphbfBs7RR_5SVTdUXgWAGGGmHMk1cpQeuSHoSfgdMW0zZsMADrqmiiNEKuoTKSWqRMxV75OWXKd7h3Es0ShKehUyRXKQ-_TY0mUrafJeYlGXdKizgHjno5PzOWMjDcUHdZrjvslHgebpFVarc3TfSmIa00_aVf2eCuRd_W3tGlyV1G5xzZFQJ1G1pYju71ikq7n_hf-eW7KS76pLxGdkISUqYF_c1Z_1fxoalS8YrZaF112gXi2alKufdKX9rnTtV3y6uC3uE6seBazw8zBWNtfyEfsNf_9r5HDw8o7bAQ-z0w1l9xN3jQr_7qj0N0JRqI6AWIcfDl8eY',
+    ml_group_id:     '189113619277940717',
+    ml_prayer_id:    '189218439438533715',
+    ml_serve_id:     '189376699262043584',
+
+    // Google Sheets (publish each tab to CSV and paste URLs here)
+    sheets_weekly:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=0&single=true&output=csv',
+    sheets_monthly:  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=2083357897&single=true&output=csv',
+    sheets_special:  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=584706428&single=true&output=csv',
+    sheets_announce: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=324725209&single=true&output=csv'
+  };
+  // ================================================================
+
+  // Internal aliases — do not edit below this line
+  var MAILERLITE_API_KEY        = CONFIG.ml_api_key;
+  var MAILERLITE_GROUP_ID       = CONFIG.ml_group_id;
+  var MAILERLITE_PRAYER_PRIVATE_ID = CONFIG.ml_prayer_id;
+  var MAILERLITE_SERVE_ID       = CONFIG.ml_serve_id;
+  var SHEETS_WEEKLY_URL         = CONFIG.sheets_weekly;
+  var SHEETS_MONTHLY_URL        = CONFIG.sheets_monthly;
+  var SHEETS_SPECIAL_URL        = CONFIG.sheets_special;
+  var SHEETS_ANNOUNCE_URL       = CONFIG.sheets_announce;
 
   var CORS_PROXY = 'https://corsproxy.io/?';
 
@@ -819,13 +853,25 @@ try {
   }
 
   function openModal(id) {
-    document.getElementById('modal-' + id).classList.add('open');
+    var overlay = document.getElementById('modal-' + id);
+    var modal = overlay.querySelector('.modal');
+    modal.style.transition = 'none';
+    modal.style.transform = 'translateY(32px)';
+    overlay.scrollTop = 0;
+    overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        modal.style.transition = '';
+        modal.style.transform = '';
+      });
+    });
     if (id === 'events') loadEvents();
   }
 
   function closeModal(id) {
-    document.getElementById('modal-' + id).classList.remove('open');
+    var overlay = document.getElementById('modal-' + id);
+    overlay.classList.remove('open');
     document.body.style.overflow = '';
     if (id === 'events') { eventsLoaded = false; }
     if (id === 'prayer') {
@@ -837,6 +883,17 @@ try {
       if (pb) pb.style.paddingTop = '';
       document.getElementById('prayer-success').style.display = 'none';
       document.getElementById('prayer-form-wrap').style.display = 'block';
+      document.getElementById('p-name').value = '';
+      document.getElementById('p-email').value = '';
+      document.getElementById('p-phone').value = '';
+      document.getElementById('p-request').value = '';
+      document.getElementById('p-for').value = '';
+      document.getElementById('field-prayer-person').classList.remove('visible');
+      var catBoxes = document.querySelectorAll('#modal-prayer input[type=checkbox]');
+      for (var i = 0; i < catBoxes.length; i++) { catBoxes[i].checked = false; }
+      var followupNone = document.getElementById('p-followup-none');
+      if (followupNone) followupNone.checked = true;
+      document.getElementById('p-followup-section').style.display = 'none';
     }
     if (id === 'connect') {
       var t = document.querySelector('#modal-connect .modal-title');
@@ -1004,6 +1061,9 @@ try {
 
     document.getElementById('connect-step1').style.display = 'none';
     document.getElementById('connect-step2').style.display = 'block';
+    document.getElementById('connect-step2').classList.remove('step-transition');
+    void document.getElementById('connect-step2').offsetWidth;
+    document.getElementById('connect-step2').classList.add('step-transition');
     document.getElementById('connect-progress-label').textContent = 'Step 2 of 2';
     document.getElementById('connect-progress-fill').style.width = '100%';
     document.querySelector('#modal-connect .modal').scrollTop = 0;
@@ -1042,6 +1102,9 @@ try {
     document.getElementById('connect-step2').style.display = 'none';
     document.getElementById('connect-progress').style.display = 'none';
     document.getElementById('connect-success').style.display = 'block';
+    document.getElementById('connect-success').classList.remove('step-transition');
+    void document.getElementById('connect-success').offsetWidth;
+    document.getElementById('connect-success').classList.add('step-transition');
     document.getElementById('connect-modal-title').style.display = 'none';
     document.getElementById('connect-modal-subtitle').style.display = 'none';
     document.querySelector('#modal-connect .modal-hero').style.display = '';
@@ -1082,6 +1145,17 @@ try {
     } catch(e) { console.log('ML error:', e); }
   }
 
+  function checkPrayerFollowup() {
+    var email = document.getElementById('p-email').value.trim();
+    var phone = document.getElementById('p-phone').value.trim();
+    var followupRadio = document.querySelector('input[name="p-followup"]:checked');
+    var followup = followupRadio ? followupRadio.value : 'none';
+    var hasContact = email || phone;
+    if (!hasContact) followup = 'none';
+    var section = document.getElementById('p-followup-section');
+    if (section) section.style.display = (email || phone) ? 'block' : 'none';
+  }
+
   function handlePrayerFor(val) {
     var others = ['A family member', 'A friend', 'Someone I know'];
     var show = false;
@@ -1095,9 +1169,13 @@ try {
     if (!document.getElementById('p-request').value.trim()) {
       document.getElementById('p-request').focus(); return;
     }
-    var isPrivate = document.getElementById('p-private').checked;
     var name = document.getElementById('p-name').value.trim();
     var email = document.getElementById('p-email').value.trim();
+    var phone = document.getElementById('p-phone').value.trim();
+    var followupRadio = document.querySelector('input[name="p-followup"]:checked');
+    var followup = followupRadio ? followupRadio.value : 'none';
+    var hasContact = email || phone;
+    if (!hasContact) followup = 'none';
     var request = document.getElementById('p-request').value.trim();
     var pFor = document.getElementById('p-for').value;
     var personName = document.getElementById('p-person-name').value.trim();
@@ -1106,14 +1184,15 @@ try {
     var catBoxes = document.querySelectorAll('#modal-prayer input[type=checkbox][id^=pc-]:checked');
     for (var i = 0; i < catBoxes.length; i++) { categories.push(catBoxes[i].value); }
 
-    var msg = isPrivate
-      ? 'Thank you for trusting us. This request has been marked private and will only be seen by the pastor.'
-      : "Thank you for trusting us with what's on your heart. Our team will be praying for you.";
+    var msg = "Thank you for trusting us with what's on your heart. Our team will be praying for you.";
     var firstName = name ? name.split(' ')[0] : '';
     document.getElementById('prayer-ty-title').textContent = firstName ? 'Thank You, ' + firstName + '!' : 'Request Received';
     document.getElementById('prayer-success-msg').textContent = msg;
     document.getElementById('prayer-form-wrap').style.display = 'none';
     document.getElementById('prayer-success').style.display = 'block';
+    document.getElementById('prayer-success').classList.remove('step-transition');
+    void document.getElementById('prayer-success').offsetWidth;
+    document.getElementById('prayer-success').classList.add('step-transition');
     document.getElementById('prayer-modal-title').style.display = 'none';
     document.getElementById('prayer-modal-subtitle').style.display = 'none';
     document.getElementById('prayer-modal-hero').style.padding = '16px 24px 16px';
@@ -1122,17 +1201,18 @@ try {
     sendPrayerToMailerLite({
       name: name,
       email: email,
+      phone: phone,
+      followup: followup,
       request: request,
       categories: categories.length > 0 ? categories.join(', ') : 'Unspecified',
       pFor: pFor || 'Not specified',
       personName: personName,
-      isPrivate: isPrivate
     });
   }
 
   function sendPrayerToMailerLite(data) {
     try {
-      var groupId = data.isPrivate ? MAILERLITE_PRAYER_PRIVATE_ID : MAILERLITE_PRAYER_PUBLIC_ID;
+      var groupId = MAILERLITE_PRAYER_PRIVATE_ID;
       var subscriberEmail = data.email || ('anonymous-' + Date.now() + '@cfc-prayer.local');
       fetch('https://connect.mailerlite.com/api/subscribers', {
         method: 'POST',
@@ -1141,10 +1221,12 @@ try {
           email: subscriberEmail,
           fields: {
             name: data.name || 'Anonymous',
+            phone: data.phone || '',
             prayer_request: data.request,
             prayer_category: data.categories,
             prayer_for: data.pFor + (data.personName ? ' - ' + data.personName : ''),
-            prayer_private: data.isPrivate ? 'Yes' : 'No'
+            church_name: CONFIG.church_name,
+            followup_method: data.followup === 'none' ? 'No follow-up requested' : 'Yes — by ' + data.followup,
           },
           groups: [groupId]
         })
@@ -1214,6 +1296,9 @@ try {
     }
     document.getElementById('ns-step1').style.display = 'none';
     document.getElementById('ns-step2').style.display = 'block';
+    document.getElementById('ns-step2').classList.remove('step-transition');
+    void document.getElementById('ns-step2').offsetWidth;
+    document.getElementById('ns-step2').classList.add('step-transition');
     document.querySelector('#modal-serve .modal-close').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back';
     document.querySelector('#modal-serve .modal-close').onclick = function() { nsBack(); };
     document.querySelector('#modal-serve .modal').scrollTop = 0;
@@ -1257,6 +1342,9 @@ try {
     document.getElementById('ns-ty-title').textContent = nsFirstName ? 'Thank You, ' + nsFirstName + '!' : 'Thank You!';
     document.getElementById('ns-step2').style.display = 'none';
     document.getElementById('serve-success').style.display = 'block';
+    document.getElementById('serve-success').classList.remove('step-transition');
+    void document.getElementById('serve-success').offsetWidth;
+    document.getElementById('serve-success').classList.add('step-transition');
     document.getElementById('ns-modal-title').style.display = 'none';
     document.getElementById('ns-modal-subtitle').style.display = 'none';
     document.getElementById('serve-modal-hero').style.padding = '16px 24px 16px';
@@ -1286,7 +1374,7 @@ try {
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + MAILERLITE_API_KEY },
         body: JSON.stringify({
           email: email,
-          fields: { name: name, phone: phone, ministry_areas: nsChoice + (extra ? ' — ' + extra : '') },
+          fields: { name: name, phone: phone, ministry_areas: nsChoice, ministry_notes: extra || '', church_name: CONFIG.church_name },
           groups: [MAILERLITE_SERVE_ID]
         })
       }).then(function(res) {
@@ -1412,17 +1500,22 @@ try {
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-    var pPrivate = document.getElementById('p-private');
-    if (pPrivate) {
-      pPrivate.addEventListener('change', function() {
-        document.getElementById('p-private-note').style.display = this.checked ? 'block' : 'none';
-      });
-    }
     var ph = document.getElementById('c-phone');
     if (ph) {
       ph.addEventListener('input', function() { formatPhone(ph); });
       ph.addEventListener('keyup', function() { formatPhone(ph); });
       ph.addEventListener('change', function() { formatPhone(ph); });
+    }
+    var pph = document.getElementById('p-phone');
+    if (pph) {
+      pph.addEventListener('input', function() { formatPhone(pph); checkPrayerFollowup(); });
+      pph.addEventListener('keyup', function() { formatPhone(pph); });
+      pph.addEventListener('change', function() { formatPhone(pph); });
+    }
+    var pem = document.getElementById('p-email');
+    if (pem) {
+      pem.addEventListener('input', function() { checkPrayerFollowup(); });
+      pem.addEventListener('blur', function() { checkPrayerFollowup(); });
     }
   });
 } catch(e) { console.log("Script error:", e); }
