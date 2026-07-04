@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme:light;background:#ffffff;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Connect - Christian Faith Centre</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; max-width:100%; }
+  html, body { max-width: 100%; overflow-x: hidden; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:#ffffff!important; color-scheme:light only; min-height:100vh; display:flex; justify-content:center; overflow-x:hidden; }
+  .card-wrap { width:100%; max-width:460px; min-height:100vh; padding:0; background:#f2f2f7; display:flex; flex-direction:column; }
+
+  .header { padding:36px 28px 16px 28px; background:#ffffff; }
+  .welcome-heading { font-size:40px; font-weight:600; color:#1C1C1E; line-height:1.15; letter-spacing:-0.5px; margin-bottom:10px; text-align:center; }
+  .welcome-sub { font-size:15px; color:#8E8E93; line-height:1.6; }
+
+  /* GRID */
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:16px 24px 0; }
+  .tile-full { grid-column: 1 / -1; aspect-ratio: unset; padding: 24px; min-height: 100px; }
+
+  /* ALL tiles same size - white card, soft shadow */
+  .grid-tile {
+    background: #f2f2f7;
+    border-radius: 26px;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    cursor: pointer;
+    padding: 18px;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+    aspect-ratio: 1 / 1;
+    transition: transform 0.18s cubic-bezier(0.32,0.72,0,1);
+    overflow: hidden;
+    position: relative;
+  }
+  .grid-tile:active { transform: scale(0.96); }
+
+  /* Teal tile for I'm New Here - same size, teal bg */
+  .grid-tile.tile-teal {
+    background: #8B4FCF;
+    box-shadow: none;
+    overflow: hidden;
+    border-radius: 26px;
+    position: relative;
+    justify-content: flex-end;
+  }
+
+  .tile-bottom { display:flex; flex-direction:column; gap:6px; margin-bottom:10px; position:relative; z-index:1; }
+  .tile-icon { position:relative; z-index:1; }
+  .tile-label { font-size:20px; font-weight:600; color:#1C1C1E; line-height:1.15; letter-spacing:-0.5px; }
+  .grid-tile.tile-teal .tile-label { color: #ffffff; }
+  .grid-tile.tile-teal .tile-icon img { filter: brightness(0) invert(1) !important; }
+
+  .btn-primary { width:100%; padding:15px; background:#8B4FCF; color:#ffffff; border:none; border-radius:26px; font-family:'Inter',sans-serif; font-size:16px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; margin-top:8px; -webkit-tap-highlight-color:transparent; }
+  .btn-primary:active { opacity:0.85; }
+
+
+  /* HAMBURGER NAV */
+  .hamburger-btn {
+    position: absolute; top: 0; right: 0;
+    width: 36px; height: 36px; background: transparent; border: none;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; -webkit-tap-highlight-color: transparent; padding: 0;
+  }
+  .hamburger-btn svg { width: 22px; height: 22px; stroke: #1C1C1E; fill: none; stroke-linecap: round; stroke-width: 2; }
+  .chevron-back-btn {
+    width: 36px; height: 36px; background: transparent; border: none;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; -webkit-tap-highlight-color: transparent; flex-shrink: 0; padding: 0;
+  }
+  .chevron-back-btn svg { width: 22px; height: 22px; stroke: #1C1C1E; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5; }
+  .modal-hero-row { position:relative; }
+  .modal-title { font-size:26px; font-weight:600; color:#1C1C1E; line-height:1.15; letter-spacing:-0.5px; text-align:left; }
+  .modal-subtitle { font-size:15px; color:#8E8E93; margin-top:6px; line-height:1.5; text-align:left; }
+  .nav-dropdown {
+    position: fixed; top: 0; left: 50%; max-width: 460px; width: 100%;
+    transform: translateX(-50%) translateY(-100%);
+    background: #ffffff; border-radius: 0 0 24px 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.14); z-index: 1000;
+    opacity: 0; transition: transform 0.3s ease, opacity 0.25s ease; pointer-events: none;
+    overflow: hidden;
+  }
+  .nav-dropdown.open { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: all; }
+  .nav-dropdown-inner { padding: 20px 24px 28px; }
+  .nav-dropdown-header { display: flex; justify-content: flex-end; margin-bottom: 12px; }
+  .nav-close-btn {
+    width: 30px; height: 30px; background: #f2f2f7; border: none; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .nav-close-btn svg { width: 14px; height: 14px; stroke: #1C1C1E; fill: none; stroke-linecap: round; stroke-width: 2.5; }
+  .nav-dropdown-links { display: flex; flex-direction: column; gap: 0; }
+  .nav-link-item { padding: 10px 16px; border-radius: 16px; cursor: pointer; -webkit-tap-highlight-color: transparent; text-align: left; }
+  .nav-link-item:active { background: #f2f2f7; }
+  .nav-link-item.active { background: transparent; }
+  .nav-link-item.active .nav-link-label { font-size: 18px; font-weight: 600; color: #1C1C1E; text-align: left; display: block; }
+  .nav-link-item.home-link { margin-bottom: 8px; }
+  .nav-link-label { font-size: 18px; font-weight: 600; color: #1C1C1E; }
+  .nav-overlay { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,0.3); }
+  .nav-overlay.open { display: block; }
+
+
+  /* SERVICE STRIP */
+  .service-strip {
+    margin: 16px 24px 4px;
+    background: #f2f2f7;
+    border-radius: 16px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .service-strip-left { display: flex; align-items: center; gap: 10px; padding-left: 5px; }
+  .service-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #8B4FCF; flex-shrink: 0;
+    box-shadow: 0 0 0 3px rgba(139,79,207,0.2);
+  }
+  .service-label { font-size: 10px; font-weight: 600; color: #6B6B6B; text-transform: uppercase; letter-spacing: 1.5px; }
+  .service-name { font-size: 14px; font-weight: 600; color: #1C1C1E; margin-top: 1px; }
+  .service-time { font-size: 14px; font-weight: 600; color: #8B4FCF; padding-right: 5px; }
+
+  /* MODAL */
+  .modal-overlay { display:none; position:fixed; inset:0; z-index:100; justify-content:center; align-items:flex-start; background:#ffffff; overflow-y:auto; overflow-x:hidden; max-width:100vw; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:#ffffff; width:100%; max-width:460px; min-height:100vh; animation:slideUp 0.28s cubic-bezier(0.32,0.72,0,1); }
+  @keyframes slideUp { from{transform:translateY(40px);opacity:0} to{transform:translateY(0);opacity:1} }
+  .modal-hero { background:#ffffff; padding:52px 24px 28px; }
+  .modal-hero-row { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+  .modal-hero-row > div:first-child { flex:1; min-width:0; }
+  .modal-subtitle { font-size:15px; color:#8E8E93; margin-top:6px; line-height:1.5; }
+  .modal-close { background:#ffffff; border:none; height:34px; border-radius:26px; font-size:13px; font-weight:700; color:#1C1C1E; cursor:pointer; display:flex; align-items:center; gap:5px; padding:0 12px; flex-shrink:0; font-family:'Inter',sans-serif; box-shadow:0 1px 4px rgba(0,0,0,0.1); }
+  .modal-close:active { opacity:0.7; }
+  .modal-body { padding:20px 24px 60px; background:#ffffff; }
+
+  /* FORM */
+  .form-section { background:#efefef; border-radius:26px; padding:24px; margin-bottom:16px; }
+  .section-label { font-size:13px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; color:#1C1C1E; margin-bottom:20px; display:block; }
+  .optional-note { font-size:10px; font-weight:600; color:#AEAEB2; letter-spacing:1px; text-transform:uppercase; margin-left:6px; }
+  .field-group { margin-bottom:18px; }
+  .field-group:last-child { margin-bottom:0; }
+  label { display:block; font-size:12px; font-weight:600; color:#48484A; margin-bottom:6px; text-align:left; }
+  input[type="text"],input[type="email"],input[type="tel"],textarea,select { width:100%; padding:12px 14px; border:none; border-radius:26px; font-family:'Inter',sans-serif; font-size:15px; color:#1C1C1E; background:#ffffff; transition:box-shadow 0.15s; outline:none; -webkit-appearance:none; }
+  input::placeholder,textarea::placeholder { color:#AEAEB2; }
+  input:focus,textarea:focus,select:focus { box-shadow:0 0 0 3px rgba(0,0,0,0.12); }
+  textarea { resize:vertical; min-height:85px; }
+  .select-wrap { position:relative; }
+  .select-wrap::after { content:''; position:absolute; right:14px; top:50%; transform:translateY(-50%); pointer-events:none; width:12px; height:8px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231C1C1E' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-size:contain; }
+  .toggle-group { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .toggle-option input { display:none; }
+  .toggle-option label { display:flex; align-items:center; justify-content:center; padding:13px 10px; border-radius:26px; cursor:pointer; font-size:13px; font-weight:700; color:#8E8E93; background:#ffffff; border:none; transition:all 0.15s; margin-bottom:0; }
+  .toggle-option input:checked+label { background:#8B4FCF; color:#ffffff; }
+
+  /* Private checkbox style */
+  .private-toggle input { display:none; }
+  .private-toggle label { display:flex; align-items:center; justify-content:flex-start; gap:12px; padding:14px 16px; border-radius:26px; cursor:pointer; font-size:13px; font-weight:700; color:#48484A; background:#ffffff; border:none; transition:all 0.15s; margin-bottom:0; width:100%; }
+  .private-toggle label .check-box { width:22px; height:22px; border-radius:8px; border:2px solid #C7C7CC; background:#ffffff; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
+  .private-toggle label .check-box svg { display:none; }
+  .private-toggle input:checked+label { color:#ffffff; background:#8B4FCF; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+  .ty-title { font-size:22px; font-weight:800; color:#1C1C1E; margin-bottom:8px; letter-spacing:-0.4px; }
+  .ty-subtitle { font-size:14px; color:#8E8E93; line-height:1.7; }
+  .error-msg { font-size:12px; color:#D0021B; margin-top:5px; font-weight:600; display:none; }
+  .error-msg.visible { display:block; }
+  .conditional-field { display:none; margin-top:10px; }
+  .conditional-field.visible { display:block; }
+
+  /* TABS */
+  .tab-bar { display:flex; background:#ffffff; padding:16px 20px 0; gap:0; border-bottom:2px solid #efefef; }
+  .tab-bar::-webkit-scrollbar { display:none; }
+  .tab-btn { flex:1; padding:12px 10px; background:none; border:none; border-bottom:3px solid transparent; margin-bottom:-2px; font-family:'Inter',sans-serif; font-size:13px; font-weight:700; color:#8E8E93; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+  .tab-btn.active { color:#1C1C1E; border-bottom-color:#8B4FCF; }
+
+  /* Accordion */
+  .accordion-day { background:#ffffff; border-radius:26px; margin-bottom:14px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+  .accordion-header { display:flex; align-items:center; justify-content:space-between; padding:20px 24px; cursor:pointer; user-select:none; }
+  .accordion-day-name { font-size:36px; font-weight:800; color:#1C1C1E; text-transform:uppercase; letter-spacing:-0.5px; padding:4px 0; line-height:1; }
+  .accordion-meta { display:flex; align-items:center; gap:8px; }
+  .accordion-count { font-size:11px; font-weight:700; color:#8E8E93; }
+  .accordion-count.has-events { color:#1C1C1E; }
+  .accordion-chevron { width:18px; height:18px; transition:transform 0.2s; }
+  .accordion-day.open .accordion-chevron { transform:rotate(180deg); }
+  .accordion-body { display:grid; grid-template-rows:0fr; transition:grid-template-rows 0.3s ease; padding:0 24px; overflow:hidden; }
+  .accordion-body-inner { overflow:hidden; }
+  .accordion-day.open .accordion-body { grid-template-rows:1fr; padding:0 24px 20px; }
+  .week-event-item { background:#efefef; border-radius:16px; padding:14px 16px; margin-bottom:10px; border-bottom:none; }
+  .week-event-item:last-child { margin-bottom:0; border-bottom:none; padding-bottom:14px; }
+  .week-event-time { font-size:12px; font-weight:600; color:#1C1C1E; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:8px; }
+  .week-event-name { font-size:15px; font-weight:700; color:#1C1C1E; margin-bottom:6px; }
+  .week-event-detail { font-size:13px; color:#1C1C1E; line-height:1.5; }
+  .day-empty { font-size:13px; color:#AEAEB2; font-style:italic; padding:4px 0 0; }
+  .map-btn { display:flex; align-items:center; justify-content:center; gap:8px; padding:16px; background:#ffffff; color:#1C1C1E; border-radius:26px; font-size:13px; font-weight:700; text-decoration:none; margin-top:4px; box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+  .tab-panel { animation:fadeUp 0.2s ease both; }
+
+
+  /* CALENDAR */
+  .cal-header { padding:16px 0 12px; }
+  .cal-month { font-size:15px; font-weight:700; color:#1C1C1E; letter-spacing:0.2px; }
+  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:8px; }
+  .cal-dow { text-align:center; font-size:11px; font-weight:700; color:#8E8E93; padding:8px 0; text-transform:uppercase; }
+  .cal-day { text-align:center; padding:8px 4px; font-size:14px; font-weight:600; color:#1C1C1E; position:relative; }
+  .cal-day.empty { color:transparent; pointer-events:none; }
+  .cal-day.has-event { font-weight:600; }
+  .cal-events-list { border-top:2px solid rgba(0,0,0,0.07); padding-top:16px; }
+  .cal-event-row { display:flex; align-items:flex-start; gap:14px; padding:10px 0; border-bottom:1px solid rgba(0,0,0,0.05); }
+  .cal-event-row:last-child { border-bottom:none; }
+  .cal-event-date-badge { min-width:44px; height:44px; border-radius:12px; background:#ffffff; box-shadow:0 1px 4px rgba(0,0,0,0.08); display:flex; flex-direction:column; align-items:center; justify-content:center; flex-shrink:0; }
+  .cal-event-date-num { font-size:16px; font-weight:700; color:#1C1C1E; line-height:1; }
+  .cal-event-date-day { font-size:9px; font-weight:700; color:#8E8E93; text-transform:uppercase; }
+  .cal-event-info-name { font-size:14px; font-weight:700; color:#1C1C1E; margin-bottom:2px; }
+  .cal-event-info-time { font-size:12px; color:#8E8E93; }
+
+  .service-row { display:flex; align-items:flex-start; gap:12px; padding:12px 0; border-bottom:1px solid rgba(0,0,0,0.05); }
+  .service-row:last-child { border-bottom:none; }
+  .service-name { font-size:14px; font-weight:700; color:#1C1C1E; }
+  .service-desc { font-size:12px; color:#8E8E93; margin-top:2px; line-height:1.4; }
+  .service-time { font-size:12px; color:#8E8E93; margin-top:2px; }
+  .give-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:0; }
+  .give-card { display:flex; flex-direction:column; justify-content:space-between; background:#efefef; border-radius:26px; padding:20px; text-decoration:none; aspect-ratio:1/1; transition:opacity 0.15s; }
+  .give-card:active { opacity:0.8; }
+  .give-card-icon { margin-bottom:auto; }
+  .give-card-label { font-size:18px; font-weight:700; color:#1C1C1E; line-height:1.3; margin-top:auto; }
+
+
+
+
+
+
+
+
+
+
+
+
+  .sheet {
+    background: #ffffff;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0 0 32px;
+    flex: 1;
+    margin: 0;
+  }
+
+
+  .interests-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .interest-item input { display:none; }
+  .interest-item label { display:flex; align-items:center; justify-content:center; padding:13px 14px; border-radius:26px; cursor:pointer; font-size:13px; font-weight:700; color:#48484A; background:#ffffff; border:none; transition:all 0.15s; margin-bottom:0; }
+  .interest-item input:checked+label { background:#8B4FCF; color:#ffffff; }
+  .interest-item input:checked+label span { color:#ffffff !important; }
+  .progress-wrap { background:#ffffff; padding:16px 24px 8px; display:flex; align-items:center; gap:10px; }
+  .progress-label { font-size:13px; font-weight:800; color:#1C1C1E; white-space:nowrap; }
+  .progress-track { flex:1; height:4px; background:rgba(0,0,0,0.1); border-radius:99px; overflow:hidden; }
+  .progress-fill { height:100%; background:#8B4FCF; border-radius:99px; transition:width 0.4s ease; }
+  .success-state { display:none; animation:fadeUp 0.4s ease both; }
+  .ty-card { background:#ffffff; border-radius:26px; padding:28px 24px; text-align:center; margin-bottom:12px; }
+  .ty-icon { width:60px; height:60px; margin:0 auto 16px; background:#8B4FCF; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+
+  /* ============================================
+     MICRO-INTERACTIONS & ANIMATION (additive)
+     ============================================ */
+
+  /* Missing keyframe fix — fadeUp was referenced but never defined */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+
+  /* --- Home entrance: header → strip → tiles cascade --- */
+  @keyframes riseIn { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+  .header { animation: riseIn 0.5s cubic-bezier(0.32,0.72,0,1) backwards; }
+  .service-strip { animation: riseIn 0.5s cubic-bezier(0.32,0.72,0,1) 0.08s backwards; }
+  /* Scroll-linked tile reveal — JS adds .js-anim to body; tiles reveal as they
+     enter the viewport (above-fold tiles stagger on load, below-fold on scroll).
+     Without JS, tiles are simply visible. */
+  body.js-anim .grid-tile { opacity: 0; }
+  body.js-anim .grid-tile.in { opacity: 1; animation: riseIn 0.5s cubic-bezier(0.32,0.72,0,1) backwards; }
+
+  /* --- Live pulse on the service strip dot --- */
+  @keyframes dotPulse {
+    0%   { box-shadow: 0 0 0 3px rgba(139,79,207,0.25); }
+    50%  { box-shadow: 0 0 0 7px rgba(139,79,207,0.08); }
+    100% { box-shadow: 0 0 0 3px rgba(139,79,207,0.25); }
+  }
+  .service-dot { animation: dotPulse 2.4s ease-in-out infinite; }
+
+  /* --- Button press feedback --- */
+  .btn-primary { transition: transform 0.15s cubic-bezier(0.32,0.72,0,1), opacity 0.15s; }
+  .btn-primary:active { transform: scale(0.97); }
+
+  /* --- Chip / toggle selection pop --- */
+  @keyframes chipPop {
+    0% { transform: scale(1); }
+    45% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+  .interest-item input:checked + label,
+  .toggle-option input:checked + label,
+  .private-toggle input:checked + label { animation: chipPop 0.28s cubic-bezier(0.32,0.72,0,1); }
+
+  /* --- Form step transitions (fires when display toggles) --- */
+  #connect-step1, #connect-step2, #ns-step1, #ns-step2 {
+    animation: fadeUp 0.3s cubic-bezier(0.32,0.72,0,1) both;
+  }
+
+  /* --- Thank-you moment: icon springs in, stroke draws, cards cascade --- */
+  @keyframes tyPop {
+    0%   { opacity:0; transform: scale(0.4); }
+    65%  { opacity:1; transform: scale(1.08); }
+    100% { opacity:1; transform: scale(1); }
+  }
+  @keyframes strokeDraw { to { stroke-dashoffset: 0; } }
+  .success-state .ty-icon { animation: tyPop 0.45s cubic-bezier(0.32,0.72,0,1) 0.1s backwards; }
+  .success-state .ty-icon svg polyline,
+  .success-state .ty-icon svg path {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: strokeDraw 0.55s ease-out 0.35s forwards;
+  }
+  .success-state > * { animation: fadeUp 0.45s cubic-bezier(0.32,0.72,0,1) backwards; }
+  .success-state > :nth-child(1) { animation-delay: 0.05s; }
+  .success-state > :nth-child(2) { animation-delay: 0.18s; }
+  .success-state > :nth-child(3) { animation-delay: 0.30s; }
+  .success-state > :nth-child(4) { animation-delay: 0.42s; }
+
+  /* --- Haptic-style submit feedback --- */
+  @keyframes hapticPulse {
+    0%   { transform: scale(1); }
+    35%  { transform: scale(0.955); }
+    70%  { transform: scale(1.015); }
+    100% { transform: scale(1); }
+  }
+  .btn-primary.btn-haptic { animation: hapticPulse 0.32s cubic-bezier(0.32,0.72,0,1); }
+
+  /* --- Hero parallax (transform set by JS on scroll) --- */
+  .header > * { will-change: transform, opacity; }
+
+  /* --- Modal open/close choreography --- */
+  @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideDownOut { from { transform: translateY(0); opacity: 1; } to { transform: translateY(48px); opacity: 0; } }
+  .modal-overlay.open { animation: overlayIn 0.2s ease; }
+  /* Layered entrance: hero → progress/tabs → body cascade in behind the modal slide */
+  .modal-overlay.open .modal-hero { animation: fadeUp 0.45s cubic-bezier(0.32,0.72,0,1) 0.06s backwards; }
+  .modal-overlay.open .progress-wrap,
+  .modal-overlay.open .tab-bar { animation: fadeUp 0.45s cubic-bezier(0.32,0.72,0,1) 0.12s backwards; }
+  .modal-overlay.open .modal-body { animation: fadeUp 0.5s cubic-bezier(0.32,0.72,0,1) 0.18s backwards; }
+  /* Exit: modal slides down + overlay fades */
+  .modal-overlay.closing { animation: overlayIn 0.26s ease reverse forwards; }
+  .modal-overlay.closing .modal { animation: slideDownOut 0.24s cubic-bezier(0.32,0.72,0,1) forwards; }
+  .modal-overlay.closing .modal-hero,
+  .modal-overlay.closing .progress-wrap,
+  .modal-overlay.closing .tab-bar,
+  .modal-overlay.closing .modal-body { animation: none; }
+  /* Home "welcome back" after a modal exits */
+  @keyframes homeReturn { from { opacity: 0.5; transform: scale(0.985) translateY(8px); } to { opacity: 1; transform: none; } }
+  .card-wrap.returning { animation: homeReturn 0.35s cubic-bezier(0.32,0.72,0,1); }
+
+  /* --- Accessibility: honor reduced motion --- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    .success-state .ty-icon svg polyline,
+    .success-state .ty-icon svg path { stroke-dasharray: none; stroke-dashoffset: 0; }
+  }
+
+</style>
+</head>
+<body>
+<div class="card-wrap">
+  <div class="header">
+    <div style="font-size:10px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:#8E8E93; margin-bottom:10px; text-align:center;">Welcome to Christian Faith Centre</div>
+    <div class="welcome-heading">We're so glad you<br>are here today.</div>
+  </div>
+  <div class="sheet">
+    <!-- SERVICE STRIP -->
+    <div class="service-strip" id="serviceStrip">
+      <div class="service-strip-left">
+        <div class="service-dot"></div>
+        <div>
+          <div class="service-label">Next Service</div>
+          <div class="service-name" id="serviceStripName">Sunday Morning Worship</div>
+        </div>
+      </div>
+      <div class="service-time" id="serviceStripTime">10:30 AM</div>
+    </div>
+  <div class="grid">
+
+    <div class="grid-tile tile-teal" onclick="openModal('connect')">
+      <div class="tile-icon" style="position:absolute;top:18px;right:18px;">
+        <img src="data:image/svg+xml;base64,PHN2ZyBpZD0iQ2FwYV8xIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIuMDA1IDUxMi4wMDUiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyLjAwNSA1MTIuMDA1IiB3aWR0aD0iNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnPjxwYXRoIGQ9Im0xMjEuMjkyIDQ4Mi4wNTljLTI3LjYwOC0zLjQ2My01Mi4yMzMtMTcuNjAzLTY5LjM0LTM5LjgxNi0xNy4xMjItMjIuMjMyLTI0LjYyNS00OS44MzctMjEuMTI2LTc3LjcyOC41MTUtNC4xMS0yLjM5OC03Ljg2LTYuNTA4LTguMzc1LTQuMTE0LS41MTQtNy44NiAyLjM5OC04LjM3NSA2LjUwOC0zLjk5NCAzMS44NDIgNC41NzQgNjMuMzYgMjQuMTI1IDg4Ljc0OCAxOS41NjcgMjUuNDA3IDQ3Ljc1IDQxLjU4MyA3OS4zNTcgNDUuNTQ4IDQuMDI5LjUwNSA3Ljg1Ny0yLjM2OSA4LjM3NS02LjUwOC41MTUtNC4xMTEtMi4zOTgtNy44NjEtNi41MDgtOC4zNzd6bTMxNC4wMzItMTU5LjA2M2MtNC4xMjEtLjMxMS03LjczMyAyLjc3OS04LjA0OCA2LjkwOWwtMi44NzYgMzcuNzY0Yy0yLjk5IDM5LjI2OS0yMi4zOTkgNzUuNjY1LTUzLjI1MSA5OS44NTUtMjkuMjI4IDIyLjkxOC02NS41MyAzMy4wMDUtMTAyLjIxMSAyOC40MDQtMzYuNjg0LTQuNjAyLTY5LjM2Ny0yMy4zNDItOTIuMDMtNTIuNzY5bC0xMDMuMzctMTM0LjIyNWMtMi41MjgtMy4yODItNy4yMzctMy44OTQtMTAuNTE4LTEuMzY2LTMuMjgyIDIuNTI3LTMuODkzIDcuMjM2LTEuMzY2IDEwLjUxOGwxMDMuMzcxIDEzNC4yMjVjMjUuMTIyIDMyLjYyMSA2MS4zNjMgNTMuMzk2IDEwMi4wNDcgNTguNSA0MC4zMDQgNS4wNTUgODAuODk1LTYuMDQ4IDExMy4zMzQtMzEuNDgzIDM0LjE1NS0yNi43ODEgNTUuNjQzLTY3LjA2NCA1OC45NTItMTEwLjUybDIuODc2LTM3Ljc2NGMuMzE0LTQuMTMtMi43OC03LjczNC02LjkxLTguMDQ4em0tMzA5LjU4NCAxMjMuNjAyYy0zNy43MzEtNC43MzItNjQuNTQtMzkuNTc3LTU5Ljc2MS03Ny42NzQuNTE1LTQuMTEtMi4zOTgtNy44Ni02LjUwOC04LjM3NS00LjExMi0uNTEyLTcuODU5IDIuMzk5LTguMzc1IDYuNTA4LTUuODA4IDQ2LjMwNCAyNi44NCA4OC42NjMgNzIuNzc4IDk0LjQyNSA0LjAyOS41MDUgNy44NTctMi4zNjkgOC4zNzUtNi41MDguNTE0LTQuMTEtMi4zOTktNy44Ni02LjUwOS04LjM3NnptMjgxLjgxNi00NDYuNTM5Yy00LjExOC0uNTE3LTcuODU5IDIuMzk4LTguMzc1IDYuNTA4czIuMzk4IDcuODYgNi41MDggOC4zNzVjNTcuMTE1IDcuMTY0IDk3LjY5OCA1OS44OTUgOTAuNDY3IDExNy41NDQtLjUxNiA0LjExIDIuMzk4IDcuODYgNi41MDggOC4zNzUgNC4wMjkuNTA2IDcuODU2LTIuMzY4IDguMzc1LTYuNTA4IDguMjYtNjUuODU1LTM4LjE2Mi0xMjYuMS0xMDMuNDgzLTEzNC4yOTR6bS0xMS42MDggMTAwLjczM2MtMTEuMjE0LS41OTMtMjEuMDQgNy4wMDEtMjMuMzQ2IDE4LjA2NmwtMTkuMDMgOTEuMzQxLTEyMy41NjgtMTYwLjQ1MWMtMTQuMjQxLTE4LjY2OS00MS41MTQtMjEuODc1LTU5LjgzOS03LjUwNi04LjMxMyA2LjUxOC0xMy41NjcgMTUuNTQ5LTE1LjU0OCAyNS4yMDdsLTMxLjMzNy00MC42OTFjLTE0LjIzOS0xOC42NjgtNDEuNTEyLTIxLjg3NS01OS44MzgtNy41MDUtMTguNTI4IDE0LjUyOC0yMS45MTQgNDEuNTIzLTcuNTQ4IDYwLjE3N2w1LjgzNyA3LjU4Yy0xMC4xNjEtLjQ4OC0yMC4wNjEgMi42NDktMjguMTgxIDkuMDE3LTE4LjUyOCAxNC41MjgtMjEuOTE1IDQxLjUyMy03LjU0OCA2MC4xNzhsMTguNjQzIDI0LjIwOGMtMTAuMTYyLS40ODctMjAuMDYyIDIuNjQ5LTI4LjE4MiA5LjAxNi0xOC41MjggMTQuNTI4LTIxLjkxNCA0MS41MjQtNy41NDggNjAuMTc4bDMxLjMzOCA0MC42OTFjMi41MjYgMy4yODIgNy4yMzcgMy44OTUgMTAuNTE4IDEuMzY2IDMuMjgyLTIuNTI3IDMuODkzLTcuMjM2IDEuMzY2LTEwLjUxOGwtMzEuMzM4LTQwLjY5MWMtOS4zNjMtMTIuMTU4LTcuMTU2LTI5Ljc1MiA0LjkyLTM5LjIyMiAxMS44NDYtOS4yODkgMjkuNTA1LTcuMjA3IDM4LjY5OCA0Ljg1NGw4Ny43MDQgMTEzLjg4MWMyLjU0MiAzLjMwMiA3LjI2IDMuODc1IDEwLjUxOCAxLjM2NiAzLjI4Mi0yLjUyNyAzLjg5My03LjIzNiAxLjM2Ni0xMC41MThsLTEyNi4xMTktMTYzLjc2NGMtOS4zNjMtMTIuMTU4LTcuMTU2LTI5Ljc1MyA0LjkyLTM5LjIyMiAxMS44NDQtOS4yODcgMjkuNTAyLTcuMjA3IDM4LjY5NyA0Ljg1MmwxMjYuMTIxIDE2My43NjZjMi41MjcgMy4yODIgNy4yMzcgMy44OTUgMTAuNTE4IDEuMzY2IDMuMjgyLTIuNTI3IDMuODkzLTcuMjM2IDEuMzY2LTEwLjUxOGwtMjUuNjA5LTMzLjI1MmMwLS4wMDEtLjAwMS0uMDAyLS4wMDItLjAwM2wtMTAwLjUwOS0xMzAuNTA5Yy0uMDAxLS4wMDEtLjAwMS0uMDAyLS4wMDItLjAwM2wtMjUuNjA4LTMzLjI1MWMtOS4zNjMtMTIuMTU4LTcuMTU2LTI5Ljc1MyA0LjkyLTM5LjIyMiAxMS44NDQtOS4yODcgMjkuNTA1LTcuMjA3IDM4LjY5OSA0Ljg1NGwxMjYuMTE5IDE2My43NjRjMCAuMDAxLjAwMS4wMDEuMDAxLjAwMmwyNS42MDkgMzMuMjUzYzIuNTQzIDMuMzAyIDcuMjYgMy44NzQgMTAuNTE5IDEuMzY2IDMuMjgyLTIuNTI3IDMuODk0LTcuMjM2IDEuMzY2LTEwLjUxOGwtMTAwLjUxLTEzMC41MWMtOS4zNjMtMTIuMTU4LTcuMTU1LTI5Ljc1MiA0LjkyMS0zOS4yMjEgMTEuODQyLTkuMjg1IDI5LjUwNS03LjIwOCAzOC42OTggNC44NTRsMTI4LjQ1OCAxNjYuOGMtMS41ODIgMS45NjUtMy4zODUgMy43NTktNS4zOTEgNS4zMzEtMTkuNjQ0IDE1LjQwMy0zNS43OTMgMzUuNDYtNDYuNyA1OC4wMDUtMTAuOTA1IDIyLjU0LTE2LjYzNyA0Ny42OTgtMTYuNTczIDcyLjc1NmwuMDA5IDMuNDAzYy4wMTEgNC4xMzUgMy4zNjYgNy40OCA3LjUgNy40OGguMDJjNC4xNDItLjAxMSA3LjQ5MS0zLjM3NyA3LjQ4LTcuNTJsLS4wMDktMy40MDJjLS4wNTgtMjIuNzk1IDUuMTU1LTQ1LjY4MiAxNS4wNzUtNjYuMTg1IDkuOTE4LTIwLjQ5OSAyNC41OTktMzguNzM0IDQyLjQ1NC01Mi43MzQgOC45ODQtNy4wNDUgMTUuMjE3LTE3LjEzOSAxNy41NTEtMjguMzFsMTkuMjk0LTkyLjYwOWMuNzgzLTMuNzYyIDQuMDY5LTYuMzUgNy44NjQtNi4xNDYgMTIuNzEuNjc3IDI0LjM1NiA2LjMzOSAzMi43OTMgMTUuOTQzIDguNTYgOS43NDQgMTIuNzI5IDIyLjI3MiAxMS43MzggMzUuMjc2bC05LjczNyAxMjcuODU4Yy0uMzE0IDQuMTMgMi43NzkgNy43MzMgNi45MDkgOC4wNDggNC4xMS4zMDcgNy43MzMtMi43NzkgOC4wNDgtNi45MDlsOS43MzctMTI3Ljg1OGMxLjI5OS0xNy4wNjMtNC4xNzktMzMuNTEyLTE1LjQyNi00Ni4zMTQtMTEuMTI0LTEyLjY2Mi0yNi40ODktMjAuMTI4LTQzLjI2Ni0yMS4wMjF6bTcuMTYtNjUuMjcyYy00LjExOC0uNTE3LTcuODU5IDIuMzk4LTguMzc1IDYuNTA4czIuMzk4IDcuODYgNi41MDggOC4zNzVjMzcuNzMxIDQuNzMzIDY0LjU0IDM5LjU3OCA1OS43NjIgNzcuNjc0LS41MTYgNC4xMSAyLjM5OCA3Ljg2IDYuNTA4IDguMzc1IDQuMDI5LjUwNiA3Ljg1Ni0yLjM2OCA4LjM3NS02LjUwOCA1LjgwOC00Ni4zMDMtMjYuODQxLTg4LjY2Mi03Mi43NzgtOTQuNDI0eiIvPjwvZz48L3N2Zz4=" width="40" height="40" style="display:block;filter:brightness(0);" alt="">
+      </div>
+      <div class="tile-bottom"><div class="tile-label">Let's Get<br>Connected</div></div>
+    </div>
+
+    <div class="grid-tile" onclick="openModal('prayer')">
+      <div class="tile-icon" style="position:absolute;top:18px;right:18px;"><img src="data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGRhdGEtbmFtZT0iTGF5ZXIgMSI+PHBhdGggZD0ibTUwMy42NCA0NjAtODAuNjQtODAuNjdhOC4wNiA4LjA2IDAgMCAwIC0xMS40IDBsLTguODMgOC44My00MS45Mi02OS44OHYtMTQyLjkzYzAtMTYuOTQtMzYuMDYtNjYuOC00OC45LTg0bC0xMi45NS02NC42MmEyNS43NyAyNS43NyAwIDAgMCAtNDMtMTMuNjUgMjUuNzcgMjUuNzcgMCAwIDAgLTQzIDEzLjY2bC0xMi45MiA2NC42Yy0xMi44NCAxNy4yMS00OC45IDY3LjA3LTQ4LjkgODR2MTQyLjk0bC00MS45MiA2OS44OC04LjgzLTguODNhOC4wNiA4LjA2IDAgMCAwIC0xMS40IDBsLTgwLjY3IDgwLjY3YTguMDYgOC4wNiAwIDAgMCAtMi4zNiA1LjY4djMyLjI2YTguMDYgOC4wNiAwIDAgMCA4LjA2IDguMDZoMTkzLjU1YTguMDcgOC4wNyAwIDAgMCA1LjctMTMuNzdsLTI2LjU1LTI2LjU1IDQyLjY4LTQyLjY4YzEwLjE4LTEwLjE3IDIwLjE2LTI2IDI2LjU2LTM3LjIgNi40MSAxMS4xOCAxNi4zOCAyNyAyNi41NiAzNy4ybDQyLjY4IDQyLjY5LTI2LjU1IDI2LjU1YTguMDcgOC4wNyAwIDAgMCA1LjcgMTMuNzdoMTkzLjU1YTguMDYgOC4wNiAwIDAgMCA4LjA2LTguMDZ2LTMyLjI3YTguMDYgOC4wNiAwIDAgMCAtMi4zNi01LjY4em0tMjQ3LjY0LTMwMi42NmEyNC41NCAyNC41NCAwIDAgMCAtNi4zNS00LjExYzEuNjMtNi43MiA0LTE2LjcgNi4zNS0yNy4zMiAyLjM1IDEwLjYyIDQuNzIgMjAuNiA2LjM1IDI3LjMyYTI0LjU0IDI0LjU0IDAgMCAwIC02LjM1IDQuMTF6bS0yMzMuODcgMzMyLjUzdi0yMC44N2w3Mi41OC03Mi41OCA5My40MyA5My40M3ptMjIyLjgtMTE3LjNjLTUuNTEgMTAtMTYuMzMgMjguNDctMjYuODkgMzlsLTQyLjY5IDQyLjY4LTU0LjM1LTU0LjM0IDQ1LjE1LTc1LjI1YTggOCAwIDAgMCAxLjE1LTQuMTR2LTE0NS4xN2MwLTggMjQuMTktNDUuNjcgNDYuNzctNzUuOGE4LjA2IDguMDYgMCAwIDAgMS40Ni0zLjI3bDEzLjI3LTY2LjM3YTkuNjYgOS42NiAwIDAgMSAxOS4xNCAxLjg3djQ2LjhjMCAxMS4zNS05LjU4IDUyLjkyLTE0LjYxIDczLjQ5YTI0LjIyIDI0LjIyIDAgMCAwIC0xNy42NSAyMy4yOHYxMTIuOTFhOC4wNyA4LjA3IDAgMCAwIDE2LjEzIDB2LTExMi45MWE4LjA3IDguMDcgMCAwIDEgMTYuMTMgMHYxODUuNTRhMjQgMjQgMCAwIDEgLTMuMDEgMTEuNjh6bTQ5IDM5Yy0xMC41Ni0xMC41NS0yMS4zOC0yOS0yNi44OS0zOWEyMy45IDIzLjkgMCAwIDEgLTMtMTEuNjd2LTE4NS41NWE4LjA3IDguMDcgMCAwIDEgMTYuMTMgMHYxMTIuOTFhOC4wNyA4LjA3IDAgMCAwIDE2LjEzIDB2LTExMi45MWEyNC4yMiAyNC4yMiAwIDAgMCAtMTcuNjUtMjMuMjhjLTUtMjAuNTctMTQuNjEtNjIuMTQtMTQuNjEtNzMuNDl2LTQ2LjhhOS42NiA5LjY2IDAgMCAxIDE5LjE0LTEuODlsMTMuMjggNjYuMzlhOC4wNiA4LjA2IDAgMCAwIDEuNDYgMy4yN2MyMi41OCAzMC4xMSA0Ni43NyA2Ny43NyA0Ni43NyA3NS44djE0NS4xN2E4IDggMCAwIDAgMS4xNSA0LjE0bDQ1LjE2IDc1LjI1LTU0LjM2IDU0LjM2em0xOTUuOTEgNzguMjhoLTE2Nmw5My40My05My40MyA3Mi42IDcyLjU4eiIgZmlsbD0icmdiKDAsMCwwKSIvPjwvc3ZnPg==" width="34" height="34" style="display:block;" alt=""></div>
+      <div class="tile-bottom"><div class="tile-label">Need<br>Prayer?</div></div>
+    </div>
+
+    <div class="grid-tile" onclick="openModal('events')">
+      <div class="tile-icon" style="position:absolute;top:18px;right:18px;"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMjUgMjUiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIj48ZyBpZD0iTGF5ZXJfNDMiIGRhdGEtbmFtZT0iTGF5ZXIgNDMiPjxwYXRoIGQ9Ik0yMC4xOSw0SDE4VjIuNWEuNS41LDAsMCwwLTEsMFY0SDhWMi41YS41LjUsMCwwLDAtMSwwVjRINC44MUEyLjgxLDIuODEsMCwwLDAsMiw2LjgxVjIwLjE5QTIuODEsMi44MSwwLDAsMCw0LjgxLDIzSDIwLjE5QTIuODEsMi44MSwwLDAsMCwyMywyMC4xOVY2LjgxQTIuODEsMi44MSwwLDAsMCwyMC4xOSw0Wk00LjgxLDVIMjAuMTlBMS44MSwxLjgxLDAsMCwxLDIyLDYuODFWOEgzVjYuODFBMS44MSwxLjgxLDAsMCwxLDQuODEsNVpNMjAuMTksMjJINC44MUExLjgxLDEuODEsMCwwLDEsMywyMC4xOVY5SDIyVjIwLjE5QTEuODEsMS44MSwwLDAsMSwyMC4xOSwyMloiLz48L2c+PC9zdmc+" width="34" height="34" style="display:block;" alt=""></div>
+      <div class="tile-bottom"><div class="tile-label">What's<br>Happening</div></div>
+    </div>
+
+    <div class="grid-tile" onclick="openModal('serve')">
+      <div class="tile-icon" style="position:absolute;top:18px;right:18px;"><img src="data:image/svg+xml;base64,PHN2ZyBpZD0iQ2FwYV8xIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIuMDE5IDUxMi4wMTkiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyLjAxOSA1MTIuMDE5IiB3aWR0aD0iNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnPjxwYXRoIGQ9Im00MTMuNTE4IDM4Ni4yNDktMTI1LjE3OC0yOC4zNmMtNC44OTYtMS4xMDgtOS44NTIgMS41ODItMTEuNTkxIDYuMjg5LTI0LjQ5MSA2Ni4zMjUtMTUuMTg2IDExOS42NjUgMjQuMjg0IDEzOS4yMDQgMTEuNjA3IDUuNzQ2IDIzLjMwNSA4LjYzNyAzNC42NDMgOC42MzcgNy42ODkgMCAxNS4yMTQtMS4zMyAyMi40MzEtNC4wMDEgMTYuNTYyLTYuMTMxIDMwLjU5OS0xOS4yODkgMzkuNTIxLTM3LjA1MyAxMS4xMjEtMjIuMTM3IDE2LjgyLTQyLjY3IDIzLjQ0Ny03Mi44MTcgMS4xODEtNS4zNjktMi4xOTUtMTAuNjg1LTcuNTU3LTExLjg5OXptLTMzLjc2MSA3NS43MzhjLTE0LjE4NyAyOC4yNDEtNDEuNjA0IDM3LjQ1NC02OS44NTEgMjMuNDcyLTE0LjkxMi03LjM4Mi0yMy42NTYtMjEuNjYzLTI1Ljk4OS00Mi40NDUtMi4wMTMtMTcuOTMgMS4wNzQtNDAuMjY5IDguNzE3LTYzLjY0NWwxMDYuNzI3IDI0LjE4Yy01LjQxNiAyMy40MTMtMTAuNjI0IDQwLjU2MS0xOS42MDQgNTguNDM4eiIvPjxwYXRoIGQ9Im00NTAuMTY4IDEyOS45NTdjLTE3LjIwNi0yOC42NTQtNDIuMjA1LTQ0Ljc3OC03Mi4yOTMtNDYuNjMtNDcuNjM4LTIuOTM2LTgzLjcxNSAzNy4zMjYtOTcuMDg4IDc1Ljk3NC0xMi41ODUgMzYuMzcxLTE3LjI2OCA4MS40NTEtMTEuOTMgMTE0Ljg0OCAxLjgzMSAxMS40NTcgMy43NzEgMzUuMDYyIDUuMTg2IDUyLjI5NmwuNDcyIDUuNzIxYy4zNiA0LjM1IDMuNSA3Ljk2MyA3Ljc1NiA4LjkyOGwxNDAuODggMzEuOTE3Yy43NDMuMTY4IDEuNDg1LjI0OSAyLjIxNy4yNDkgNC4zNTggMCA4LjMzNy0yLjg2NiA5LjU5OC03LjIxOSAyLjY0OC05LjE0MSA5LjY4NS0zMy40MjIgMTUuOTY4LTQ3LjIwNiAyOS4wNzktNjMuNzg1IDI4Ljc3Mi0xMzkuNjg5LS43NjYtMTg4Ljg3OHptLTE3LjQzMyAxODAuNThjLTUuMDEzIDEwLjk5Ni0xMC4wNzIgMjYuNjY0LTE0LjMyMiA0MC44OTNsLTEyNC41NjgtMjguMjIyYy0xLjQ5OS0xOC4yNDUtMy4zNDItNDAuMzUyLTUuMjM3LTUyLjIxNi00Ljg1Ny0zMC4zODctLjUwOS03MS42NjEgMTEuMDgtMTA1LjE1MSAxMS4zMjktMzIuNzQxIDQxLjQyLTY0Ljc1OCA3Ni45NTktNjIuNTUxIDI5LjMzMyAxLjgwNSA0Ni44NDggMjEuMDk3IDU2LjM3NSAzNi45NjMgMjUuODg3IDQzLjExIDI1Ljc2OSAxMTMuMTMzLS4yODcgMTcwLjI4NHoiLz48cGF0aCBkPSJtMjIzLjY3OSAyNzQuNzEyLTEyNS4xNzkgMjguMzZjLTUuMzYxIDEuMjE1LTguNzM3IDYuNTMtNy41NTcgMTEuOSA2LjYyNyAzMC4xNDYgMTIuMzI2IDUwLjY3OSAyMy40NDcgNzIuODE2IDguOTIzIDE3Ljc2NCAyMi45NTkgMzAuOTIyIDM5LjUyMSAzNy4wNTIgNy4yMTggMi42NzIgMTQuNzM5IDQuMDAxIDIyLjQzIDQuMDAxIDExLjMzNyAwIDIzLjAzNy0yLjg5MiAzNC42NDQtOC42MzcgMzkuNDctMTkuNTM4IDQ4Ljc3NS03Mi44NzggMjQuMjg0LTEzOS4yMDQtMS43MzctNC43MDctNi42OTMtNy4zOTgtMTEuNTktNi4yODh6bTQuNDIzIDg1LjEyNWMtMi4zMzMgMjAuNzgyLTExLjA3NyAzNS4wNjItMjUuOTg5IDQyLjQ0NC0yOC4yNDcgMTMuOTgxLTU1LjY2NSA0Ljc2OS02OS44NTEtMjMuNDcxLTguOTgtMTcuODc3LTE0LjE4OC0zNS4wMjUtMTkuNjA0LTU4LjQzOGwxMDYuNzI3LTI0LjE4MWM3LjY0MyAyMy4zNzcgMTAuNzMgNDUuNzE2IDguNzE3IDYzLjY0NnoiLz48cGF0aCBkPSJtMjM3LjUwNSAyNDguOTg5LjQ3Mi01LjcyMWMxLjQxNS0xNy4yMzQgMy4zNTQtNDAuODM5IDUuMTg2LTUyLjI5NiA1LjMzOC0zMy4zOTYuNjU1LTc4LjQ3Ny0xMS45My0xMTQuODQ5LTEzLjM3NC0zOC42NDYtNDkuNDc1LTc4Ljg5My05Ny4wODktNzUuOTczLTMwLjA4OCAxLjg1Mi01NS4wODYgMTcuOTc2LTcyLjI5MiA0Ni42My0yOS41MzkgNDkuMTktMjkuODQ3IDEyNS4wOTUtLjc2NiAxODguODc4IDYuMjgzIDEzLjc4NCAxMy4zMTkgMzguMDY1IDE1Ljk2OCA0Ny4yMDYgMS4yNjEgNC4zNTMgNS4yMzkgNy4yMTkgOS41OTggNy4yMTkuNzMxIDAgMS40NzUtLjA4MSAyLjIxNy0uMjQ5bDE0MC44OC0zMS45MTdjNC4yNTYtLjk2NSA3LjM5NS00LjU3OSA3Ljc1Ni04LjkyOHptLTE0LjA5My02MS4xNzNjLTEuODk2IDExLjg2NC0zLjczOCAzMy45NzEtNS4yMzcgNTIuMjE2bC0xMjQuNTY5IDI4LjIyMWMtNC4yNS0xNC4yMjktOS4zMS0yOS44OTctMTQuMzIyLTQwLjg5My0yNi4wNTctNTcuMTUtMjYuMTc0LTEyNy4xNzMtLjI4Ni0xNzAuMjg0IDkuNTI3LTE1Ljg2NiAyNy4wNDItMzUuMTU4IDU2LjM3NS0zNi45NjMgMS4xNTYtLjA3MSAyLjMwNy0uMTA2IDMuNDUxLS4xMDYgMzQuMDQxIDAgNjIuNTQ3IDMwLjk4MiA3My41MDggNjIuNjU3IDExLjU4OSAzMy40OTEgMTUuOTM3IDc0Ljc2NSAxMS4wOCAxMDUuMTUyeiIvPjwvZz48L3N2Zz4=" width="34" height="34" style="display:block;" alt=""></div>
+      <div class="tile-bottom"><div class="tile-label">Take Your<br>Next Step</div></div>
+    </div>
+
+    <div class="grid-tile" onclick="openModal('give')">
+      <div class="tile-icon" style="position:absolute;top:18px;right:18px;"><img src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjQ2OXB0IiB2aWV3Qm94PSIwIC02NCA0NjkuMzMzMzMgNDY5IiB3aWR0aD0iNDY5cHQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTQxMC40ODQzNzUuMTY3OTY5aC0zNTEuNjM2NzE5Yy0zMi40ODQzNzUuMDM1MTU2LTU4LjgwODU5MzUgMjYuMzYzMjgxLTU4Ljg0NzY1NiA1OC44NDc2NTZ2MjIzLjYzNjcxOWMuMDM5MDYyNSAzMi40ODQzNzUgMjYuMzYzMjgxIDU4LjgwODU5NCA1OC44NDc2NTYgNTguODQ3NjU2aDM1MS42MzY3MTljMzIuNDg0Mzc1LS4wMzkwNjIgNTguODEyNS0yNi4zNjMyODEgNTguODQ3NjU2LTU4Ljg0NzY1NnYtMjIzLjYzNjcxOWMtLjAzNTE1Ni0zMi40ODQzNzUtMjYuMzYzMjgxLTU4LjgxMjUtNTguODQ3NjU2LTU4Ljg0NzY1NnptMzcuNTE1NjI1IDI4Mi40ODQzNzVjLS4wMjM0MzggMjAuNzA3MDMxLTE2LjgwNDY4OCAzNy40OTIxODctMzcuNTE1NjI1IDM3LjUxNTYyNWgtMzUxLjYzNjcxOWMtMjAuNzA3MDMxLS4wMjM0MzgtMzcuNDkyMTg3LTE2LjgwODU5NC0zNy41MTU2MjUtMzcuNTE1NjI1di0xMzMuMTUyMzQ0aDQyNi42Njc5Njl6bTAtMTU0LjQ4NDM3NWgtNDI2LjY2Nzk2OXYtNDIuNjY3OTY5aDQyNi42Njc5Njl6bTAtNjRoLTQyNi42Njc5Njl2LTUuMTUyMzQ0Yy4wMjM0MzgtMjAuNzEwOTM3IDE2LjgwODU5NC0zNy40OTIxODcgMzcuNTE1NjI1LTM3LjUxNTYyNWgzNTEuNjM2NzE5YzIwLjcxMDkzNy4wMjM0MzggMzcuNDkyMTg3IDE2LjgwNDY4OCAzNy41MTU2MjUgMzcuNTE1NjI1em0wIDAiLz48cGF0aCBkPSJtNzQuNjY3OTY5IDI3Ny41aDg1LjMzMjAzMWM1Ljg5MDYyNSAwIDEwLjY2Nzk2OS00Ljc3NzM0NCAxMC42Njc5NjktMTAuNjY3OTY5cy00Ljc3NzM0NC0xMC42NjQwNjItMTAuNjY3OTY5LTEwLjY2NDA2MmgtODUuMzMyMDMxYy01Ljg5MDYyNSAwLTEwLjY2Nzk2OSA0Ljc3MzQzNy0xMC42Njc5NjkgMTAuNjY0MDYyczQuNzc3MzQ0IDEwLjY2Nzk2OSAxMC42Njc5NjkgMTAuNjY3OTY5em0wIDAiLz48L3N2Zz4=" width="34" height="34" style="display:block;" alt=""></div>
+      <div class="tile-bottom"><div class="tile-label">Give Tithes<br>&amp; Offerings</div></div>
+    </div>
+
+    <div class="grid-tile" onclick="openModal('here')">
+      <div class="tile-icon" style="position:absolute;top:18px;right:18px;"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB2aWV3Qm94PSIwIDAgNDgyLjYgNDgyLjYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4Mi42IDQ4Mi42OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPHBhdGggZD0iTTk4LjMzOSwzMjAuOGM0Ny42LDU2LjksMTA0LjksMTAxLjcsMTcwLjMsMTMzLjRjMjQuOSwxMS44LDU4LjIsMjUuOCw5NS4zLDI4LjJjMi4zLDAuMSw0LjUsMC4yLDYuOCwwLjIKCQljMjQuOSwwLDQ0LjktOC42LDYxLjItMjYuM2MwLjEtMC4xLDAuMy0wLjMsMC40LTAuNWM1LjgtNywxMi40LTEzLjMsMTkuMy0yMGM0LjctNC41LDkuNS05LjIsMTQuMS0xNAoJCWMyMS4zLTIyLjIsMjEuMy01MC40LTAuMi03MS45bC02MC4xLTYwLjFjLTEwLjItMTAuNi0yMi40LTE2LjItMzUuMi0xNi4yYy0xMi44LDAtMjUuMSw1LjYtMzUuNiwxNi4xbC0zNS44LDM1LjgKCQljLTMuMy0xLjktNi43LTMuNi05LjktNS4yYy00LTItNy43LTMuOS0xMS02Yy0zMi42LTIwLjctNjIuMi00Ny43LTkwLjUtODIuNGMtMTQuMy0xOC4xLTIzLjktMzMuMy0zMC42LTQ4LjgKCQljOS40LTguNSwxOC4yLTE3LjQsMjYuNy0yNi4xYzMtMy4xLDYuMS02LjIsOS4yLTkuM2MxMC44LTEwLjgsMTYuNi0yMy4zLDE2LjYtMzZzLTUuNy0yNS4yLTE2LjYtMzZsLTI5LjgtMjkuOAoJCWMtMy41LTMuNS02LjgtNi45LTEwLjItMTAuNGMtNi42LTYuOC0xMy41LTEzLjgtMjAuMy0yMC4xYy0xMC4zLTEwLjEtMjIuNC0xNS40LTM1LjItMTUuNGMtMTIuNywwLTI0LjksNS4zLTM1LjYsMTUuNWwtMzcuNCwzNy40CgkJYy0xMy42LDEzLjYtMjEuMywzMC4xLTIyLjksNDkuMmMtMS45LDIzLjksMi41LDQ5LjMsMTMuOSw4MEMzMi43MzksMjI5LjYsNTkuMTM5LDI3My43LDk4LjMzOSwzMjAuOHogTTI1LjczOSwxMDQuMgoJCWMxLjItMTMuMyw2LjMtMjQuNCwxNS45LTM0bDM3LjItMzcuMmM1LjgtNS42LDEyLjItOC41LDE4LjQtOC41YzYuMSwwLDEyLjMsMi45LDE4LDguN2M2LjcsNi4yLDEzLDEyLjcsMTkuOCwxOS42CgkJYzMuNCwzLjUsNi45LDcsMTAuNCwxMC42bDI5LjgsMjkuOGM2LjIsNi4yLDkuNCwxMi41LDkuNCwxOC43cy0zLjIsMTIuNS05LjQsMTguN2MtMy4xLDMuMS02LjIsNi4zLTkuMyw5LjQKCQljLTkuMyw5LjQtMTgsMTguMy0yNy42LDI2LjhjLTAuMiwwLjItMC4zLDAuMy0wLjUsMC41Yy04LjMsOC4zLTcsMTYuMi01LDIyLjJjMC4xLDAuMywwLjIsMC41LDAuMywwLjgKCQljNy43LDE4LjUsMTguNCwzNi4xLDM1LjEsNTcuMWMzMCwzNyw2MS42LDY1LjcsOTYuNCw4Ny44YzQuMywyLjgsOC45LDUsMTMuMiw3LjJjNCwyLDcuNywzLjksMTEsNmMwLjQsMC4yLDAuNywwLjQsMS4xLDAuNgoJCWMzLjMsMS43LDYuNSwyLjUsOS43LDIuNWM4LDAsMTMuMi01LjEsMTQuOS02LjhsMzcuNC0zNy40YzUuOC01LjgsMTIuMS04LjksMTguMy04LjljNy42LDAsMTMuOCw0LjcsMTcuNyw4LjlsNjAuMyw2MC4yCgkJYzEyLDEyLDExLjksMjUtMC4zLDM3LjdjLTQuMiw0LjUtOC42LDguOC0xMy4zLDEzLjNjLTcsNi44LTE0LjMsMTMuOC0yMC45LDIxLjdjLTExLjUsMTIuNC0yNS4yLDE4LjItNDIuOSwxOC4yCgkJYy0xLjcsMC0zLjUtMC4xLTUuMi0wLjJjLTMyLjgtMi4xLTYzLjMtMTQuOS04Ni4yLTI1LjhjLTYyLjItMzAuMS0xMTYuOC03Mi44LTE2Mi4xLTEyN2MtMzcuMy00NC45LTYyLjQtODYuNy03OS0xMzEuNQoJCUMyOC4wMzksMTQ2LjQsMjQuMTM5LDEyNC4zLDI1LjczOSwxMDQuMnoiLz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4=" width="34" height="34" style="display:block;" alt=""></div>
+      <div class="tile-bottom"><div class="tile-label">How Can<br>We Help?</div></div>
+    </div>
+    </div>
+  </div>
+</div>
+  </div>
+  </div>
+
+<!-- MODAL: New to Faith -->
+<div class="modal-overlay" id="modal-faith">
+  <div class="modal">
+    <div class="modal-hero">
+      <div class="modal-hero-row">
+        <div class="modal-title" id="faith-modal-title">New to Faith?</div>
+        <button class="modal-close" onclick="closeModal('faith')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button>
+      </div>
+      <div class="modal-subtitle" id="faith-modal-subtitle">No background needed. Just an open heart.</div>
+    </div>
+    <div class="modal-body">
+
+      <div class="form-section" style="margin-bottom:16px;">
+        <span class="section-label">Who Is God?</span>
+        <p style="font-size:15px; color:#3C3C43; line-height:1.7; margin:8px 0 0;">God is the creator of everything — and He created you on purpose, with purpose. He's not distant or angry. He's a loving Father who knows you by name and wants a real relationship with you.</p>
+      </div>
+
+      <div class="form-section" style="margin-bottom:16px;">
+        <span class="section-label">What Is the Gospel?</span>
+        <p style="font-size:15px; color:#3C3C43; line-height:1.7; margin:8px 0 0;">The word "Gospel" simply means <em>good news</em>. Here's the short version: we were separated from God, but He loved us so much that He sent His Son, Jesus, to bridge that gap. Jesus lived a perfect life, died on the cross to take the penalty for our mistakes, and rose again three days later. Because of that, anyone who believes in Him can have a fresh start — forgiven, loved, and never alone.</p>
+      </div>
+
+      <div class="form-section" style="margin-bottom:16px;">
+        <span class="section-label">What Does It Mean to Follow Jesus?</span>
+        <p style="font-size:15px; color:#3C3C43; line-height:1.7; margin:8px 0 0;">It means inviting Him into your life — not because you have it all together, but because you're ready to stop doing it alone. Following Jesus is a relationship, not a religion. It's a daily choice to trust Him, grow with His people, and become who He made you to be.</p>
+      </div>
+
+      <div class="form-section" style="margin-bottom:24px; background:#8B4FCF; border:none;">
+        <span class="section-label" style="color:rgba(255,255,255,0.7);">Ready to Take That Step?</span>
+        <p style="font-size:15px; color:#ffffff; line-height:1.7; margin:8px 0 12px;">If you'd like to give your life to Jesus today, you can pray this simple prayer:</p>
+        <p style="font-size:15px; color:rgba(255,255,255,0.9); line-height:1.8; font-style:italic; margin:0;">"Jesus, I believe You are the Son of God. I believe You died for me and rose again. I'm sorry for the ways I've fallen short. I invite You into my life. Be my Lord and my Savior. Thank You for loving me. Amen."</p>
+      </div>
+
+      <p style="font-size:14px; color:#8E8E93; text-align:center; line-height:1.6; padding:0 8px;">If you just prayed that prayer — <strong style="color:#1C1C1E;">welcome to the family.</strong> We'd love to walk with you. Tap <em>Take Your Next Step</em> on the home screen to let us know.</p>
+
+      <button class="btn-primary" style="margin-top:20px;" onclick="closeModal('faith')">Back to Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: I'm New Here / Connect -->
+<div class="modal-overlay" id="modal-connect">
+  <div class="modal">
+    <div class="modal-hero">
+      <div class="modal-hero-row">
+        <div class="modal-title" id="connect-modal-title">New Here? Let's Get Connected</div><div class="modal-subtitle" id="connect-modal-subtitle"></div>
+        <button class="modal-close" onclick="connectBack()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button>
+      </div>
+    </div>
+    <div class="progress-wrap" id="connect-progress">
+      <button class="chevron-back-btn" id="connect-back-btn" onclick="connectBack()" style="display:none;" aria-label="Back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <span class="progress-label" id="connect-progress-label">Step 1 of 2</span>
+      <div class="progress-track"><div class="progress-fill" id="connect-progress-fill" style="width:50%"></div></div>
+    </div>
+    <div class="modal-body">
+      <div id="connect-step1">
+        <div class="form-section">
+          <span class="section-label">Is This Your First Visit?</span>
+          <div class="toggle-group">
+            <div class="toggle-option"><input type="radio" name="visitType" id="firstTime" value="First Visit" checked onchange="handleVisitType()"><label for="firstTime">First Visit</label></div>
+            <div class="toggle-option"><input type="radio" name="visitType" id="returning" value="Visited Before" onchange="handleVisitType()"><label for="returning">Visited Before</label></div>
+          </div>
+        </div>
+        <div class="form-section">
+          <span class="section-label">About You</span>
+          <div class="field-group"><label for="c-name">Full Name</label><input type="text" id="c-name" placeholder="Your name" oninput="clearErr('c-name')"><div class="error-msg" id="err-c-name"></div></div>
+          <div class="field-group"><label for="c-email">Email Address</label><input type="email" id="c-email" placeholder="your@email.com" oninput="clearErr('c-email')"><div class="error-msg" id="err-c-email"></div></div>
+          <div class="field-group"><label for="c-phone">Phone Number</label><input type="tel" id="c-phone" placeholder="(555) 000-0000" oninput="formatPhone(this);clearErr('c-phone')" onkeyup="formatPhone(this)" onchange="formatPhone(this)"><div class="error-msg" id="err-c-phone"></div></div>
+        </div>
+        <div class="form-section">
+          <span class="section-label">How'd You Hear About Us?</span>
+          <div class="select-wrap"><select id="c-heard" onchange="handleHeardAbout(this.value)"><option value="" disabled selected>Select one...</option><option value="friend">A Friend or Family Member</option><option value="social">Social Media</option><option value="online">Online Search</option><option value="drive">Drove By</option><option value="event">A Church Event</option><option value="other">Other</option></select></div>
+          <div class="conditional-field" id="field-friend"><input type="text" id="c-friend" placeholder="Who can we thank for inviting you?"></div>
+          <div class="conditional-field" id="field-other"><input type="text" id="c-other" placeholder="Tell us how you heard about us..."></div>
+        </div>
+        <button class="btn-primary" onclick="connectGoStep2()">Continue <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+      <div id="connect-step2" style="display:none;">
+        <div class="form-section">
+          <span class="section-label" id="step2-label">I'm Interested In... <span class="optional-note">optional</span></span>
+          <div class="interests-grid">
+            <div class="interest-item"><input type="checkbox" id="int-baptism" value="Baptism"><label for="int-baptism">Baptism</label></div>
+            <div class="interest-item"><input type="checkbox" id="int-salvation" value="Salvation"><label for="int-salvation">Salvation</label></div>
+            <div class="interest-item"><input type="checkbox" id="int-membership" value="Membership"><label for="int-membership">Membership</label></div>
+            <div class="interest-item"><input type="checkbox" id="int-prayer" value="Prayer"><label for="int-prayer">Prayer</label></div>
+            <div class="interest-item"><input type="checkbox" id="int-kids" value="Kids / Youth"><label for="int-kids">Kids / Youth</label></div>
+            <div class="interest-item"><input type="checkbox" id="int-serving" value="Serving"><label for="int-serving">Serving</label></div>
+          </div>
+        </div>
+        <div class="form-section">
+          <span class="section-label">Prayer Requests <span class="optional-note">optional</span></span>
+          <textarea id="c-prayer" placeholder="How can we pray for you?"></textarea>
+        </div>
+        <button class="btn-primary" onclick="connectSubmit()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Submit &amp; Connect</button>
+      </div>
+      <div class="success-state" id="connect-success">
+        <div class="ty-card" style="padding:28px 24px 20px;">
+          <div class="ty-icon" style="width:70px;height:70px;margin:0 auto 12px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="ty-title" id="connect-ty-title" style="font-size:26px;">Welcome!</div>
+          <p class="ty-subtitle" id="connect-ty-sub"></p>
+        </div>
+        <div class="form-section">
+          <div id="connect-ty-interests"></div>
+          <p id="connect-ty-msg" style="font-size:14px;color:#48484A;line-height:1.7;text-align:left;"></p>
+          <div style="margin-top:16px; padding:0 16px;">
+            <div style="background:#ffffff;border-radius:16px;padding:14px 16px;margin-bottom:10px;">
+              <strong style="display:block;color:#1C1C1E;font-size:14px;margin-bottom:2px;">Sunday Morning Worship</strong>
+              <span style="font-size:13px;color:#8E8E93;">10:30 AM</span>
+            </div>
+            <div style="background:#ffffff;border-radius:16px;padding:14px 16px;">
+              <strong style="display:block;color:#1C1C1E;font-size:14px;margin-bottom:2px;">Wednesday Night Reset</strong>
+              <span style="font-size:13px;color:#8E8E93;">7:00 PM</span>
+            </div>
+          </div>
+        </div>
+        <p style="text-align:center;font-size:12px;color:#8E8E93;line-height:1.6;">Questions? <strong style="color:#1C1C1E;">hello@christianfaithcentre.com</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Prayer Request -->
+<div class="modal-overlay" id="modal-prayer">
+  <div class="modal">
+    <div class="modal-hero" id="prayer-modal-hero">
+      <div class="modal-hero-row">
+        <div class="modal-title" id="prayer-modal-title">We'd Love to Pray &amp; Agree With You</div><div class="modal-subtitle" id="prayer-modal-subtitle"></div>
+        <button class="modal-close" onclick="closeModal('prayer')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div id="prayer-form-wrap">
+        <div class="form-section">
+          <span class="section-label">Your Name <span class="optional-note">optional</span></span>
+          <input type="text" id="p-name" placeholder="First name, or stay anonymous">
+        </div>
+        <div class="form-section">
+          <span class="section-label">Email <span class="optional-note">optional</span></span>
+          <input type="email" id="p-email" placeholder="your@email.com">
+        </div>
+        <div class="form-section">
+          <span class="section-label">Category <span class="optional-note">optional</span></span>
+          <div class="interests-grid">
+            <div class="interest-item"><input type="checkbox" id="pc-health" value="Health &amp; Healing"><label for="pc-health">Health &amp; Healing</label></div>
+            <div class="interest-item"><input type="checkbox" id="pc-mental" value="Mental Health"><label for="pc-mental">Mental Health</label></div>
+            <div class="interest-item"><input type="checkbox" id="pc-grief" value="Grief &amp; Loss"><label for="pc-grief">Grief &amp; Loss</label></div>
+            <div class="interest-item"><input type="checkbox" id="pc-salvation" value="Salvation"><label for="pc-salvation">Salvation</label></div>
+            <div class="interest-item"><input type="checkbox" id="pc-financial" value="Financial"><label for="pc-financial">Financial</label></div>
+            <div class="interest-item"><input type="checkbox" id="pc-work" value="Work &amp; Career"><label for="pc-work">Work &amp; Career</label></div>
+            <div class="interest-item"><input type="checkbox" id="pc-family" value="Family"><label for="pc-family">Family</label></div>
+            <div class="interest-item"><input type="checkbox" id="pc-relationships" value="Relationships"><label for="pc-relationships">Relationships</label></div>
+            <div class="interest-item"><input type="checkbox" id="pc-guidance" value="Guidance"><label for="pc-guidance">Guidance</label></div>
+            <div class="interest-item"><input type="checkbox" id="pc-other" value="Other"><label for="pc-other">Other</label></div>
+          </div>
+          <div class="interest-item" style="margin-top:14px;">
+            <input type="checkbox" id="pc-praise" value="Praise Report">
+            <label for="pc-praise" style="width:100%; justify-content:center;">Share a Praise Report</label>
+          </div>
+        </div>
+        <div class="form-section">
+          <span class="section-label">What's on Your Heart</span>
+          <textarea id="p-request" placeholder="Share your prayer request or praise report..." style="min-height:110px;"></textarea>
+        </div>
+        <div class="form-section">
+          <span class="section-label">Who Is This For?</span>
+          <div class="select-wrap"><select id="p-for" onchange="handlePrayerFor(this.value)"><option value="" disabled selected>Select...</option><option value="Myself">Myself</option><option value="A family member">A family member</option><option value="A friend">A friend</option><option value="Someone I know">Someone I know</option><option value="Our community / nation">Our community / nation</option></select></div>
+          <div class="conditional-field" id="field-prayer-person"><input type="text" id="p-person-name" placeholder="What's their first name? (optional)"></div>
+        </div>
+        <div class="form-section">
+          <div class="private-toggle">
+            <input type="checkbox" id="p-private">
+            <label for="p-private">
+              <span class="check-box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Keep this private — only seen by the pastor
+            </label>
+          </div>
+          <p id="p-private-note" style="display:none;font-size:12px;color:#8E8E93;margin-top:10px;line-height:1.6;">This request will be marked private and shared only with the pastor.</p>
+        </div>
+        <button class="btn-primary" onclick="submitPrayer()">Submit Prayer Request</button>
+      </div>
+      <div class="success-state" id="prayer-success">
+        <div class="ty-card">
+          <div class="ty-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div class="ty-title" id="prayer-ty-title">Request Received</div>
+          <p class="ty-subtitle" id="prayer-success-msg">Thank you for trusting us with what's on your heart. Our team will be praying for you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: What's Happening -->
+<div class="modal-overlay" id="modal-events">
+  <div class="modal">
+    <div class="modal-hero">
+      <div class="modal-hero-row">
+        <div class="modal-title" id="events-modal-title">Events, Activities &amp; Announcements</div><div class="modal-subtitle" id="events-modal-subtitle"></div>
+        <button class="modal-close" onclick="closeModal('events')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tab-btn-weekly" onclick="switchTab('thisweek',this)">This Week</button>
+      <button class="tab-btn" id="tab-btn-upcoming" onclick="switchTab('thismonth',this)">Coming Up</button>
+      <button class="tab-btn" id="tab-btn-announce" onclick="switchTab('announcements',this)">Announcements</button>
+    </div>
+    <div class="modal-body">
+      <div class="tab-panel" id="tab-thisweek">
+        <div id="weekly-events-container">
+          <div style="text-align:center; padding:40px 0; color:#AEAEB2; font-size:14px;">Loading events...</div>
+        </div>
+      </div>
+      <div class="tab-panel" id="tab-thismonth" style="display:none;">
+        <div id="upcoming-events-container">
+          <div style="text-align:center; padding:40px 0; color:#AEAEB2; font-size:14px;">Loading activities...</div>
+        </div>
+      </div>
+      <div class="tab-panel" id="tab-announcements" style="display:none;">
+        <div id="announcements-container">
+          <div style="text-align:center; padding:40px 0; color:#AEAEB2; font-size:14px;">Loading announcements...</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Next Steps -->
+<div class="modal-overlay" id="modal-serve">
+  <div class="modal">
+    <div class="modal-hero" id="serve-modal-hero">
+      <div class="modal-hero-row">
+        <div class="modal-title" id="ns-modal-title">We'll Help You Take<br>Your Next Step</div><div class="modal-subtitle" id="serve-modal-subtitle"></div>
+        <button class="modal-close" onclick="serveBack()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button>
+      </div><div class="modal-subtitle" id="ns-modal-subtitle" style="padding-right:20px;">Choose the next step you'd like to take, and we'll help you move forward.</div>
+    </div>
+    <div class="modal-body">
+
+      <!-- STEP 1: Choose next step -->
+      <div id="ns-step1">
+        <div class="form-section">
+          <span class="section-label">Select all that apply</span>
+          <div class="interests-grid" style="grid-template-columns:1fr;">
+            <div class="interest-item"><input type="checkbox" name="ns-choice" id="ns-salvation" value="Salvation"><label for="ns-salvation" style="justify-content:center;flex-direction:column;align-items:center;gap:2px;text-align:center;"><span style="font-weight:700;">Salvation</span><span style="font-weight:600;font-size:13px;color:#8E8E93;">I want to give my life to Christ</span></label></div>
+            <div class="interest-item"><input type="checkbox" name="ns-choice" id="ns-baptism" value="Baptism"><label for="ns-baptism" style="justify-content:center;flex-direction:column;align-items:center;gap:2px;text-align:center;"><span style="font-weight:700;">Baptism</span><span style="font-weight:600;font-size:13px;color:#8E8E93;">I'm ready to be baptized</span></label></div>
+            <div class="interest-item"><input type="checkbox" name="ns-choice" id="ns-membership" value="Membership"><label for="ns-membership" style="justify-content:center;flex-direction:column;align-items:center;gap:2px;text-align:center;"><span style="font-weight:700;">Membership</span><span style="font-weight:600;font-size:13px;color:#8E8E93;">I want to become a member</span></label></div>
+            <div class="interest-item"><input type="checkbox" name="ns-choice" id="ns-serving" value="Serving"><label for="ns-serving" style="justify-content:center;flex-direction:column;align-items:center;gap:2px;text-align:center;"><span style="font-weight:700;">Serving</span><span style="font-weight:600;font-size:13px;color:#8E8E93;">I want to serve with my gifts</span></label></div>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="nsNext()">Continue</button>
+      </div>
+
+      <!-- STEP 2: Short tailored form -->
+      <div id="ns-step2" style="display:none;">
+        <div class="form-section">
+          <span class="section-label">ABOUT YOU</span>
+          <div class="field-group"><label for="ns-name">Full Name</label><input type="text" id="ns-name" placeholder="Your name" oninput="clearErr('ns-name')"><div class="error-msg" id="err-ns-name"></div></div>
+        </div>
+        <div class="form-section">
+          <span class="section-label">AT LEAST ONE REQUIRED</span>
+          <div class="field-group"><label for="ns-email">Email Address</label><input type="email" id="ns-email" placeholder="your@email.com" oninput="clearErr('ns-contact')"><div class="error-msg" id="err-ns-contact"></div></div>
+          <div class="field-group"><label for="ns-phone">Phone Number</label><input type="tel" id="ns-phone" placeholder="(555) 000-0000" oninput="formatPhone(this);clearErr('ns-contact')" onkeyup="formatPhone(this)" onchange="formatPhone(this)"></div>
+        </div>
+        <div class="form-section" id="ns-dynamic-section" style="display:none;">
+          <div id="ns-dynamic-field"></div>
+        </div>
+        <button class="btn-primary" id="ns-submit-btn" onclick="nsSubmit()">Submit</button>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success-state" id="serve-success" style="display:none;">
+        <div class="ty-card" style="padding:28px 24px 20px;"><div class="ty-icon" style="width:70px;height:70px;margin:0 auto 12px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="ty-title" id="ns-ty-title">Thank You!</div></div><p id="ns-success-msg" style="font-size:14px;color:#48484A;line-height:1.7;text-align:center;margin:16px 0 0;">Someone from our team will reach out to you soon.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Give Online -->
+<div class="modal-overlay" id="modal-give">
+  <div class="modal">
+    <div class="modal-hero">
+      <div class="modal-hero-row">
+        <div class="modal-title" id="give-modal-title">Every Gift Makes a Difference</div><div class="modal-subtitle" id="give-modal-subtitle"></div>
+        <button class="modal-close" onclick="closeModal('give')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="give-grid">
+        <a href="https://www.givelify.com/donate/NTgwMDQ" target="_blank" rel="noopener" class="give-card">
+          <div class="give-card-icon">
+            <img src="data:image/png;base64,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" width="52" height="52" style="display:block;">
+          </div>
+          <div class="give-card-label">Give with<br>Givelify</div>
+        </a>
+        <a href="https://cash.app/$wellfavoredman" target="_blank" rel="noopener" class="give-card">
+          <div class="give-card-icon">
+            <img src="data:image/png;base64,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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGCc/wEOU+ztnL7w3QAAAABJRU5ErkJggg==" width="52" height="52" style="display:block;">
+          </div>
+          <div class="give-card-label">Give with<br>Cash App</div>
+        </a>
+      </div>
+      <div class="form-section" style="margin-top:28px;">
+        <span class="section-label">Give In Person</span>
+        <p style="font-size:14px; color:#48484A; line-height:1.7; margin:0;">We also accept <strong>check</strong> and <strong>card</strong> during Sunday service. Offering envelopes can be found on the back of the pews.</p>
+      </div>
+      <p style="font-size:13px; color:#8E8E93; line-height:1.8; font-style:italic; margin-top:16px; text-align:center;">"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."<br><strong style="font-style:normal; color:#48484A;">— 2 Corinthians 9:7</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: We're Here For You -->
+<div class="modal-overlay" id="modal-here">
+  <div class="modal">
+    <div class="modal-hero">
+      <div class="modal-hero-row">
+        <div class="modal-title" id="here-modal-title">Reach Out, We're Here for You</div><div class="modal-subtitle" id="here-modal-subtitle"></div>
+        <button class="modal-close" onclick="closeModal('here')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="form-section">
+        <span class="section-label">Call Our Prayer Line</span>
+        <p style="font-size:14px; color:#48484A; line-height:1.7; margin:0 0 12px 0;">An intercessor is waiting to talk, listen and pray with you. Available Mon – Sat, anytime.</p>
+        <a href="tel:3162034751" style="display:inline-flex; align-items:center; gap:10px; font-size:14px; color:#1C1C1E; font-weight:600; text-decoration:none; background:#ffffff; padding:12px 18px; border-radius:26px; margin-top:4px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          (316) 203-4751
+        </a>
+      </div>
+      <div class="form-section">
+        <span class="section-label">Need a Ride to Church?</span>
+        <p style="font-size:14px; color:#48484A; line-height:1.7; margin:0 0 14px 0;">Transportation is available for Sunday Morning Worship. Call or text to arrange a ride.</p>
+        <div style="display:flex; gap:10px;">
+          <a href="tel:3166704570" style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px; font-size:14px; color:#1C1C1E; font-weight:600; text-decoration:none; background:#ffffff; padding:12px 14px; border-radius:26px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Call
+          </a>
+          <a href="sms:3166704570&body=Hi%2C%20I%27m%20interested%20in%20getting%20a%20ride%20to%20Sunday%20Morning%20Worship%20at%20Christian%20Faith%20Centre.%20Can%20you%20help%20me%20arrange%20one%3F" style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px; font-size:14px; color:#ffffff; background:#8B4FCF; padding:12px 14px; border-radius:26px; text-decoration:none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Text
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+try {
+  var MAILERLITE_API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiYjhhMTg1Yzk4NTZjNmI0ZTgxMmQ1MzQ0YTg1NWJiMzlkMjBiNjM5MWJkMTI2MDEzODQ0MGU4MzIwMmYzNTBkYmQyYWJhOGNjNDIwOGU2NGMiLCJpYXQiOjE3ODAzNTI3MTMuMjYwODYzLCJuYmYiOjE3ODAzNTI3MTMuMjYwODY3LCJleHAiOjQ5MzYwMjYzMTMuMjU1MjM2LCJzdWIiOiIyNDE2NzY5Iiwic2NvcGVzIjpbXX0.oEiEtNvdrsEstrFVr_VPZgZi6fZG_sa782TtSUTbyVw-PmB5fIWT3iiijN2OUxFVUaY9x6p7jAVKSg9z373futnFwuLoohA0I7ds3-eDj9CPIbMQrcZfTm0Nax9hFs6CL2PYQnhCGnB7znvAiueRilH1bELgTE_vU7yWgIbAI6izKf5-njACGxKO0TUlh5mDYFQLssSnpdrDgjvHUR4YjYRZXzSKb6r1Q0fhB8tODzwXSTrwFmSWew_xE86hJyKdjE5DliEuKD-PGKmSZWFuUpPegAN7Wmz8MxHPOaiDfu1k6foE2K1RcUKREMMBni4s2qugRzueho9ywCe3WBm2OQpYKGnoRrphbfBs7RR_5SVTdUXgWAGGGmHMk1cpQeuSHoSfgdMW0zZsMADrqmiiNEKuoTKSWqRMxV75OWXKd7h3Es0ShKehUyRXKQ-_TY0mUrafJeYlGXdKizgHjno5PzOWMjDcUHdZrjvslHgebpFVarc3TfSmIa00_aVf2eCuRd_W3tGlyV1G5xzZFQJ1G1pYju71ikq7n_hf-eW7KS76pLxGdkISUqYF_c1Z_1fxoalS8YrZaF112gXi2alKufdKX9rnTtV3y6uC3uE6seBazw8zBWNtfyEfsNf_9r5HDw8o7bAQ-z0w1l9xN3jQr_7qj0N0JRqI6AWIcfDl8eY';
+  var MAILERLITE_GROUP_ID = '189113619277940717';
+  var MAILERLITE_PRAYER_PUBLIC_ID = '189218429932144119';
+  var MAILERLITE_PRAYER_PRIVATE_ID = '189218439438533715';
+  var MAILERLITE_SERVE_ID = '189376699262043584';
+
+  // ── GOOGLE SHEETS CONFIG ──────────────────────────────────────────
+  var SHEETS_WEEKLY_URL   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=0&single=true&output=csv';
+  var SHEETS_MONTHLY_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=2083357897&single=true&output=csv';
+  var SHEETS_SPECIAL_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=584706428&single=true&output=csv';
+  var SHEETS_ANNOUNCE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdZaGhi3e4LDdWJXxPEJyOnVBF55ydNoT4qzoZQCWooMS9VHVED3VhU2OYZL8haCp9y2HsPuwaLfmB/pub?gid=324725209&single=true&output=csv';
+  // ─────────────────────────────────────────────────────────────────
+
+  var CORS_PROXY = 'https://corsproxy.io/?';
+
+  function fetchSheet(url) {
+    return fetch(CORS_PROXY + encodeURIComponent(url)).then(function(r){ return r.text(); });
+  }
+
+  var eventsLoaded = false;
+
+  // ── CSV PARSER ───────────────────────────────────────────────────
+  function parseCSV(text) {
+    // Tokenize respecting quoted multi-line fields
+    var rows = [];
+    var row = [];
+    var cur = '';
+    var inQ = false;
+    // Normalize line endings
+    text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+      if (inQ) {
+        if (c === '"') {
+          if (text[i+1] === '"') { cur += '"'; i++; } // escaped quote
+          else { inQ = false; }
+        } else {
+          cur += c;
+        }
+      } else {
+        if (c === '"') { inQ = true; }
+        else if (c === ',') { row.push(cur.trim()); cur = ''; }
+        else if (c === '\n') { row.push(cur.trim()); rows.push(row); row = []; cur = ''; }
+        else { cur += c; }
+      }
+    }
+    // Push last field and row
+    if (cur || row.length) { row.push(cur.trim()); rows.push(row); }
+
+    if (rows.length < 2) return [];
+    var headers = rows[0].map(function(h){ return h.replace(/"/g,'').trim(); });
+    return rows.slice(1).map(function(cols) {
+      var obj = {};
+      headers.forEach(function(h, i){ obj[h] = (cols[i] || '').trim(); });
+      return obj;
+    }).filter(function(r){ return r['Active'] && r['Active'].toLowerCase() === 'yes'; });
+  }
+
+  function cleanDesc(str) {
+    return (str || '').replace(/\r\n|\n|\r/g,'<br>').replace(/\\n/g,'<br>');
+  }
+
+  // ── DATE HELPERS ─────────────────────────────────────────────────
+  function getNthWeekday(year, month, weekday, n) {
+    var count = 0;
+    for (var d = 1; d <= 31; d++) {
+      var date = new Date(year, month, d);
+      if (date.getMonth() !== month) break;
+      if (date.getDay() === weekday) { count++; if (count === n) return date; }
+    }
+    return null;
+  }
+
+  function formatDate(date) {
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return days[date.getDay()] + ', ' + months[date.getMonth()] + ' ' + date.getDate();
+  }
+
+  // Parse recurrence rule from Monthly sheet
+  // Supported rules: 3rd-Saturday, 2nd-Saturday-even, 1st-Sunday, 3rd-Friday, etc.
+  function calcNextDate(rule) {
+    var now = new Date(); now.setHours(0,0,0,0);
+    var parts = rule.toLowerCase().split('-');
+    var nthMap = { '1st':1, '2nd':2, '3rd':3, '4th':4, '5th':5 };
+    var dayMap = { 'sunday':0,'monday':1,'tuesday':2,'wednesday':3,'thursday':4,'friday':5,'saturday':6 };
+    var nth = nthMap[parts[0]];
+    var weekday = dayMap[parts[1]];
+    var evenOnly = parts.indexOf('even') > -1;
+    if (nth === undefined || weekday === undefined) return null;
+
+    for (var i = 0; i <= 13; i++) {
+      var checkMonth = (now.getMonth() + i) % 12;
+      var checkYear = now.getFullYear() + Math.floor((now.getMonth() + i) / 12);
+      var calMonth = checkMonth + 1;
+      if (evenOnly && calMonth % 2 !== 0) continue;
+      var candidate = getNthWeekday(checkYear, checkMonth, weekday, nth);
+      if (candidate && candidate >= now) return candidate;
+    }
+    return null;
+  }
+
+  // ── HTML BUILDERS ────────────────────────────────────────────────
+  var DAY_ORDER = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  function buildAccordion(title, dateStr, description, isFirst, imageUrl) {
+    var openClass = isFirst ? ' active-day open' : '';
+    var imgHTML = imageUrl ? '<img src="' + imageUrl + '" alt="' + title + '" style="width:100%;border-radius:16px;margin-bottom:14px;display:block;">' : '';
+    return '<div class="accordion-day' + openClass + '" onclick="toggleAccordion(this)">' +
+      '<div class="accordion-header">' +
+        '<div>' +
+          '<span class="accordion-day-name">' + title + '</span>' +
+          '<div style="font-size:11px;font-weight:600;color:#8E8E93;letter-spacing:0.5px;text-transform:uppercase;margin-top:4px;">' + dateStr + '</div>' +
+        '</div>' +
+        '<div class="accordion-meta"><svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>' +
+      '</div>' +
+      '<div class="accordion-body"><div class="accordion-body-inner">' +
+        '<div class="week-event-item">' +
+          imgHTML +
+          '<div class="week-event-detail">' + cleanDesc(description) + '</div>' +
+        '</div>' +
+      '</div></div>' +
+    '</div>';
+  }
+
+  function buildWeeklyAccordion(dayName, events, isFirst) {
+    var openClass = isFirst ? ' active-day open' : '';
+    var countText = events.length + ' event' + (events.length !== 1 ? 's' : '');
+    var evHTML = events.map(function(e) {
+      var imgHTML = e['Image URL'] ? '<img src="' + e['Image URL'] + '" alt="' + e.Title + '" style="width:100%;border-radius:16px;margin-bottom:12px;display:block;">' : '';
+      return '<div class="week-event-item">' +
+        imgHTML +
+        '<div class="week-event-time">' + e.Time + '</div>' +
+        '<div class="week-event-name">' + e.Title + '</div>' +
+        '<div class="week-event-detail">' + cleanDesc(e.Description) + '</div>' +
+      '</div>';
+    }).join('');
+    return '<div class="accordion-day' + openClass + '" onclick="toggleAccordion(this)">' +
+      '<div class="accordion-header">' +
+        '<span class="accordion-day-name">' + dayName + '</span>' +
+        '<div class="accordion-meta"><span class="accordion-count has-events">' + countText + '</span>' +
+          '<svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
+        '</div>' +
+      '</div>' +
+      '<div class="accordion-body"><div class="accordion-body-inner">' + evHTML + '</div></div>' +
+    '</div>';
+  }
+
+  // ── LOAD EVENTS ──────────────────────────────────────────────────
+  function getWeekRange() {
+    var now = new Date(); now.setHours(0,0,0,0);
+    var day = now.getDay();
+    var sunday = new Date(now); sunday.setDate(now.getDate() - day);
+    var saturday = new Date(sunday); saturday.setDate(sunday.getDate() + 6);
+    return { start: sunday, end: saturday };
+  }
+
+  function loadEvents() {
+    if (eventsLoaded) return;
+
+    var week = getWeekRange();
+
+    // Load all three sheets together
+    Promise.all([
+      fetchSheet(SHEETS_WEEKLY_URL),
+      fetchSheet(SHEETS_MONTHLY_URL),
+      fetchSheet(SHEETS_SPECIAL_URL),
+      fetchSheet(SHEETS_ANNOUNCE_URL)
+    ]).then(function(results) {
+      var weeklyRows = parseCSV(results[0]);
+      var monthlyRows = parseCSV(results[1]);
+      var specialRows = parseCSV(results[2]);
+      var announceRows = parseCSV(results[3]);
+      var now = new Date(); now.setHours(0,0,0,0);
+
+      // ── THIS WEEK TAB ──────────────────────────────────────────
+      // Start with recurring weekly services grouped by day
+      var byDay = {};
+      weeklyRows.forEach(function(r) {
+        var day = r['Day'];
+        if (!byDay[day]) byDay[day] = [];
+        byDay[day].push(r);
+      });
+
+      // Add monthly recurring events that fall this week
+      monthlyRows.forEach(function(r) {
+        var nextDate = calcNextDate(r['Recurrence'] || '');
+        if (!nextDate) return;
+        if (nextDate >= week.start && nextDate <= week.end) {
+          var dayName = DAY_ORDER[nextDate.getDay()];
+          if (!byDay[dayName]) byDay[dayName] = [];
+          byDay[dayName].push({
+            Title: r['Title'],
+            Time: r['Time'],
+            Description: r['Description'],
+            'Image URL': r['Image URL'] || '',
+            _isSpecial: true
+          });
+        }
+      });
+
+      // Add special one-off events that fall this week
+      specialRows.forEach(function(r) {
+        var eventDate = new Date(r['Date']);
+        if (isNaN(eventDate)) return;
+        if (eventDate >= week.start && eventDate <= week.end) {
+          var dayName = DAY_ORDER[eventDate.getDay()];
+          if (!byDay[dayName]) byDay[dayName] = [];
+          byDay[dayName].push({
+            Title: r['Title'],
+            Time: r['Time'],
+            Description: r['Description'],
+            'Image URL': r['Image URL'] || '',
+            _isSpecial: true
+          });
+        }
+      });
+
+      var weekHtml = ''; var first = true;
+      DAY_ORDER.forEach(function(day) {
+        if (byDay[day] && byDay[day].length > 0) {
+          weekHtml += buildWeeklyAccordion(day, byDay[day], first);
+          first = false;
+        }
+      });
+      if (!weekHtml) weekHtml = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">No events found this week.</p>';
+      document.getElementById('weekly-events-container').innerHTML = weekHtml;
+
+      // ── UPCOMING ACTIVITIES TAB ────────────────────────────────
+      var allItems = [];
+
+      monthlyRows.forEach(function(r) {
+        var nextDate = calcNextDate(r['Recurrence'] || '');
+        var dateStr = nextDate ? formatDate(nextDate) + ' · ' + r['Time'] : r['Time'];
+        // Skip if it's showing in This Week already
+        if (nextDate && nextDate >= week.start && nextDate <= week.end) return;
+        allItems.push({ title: r['Title'], dateStr: dateStr, desc: r['Description'], imageUrl: r['Image URL'] || '', sortDate: nextDate || new Date(9999,0,1) });
+      });
+
+      specialRows.forEach(function(r) {
+        var eventDate = new Date(r['Date']);
+        if (isNaN(eventDate) || eventDate < now) return;
+        // Skip if it's showing in This Week already
+        if (eventDate >= week.start && eventDate <= week.end) return;
+        var dateStr = formatDate(eventDate) + (r['Time'] ? ' · ' + r['Time'] : '');
+        allItems.push({ title: r['Title'], dateStr: dateStr, desc: r['Description'], imageUrl: r['Image URL'] || '', sortDate: eventDate });
+      });
+
+      allItems.sort(function(a,b){ return a.sortDate - b.sortDate; });
+
+      var upcomingHtml = '';
+      allItems.forEach(function(item, i) {
+        upcomingHtml += buildAccordion(item.title, item.dateStr, item.desc, i === 0, item.imageUrl);
+      });
+      upcomingHtml += '<p style="text-align:center;font-size:13px;color:#AEAEB2;padding:20px 0;font-style:italic;">More activities will be added as they are scheduled.</p>';
+      document.getElementById('upcoming-events-container').innerHTML = upcomingHtml;
+
+      // ── ANNOUNCEMENTS TAB ─────────────────────────────────────
+      var announceHtml = '';
+      announceRows.forEach(function(r, i) {
+        var imgHTML = r['Image URL'] ? '<img src="' + r['Image URL'] + '" alt="' + r['Title'] + '" style="width:100%;border-radius:16px;margin-bottom:12px;display:block;">' : '';
+        announceHtml += '<div class="accordion-day' + (i === 0 ? ' active-day open' : '') + '" onclick="toggleAccordion(this)">' +
+          '<div class="accordion-header">' +
+            '<span class="accordion-day-name">' + r['Title'] + '</span>' +
+            '<div class="accordion-meta"><svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>' +
+          '</div>' +
+          '<div class="accordion-body"><div class="accordion-body-inner">' +
+            '<div class="week-event-item">' + imgHTML + '<div class="week-event-detail">' + cleanDesc(r['Description']) + '</div></div>' +
+          '</div></div>' +
+        '</div>';
+      });
+      if (!announceHtml) announceHtml = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">No announcements at this time.</p>';
+      document.getElementById('announcements-container').innerHTML = announceHtml;
+
+    }).catch(function() {
+      document.getElementById('weekly-events-container').innerHTML = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">Could not load events. Please check back later.</p>';
+      document.getElementById('upcoming-events-container').innerHTML = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">Could not load activities. Please check back later.</p>';
+      document.getElementById('announcements-container').innerHTML = '<p style="text-align:center;padding:40px 0;color:#AEAEB2;font-size:14px;">Could not load announcements. Please check back later.</p>';
+    });
+
+    eventsLoaded = true;
+  }
+
+  function openModal(id) {
+    var _om=document.getElementById('modal-'+id); _om.classList.add('open'); _om.style.display='flex';
+    document.body.style.overflow = 'hidden';
+    if (id === 'events') loadEvents();
+  }
+
+  function closeModal(id) {
+    var _cm=document.getElementById('modal-'+id);
+    var _reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var _delay = (_reduced || !_cm.classList.contains('open')) ? 0 : 260;
+    if (_delay) _cm.classList.add('closing');
+    setTimeout(function() {
+      _cm.classList.remove('open'); _cm.classList.remove('closing'); _cm.style.display='none';
+      document.body.style.overflow = '';
+      if (!_reduced) playHomeReturn();
+      resetModal(id);
+    }, _delay);
+  }
+
+  function playHomeReturn() {
+    var wrap = document.querySelector('.card-wrap');
+    if (!wrap) return;
+    wrap.classList.remove('returning');
+    void wrap.offsetWidth;
+    wrap.classList.add('returning');
+    setTimeout(function() { wrap.classList.remove('returning'); }, 400);
+  }
+
+  function resetModal(id) {
+    if (id === 'events') { eventsLoaded = false; }
+    if (id === 'prayer') {
+      var ph = document.getElementById('prayer-modal-hero');
+      if (ph) { ph.style.display = ''; ph.style.padding = ''; }
+      document.getElementById('prayer-modal-title').style.display = '';
+      document.getElementById('prayer-modal-subtitle').style.display = '';
+      var pb = document.querySelector('#modal-prayer .modal-body');
+      if (pb) pb.style.paddingTop = '';
+      document.getElementById('prayer-success').style.display = 'none';
+      document.getElementById('prayer-form-wrap').style.display = 'block';
+    }
+    if (id === 'connect') {
+      var t = document.querySelector('#modal-connect .modal-title');
+      if (t) t.style.display = 'block';
+      var h = document.querySelector('#modal-connect .modal-hero');
+      if (h) { h.style.display = ''; h.style.padding = '52px 24px 28px'; }
+      document.getElementById('connect-modal-title').style.display = '';
+      document.getElementById('connect-modal-subtitle').style.display = '';
+      var b = document.querySelector('#modal-connect .modal-body');
+      if (b) b.style.paddingTop = '20px';
+      var btn = document.querySelector('#modal-connect .modal-close');
+      if (btn) btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home';
+      var success = document.getElementById('connect-success');
+      if (success) success.style.display = 'none';
+      var step1 = document.getElementById('connect-step1');
+      if (step1) step1.style.display = 'block';
+      var step2 = document.getElementById('connect-step2');
+      if (step2) step2.style.display = 'none';
+      var backBtn = document.getElementById('connect-back-btn'); if (backBtn) backBtn.style.display = 'none';
+      var progress = document.getElementById('connect-progress');
+      if (progress) progress.style.display = 'flex';
+      document.getElementById('connect-progress-label').textContent = 'Step 1 of 2';
+      document.getElementById('connect-progress-fill').style.width = '50%';
+    }
+    if (id === 'serve') {
+      document.getElementById('ns-step1').style.display = 'block';
+      document.getElementById('ns-step2').style.display = 'none';
+      document.getElementById('serve-success').style.display = 'none';
+      document.getElementById('serve-modal-hero').style.display = '';
+      document.getElementById('serve-modal-hero').style.padding = '';
+      document.getElementById('ns-modal-title').style.display = '';
+      document.getElementById('ns-modal-subtitle').style.display = '';
+      document.querySelector('#modal-serve .modal-body').style.paddingTop = '';
+      // Clear step 1 choices
+      var choices = document.querySelectorAll('input[name="ns-choice"]');
+      for (var i = 0; i < choices.length; i++) { choices[i].checked = false; }
+      // Clear step 2 fields
+      var nsName = document.getElementById('ns-name');
+      var nsEmail = document.getElementById('ns-email');
+      var nsPhone = document.getElementById('ns-phone');
+      if (nsName) nsName.value = '';
+      if (nsEmail) nsEmail.value = '';
+      if (nsPhone) nsPhone.value = '';
+      clearErr('ns-name'); clearErr('ns-contact');
+      // Clear dynamic fields
+      document.getElementById('ns-dynamic-field').innerHTML = '';
+      document.getElementById('ns-dynamic-section').style.display = 'none';
+      // Reset button and choices
+      document.getElementById('ns-submit-btn').textContent = 'Submit';
+      window.nsAllChoices = [];
+      // Reset title/subtitle
+      document.getElementById('ns-modal-title').innerHTML = 'We\'ll Help You Take<br>Your Next Step';
+      document.getElementById('ns-modal-subtitle').textContent = 'Choose the next step you\'d like to take, and we\'ll help you move forward.';
+      var serveBtn = document.querySelector('#modal-serve .modal-close');
+      if (serveBtn) {
+        serveBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home';
+        serveBtn.onclick = function() { closeModal('serve'); };
+      }
+    }
+  }
+
+  function toggleAllMinistries(checkbox) {
+    var boxes = document.querySelectorAll('.ns-ministry');
+    for (var i = 0; i < boxes.length; i++) { boxes[i].checked = checkbox.checked; }
+  }
+
+  function nsContactInput(input) {
+    // If it looks like it could be a phone number (starts with digit or paren), format it
+    var v = input.value.replace(/\D/g, '');
+    if (v.length > 0 && !input.value.includes('@')) {
+      formatPhone(input);
+    }
+  }
+
+  function formatPhone(input) {
+    var v = input.value;
+    var d = '';
+    for (var i = 0; i < v.length && d.length < 10; i++) {
+      if (v[i] >= '0' && v[i] <= '9') d += v[i];
+    }
+    if (!d) { input.value = ''; return; }
+    if (d.length <= 3) input.value = '(' + d;
+    else if (d.length <= 6) input.value = '(' + d.substring(0,3) + ') ' + d.substring(3);
+    else input.value = '(' + d.substring(0,3) + ') ' + d.substring(3,6) + '-' + d.substring(6);
+  }
+
+  function handleHeardAbout(val) {
+    document.getElementById('field-friend').classList.remove('visible');
+    document.getElementById('field-other').classList.remove('visible');
+    if (val === 'friend') document.getElementById('field-friend').classList.add('visible');
+    if (val === 'other') document.getElementById('field-other').classList.add('visible');
+  }
+
+  function handleVisitType() {}
+
+  function isValidEmail(email) {
+    var parts = email.split('@');
+    if (parts.length !== 2) return false;
+    if (!parts[0] || !parts[1]) return false;
+    var domainParts = parts[1].split('.');
+    if (domainParts.length < 2) return false;
+    var tld = domainParts[domainParts.length - 1];
+    if (!tld || tld.length < 2) return false;
+    return true;
+  }
+
+  function showErr(id, msg) {
+    var input = document.getElementById(id);
+    var err = document.getElementById('err-' + id);
+    if (input) input.style.boxShadow = 'inset -3px -3px 7px rgba(255,255,255,0.85), inset 3px 3px 7px rgba(0,0,0,0.12), 0 0 0 2px rgba(208,2,27,0.2)';
+    if (err) { err.textContent = msg; err.classList.add('visible'); }
+    if (input) input.focus();
+  }
+
+  function clearErr(id) {
+    var input = document.getElementById(id);
+    var err = document.getElementById('err-' + id);
+    if (input) input.style.boxShadow = '';
+    if (err) { err.classList.remove('visible'); err.textContent = ''; }
+  }
+
+  function connectBack() {
+    var step2 = document.getElementById('connect-step2');
+    var success = document.getElementById('connect-success');
+    if (success && success.style.display === 'block') {
+      closeModal('connect');
+    } else if (step2 && step2.style.display !== 'none') {
+      step2.style.display = 'none';
+      document.getElementById('connect-step1').style.display = 'block';
+      document.getElementById('connect-progress-label').textContent = 'Step 1 of 2';
+      document.getElementById('connect-progress-fill').style.width = '50%';
+      // Restore Back button text
+      document.querySelector('#modal-connect .modal-close').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back';
+      document.querySelector('#modal-connect .modal').scrollTop = 0;
+    } else {
+      closeModal('connect');
+    }
+  }
+
+  function connectGoStep2() {
+    var name = document.getElementById('c-name').value.trim();
+    var email = document.getElementById('c-email').value.trim();
+    var phone = document.getElementById('c-phone').value.trim();
+    var heard = document.getElementById('c-heard').value;
+    var ok = true;
+
+    if (!name) { showErr('c-name', 'Please enter your name.'); ok = false; }
+    if (!email) { showErr('c-email', 'We need your email so we can follow up.'); ok = false; }
+    else if (!isValidEmail(email)) { showErr('c-email', 'Please enter a valid email address.'); ok = false; }
+
+    if (phone) {
+      var digits = '';
+      for (var i = 0; i < phone.length; i++) {
+        if (phone[i] >= '0' && phone[i] <= '9') digits += phone[i];
+      }
+      if (digits.length < 10) { showErr('c-phone', 'Please enter a valid 10-digit phone number.'); ok = false; }
+    }
+    if (!ok) return;
+
+    if (!heard) {
+      var sel = document.getElementById('c-heard');
+      sel.style.boxShadow = 'inset -3px -3px 7px rgba(255,255,255,0.85), inset 3px 3px 7px rgba(0,0,0,0.12), 0 0 0 2px rgba(208,2,27,0.2)';
+      setTimeout(function() { sel.style.boxShadow = ''; }, 2500);
+      return;
+    }
+
+    document.getElementById('connect-step1').style.display = 'none';
+    document.getElementById('connect-step2').style.display = 'block';
+    document.getElementById('connect-back-btn').style.display = 'flex';
+    document.getElementById('connect-progress-label').textContent = 'Step 2 of 2';
+    document.getElementById('connect-progress-fill').style.width = '100%';
+    document.querySelector('#modal-connect .modal').scrollTop = 0;
+  }
+
+  function connectSubmit() {
+    var isReturning = document.getElementById('returning').checked;
+    var fullName = document.getElementById('c-name').value.trim();
+    var firstName = fullName.split(' ')[0];
+
+    var checkboxes = document.querySelectorAll('#connect-step2 input[type=checkbox]:checked');
+    var selected = [];
+    for (var i = 0; i < checkboxes.length; i++) { selected.push(checkboxes[i].value); }
+
+    document.getElementById('connect-ty-title').style.display = 'block';
+    document.getElementById('connect-ty-title').textContent = isReturning ? 'Welcome Back, ' + firstName + '!' : 'Welcome, ' + firstName + '!';
+    document.getElementById('connect-ty-sub').textContent = isReturning
+      ? "Thank you for visiting us again. We're glad you're here."
+      : "Thank you for taking a moment to connect with us. We're honored you joined us today and look forward to getting to know you.";
+
+    var msg = '';
+    if (selected.length > 0) {
+      var copy = selected.slice();
+      var last = copy.pop();
+      var boldList = copy.length > 0
+        ? copy.map(function(s) { return '<strong>' + s + '</strong>'; }).join(', ') + ', and <strong>' + last + '</strong>'
+        : '<strong>' + last + '</strong>';
+      msg = "We see you're interested in " + boldList + ". Someone from our team will personally reach out to answer your questions and connect with you.";
+      if (selected.indexOf('Prayer') !== -1) msg += "";
+    } else {
+      msg = "Someone from our team will personally reach out to connect with you.";
+    }
+    msg += isReturning ? " We're grateful you're continuing to connect with us." : " We look forward to getting to know you and seeing you again soon.";
+
+    document.getElementById('connect-ty-msg').innerHTML = msg;
+    document.getElementById('connect-step2').style.display = 'none';
+    document.getElementById('connect-progress').style.display = 'none';
+    document.getElementById('connect-success').style.display = 'block';
+    document.getElementById('connect-modal-title').style.display = 'none';
+    document.getElementById('connect-modal-subtitle').style.display = 'none';
+    document.querySelector('#modal-connect .modal-hero').style.display = '';
+    document.querySelector('#modal-connect .modal-hero').style.padding = '16px 24px 16px';
+    document.querySelector('#modal-connect .modal-body').style.paddingTop = '0';
+    document.querySelector('#modal-connect .modal-close').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home';
+    document.querySelector('#modal-connect .modal').scrollTop = 0;
+
+    sendToMailerLite({
+      name: fullName,
+      email: document.getElementById('c-email').value.trim(),
+      phone: document.getElementById('c-phone').value.trim(),
+      visitType: isReturning ? 'Visited Before' : 'First Visit',
+      interests: selected.length > 0 ? selected.join(', ') : 'None selected',
+      prayer: document.getElementById('c-prayer').value.trim(),
+      heardAbout: document.getElementById('c-heard').value,
+      friendName: document.getElementById('c-friend').value.trim(),
+      otherHow: document.getElementById('c-other').value.trim()
+    });
+  }
+
+  function sendToMailerLite(data) {
+    try {
+      var heard = data.heardAbout;
+      if (data.friendName) heard += ' - ' + data.friendName;
+      if (data.otherHow) heard += ' - ' + data.otherHow;
+      fetch('https://connect.mailerlite.com/api/subscribers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + MAILERLITE_API_KEY },
+        body: JSON.stringify({
+          email: data.email,
+          fields: { name: data.name, phone: data.phone, visit_type: data.visitType, interests: data.interests, prayer_request: data.prayer, heard_about: heard },
+          groups: [MAILERLITE_GROUP_ID]
+        })
+      }).then(function(res) {
+        if (!res.ok) res.text().then(function(t) { console.log('ML err:', t); });
+      });
+    } catch(e) { console.log('ML error:', e); }
+  }
+
+  function handlePrayerFor(val) {
+    var others = ['A family member', 'A friend', 'Someone I know'];
+    var show = false;
+    for (var i = 0; i < others.length; i++) { if (others[i] === val) { show = true; break; } }
+    var field = document.getElementById('field-prayer-person');
+    if (show) field.classList.add('visible');
+    else field.classList.remove('visible');
+  }
+
+  function submitPrayer() {
+    if (!document.getElementById('p-request').value.trim()) {
+      document.getElementById('p-request').focus(); return;
+    }
+    var isPrivate = document.getElementById('p-private').checked;
+    var name = document.getElementById('p-name').value.trim();
+    var email = document.getElementById('p-email').value.trim();
+    var request = document.getElementById('p-request').value.trim();
+    var pFor = document.getElementById('p-for').value;
+    var personName = document.getElementById('p-person-name').value.trim();
+
+    var categories = [];
+    var catBoxes = document.querySelectorAll('#modal-prayer input[type=checkbox][id^=pc-]:checked');
+    for (var i = 0; i < catBoxes.length; i++) { categories.push(catBoxes[i].value); }
+
+    var msg = isPrivate
+      ? 'Thank you for trusting us. This request has been marked private and will only be seen by the pastor.'
+      : "Thank you for trusting us with what's on your heart. Our team will be praying for you.";
+    var firstName = name ? name.split(' ')[0] : '';
+    document.getElementById('prayer-ty-title').textContent = firstName ? 'Thank You, ' + firstName + '!' : 'Request Received';
+    document.getElementById('prayer-success-msg').textContent = msg;
+    document.getElementById('prayer-form-wrap').style.display = 'none';
+    document.getElementById('prayer-success').style.display = 'block';
+    document.getElementById('prayer-modal-title').style.display = 'none';
+    document.getElementById('prayer-modal-subtitle').style.display = 'none';
+    document.getElementById('prayer-modal-hero').style.padding = '16px 24px 16px';
+    document.querySelector('#modal-prayer .modal-body').style.paddingTop = '0';
+
+    sendPrayerToMailerLite({
+      name: name,
+      email: email,
+      request: request,
+      categories: categories.length > 0 ? categories.join(', ') : 'Unspecified',
+      pFor: pFor || 'Not specified',
+      personName: personName,
+      isPrivate: isPrivate
+    });
+  }
+
+  function sendPrayerToMailerLite(data) {
+    try {
+      var groupId = data.isPrivate ? MAILERLITE_PRAYER_PRIVATE_ID : MAILERLITE_PRAYER_PUBLIC_ID;
+      var subscriberEmail = data.email || ('anonymous-' + Date.now() + '@cfc-prayer.local');
+      fetch('https://connect.mailerlite.com/api/subscribers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + MAILERLITE_API_KEY },
+        body: JSON.stringify({
+          email: subscriberEmail,
+          fields: {
+            name: data.name || 'Anonymous',
+            prayer_request: data.request,
+            prayer_category: data.categories,
+            prayer_for: data.pFor + (data.personName ? ' - ' + data.personName : ''),
+            prayer_private: data.isPrivate ? 'Yes' : 'No'
+          },
+          groups: [groupId]
+        })
+      }).then(function(res) {
+        if (!res.ok) res.text().then(function(t) { console.log('ML prayer err:', t); });
+      });
+    } catch(e) { console.log('ML prayer error:', e); }
+  }
+
+  // ── NEXT STEPS ────────────────────────────────────────────────
+  var nsChoice = '';
+  var nsDynamic = {
+    'Salvation': {
+      btn: 'Share My Decision',
+      title: 'Start Your New<br>Life in Christ Today',
+      subtitle: 'You can make this decision right now. Just tell God you believe in Jesus and want to follow Him. There\'s no perfect prayer, just an honest heart. Then let us know below so we can walk with you from here.',
+      field: '<div class="field-group"><span class="section-label">ANYTHING YOU\'D LIKE US TO KNOW? <span class="optional-note">OPTIONAL</span></span><textarea id="ns-extra" placeholder="Share any questions, thoughts, or what\'s on your heart..." style="min-height:70px;"></textarea></div>',
+      success: 'We are so honored. Someone from our team will reach out to you personally very soon. You made the best decision of your life!'
+    },
+    'Baptism': {
+      btn: 'Request Baptism',
+      title: 'Ready to Be Baptized?',
+      subtitle: 'We\'re excited to help you take this step and answer any questions you may have.',
+      field: '<div class="field-group"><span class="section-label">ANYTHING YOU\'D LIKE US TO KNOW? <span class="optional-note">OPTIONAL</span></span><textarea id="ns-extra" placeholder="Share anything you\'d like us to know..." style="min-height:70px;"></textarea></div>',
+      success: 'That\'s wonderful! Someone from our team will reach out to walk you through the next steps for baptism.'
+    },
+    'Membership': {
+      btn: 'Learn About Membership',
+      title: 'Interested in Joining Our Church?',
+      subtitle: 'We\'d love to help you get connected and share what membership looks like here.',
+      field: '<div class="field-group"><label>How long have you been attending? <span class="optional-note">Optional</span></label><input type="text" id="ns-extra" placeholder="e.g. A few weeks, a few months, about a year..."></div><div class="field-group" style="margin-top:14px;"><span class="section-label">ANYTHING YOU\'D LIKE US TO KNOW? <span class="optional-note">OPTIONAL</span></span><textarea id="ns-extra-2" placeholder="Share anything you\'d like us to know..." style="min-height:70px;"></textarea></div>',
+      success: 'Welcome to the family! Someone from our team will reach out with information about our membership process.'
+    },
+    'Serving': {
+      btn: 'Find My Place',
+      title: 'Ready to Serve?',
+      subtitle: 'We\'d love to help you find a place to serve that fits your gifts and interests.',
+      field: '<div class="field-group"><label>What areas interest you? <span class="optional-note">select all that apply</span></label><div class="interests-grid" style="margin-top:10px;"><div class="interest-item"><input type="checkbox" class="ns-ministry" id="ns-m-worship" value="Worship &amp; Music"><label for="ns-m-worship">Worship &amp; Music</label></div><div class="interest-item"><input type="checkbox" class="ns-ministry" id="ns-m-kids" value="Kids Ministry"><label for="ns-m-kids">Kids Ministry</label></div><div class="interest-item"><input type="checkbox" class="ns-ministry" id="ns-m-youth" value="Youth Ministry"><label for="ns-m-youth">Youth Ministry</label></div><div class="interest-item"><input type="checkbox" class="ns-ministry" id="ns-m-hosp" value="Hospitality"><label for="ns-m-hosp">Hospitality</label></div><div class="interest-item"><input type="checkbox" class="ns-ministry" id="ns-m-ushers" value="Ushers / Greeters"><label for="ns-m-ushers">Ushers / Greeters</label></div><div class="interest-item"><input type="checkbox" class="ns-ministry" id="ns-m-media" value="Media &amp; Tech"><label for="ns-m-media">Media &amp; Tech</label></div><div class="interest-item"><input type="checkbox" class="ns-ministry" id="ns-m-prayer" value="Prayer Team"><label for="ns-m-prayer">Prayer Team</label></div><div class="interest-item"><input type="checkbox" class="ns-ministry" id="ns-m-outreach" value="Outreach"><label for="ns-m-outreach">Outreach</label></div><div class="interest-item"><input type="checkbox" class="ns-ministry" id="ns-m-bus" value="Bus Ministry"><label for="ns-m-bus">Bus Ministry</label></div><div class="interest-item"><input type="checkbox" class="ns-ministry" id="ns-m-notsure" value="Not sure yet"><label for="ns-m-notsure">Not sure yet</label></div></div></div><div class="field-group" style="margin-top:14px;"><span class="section-label">ANYTHING YOU\'D LIKE US TO KNOW? <span class="optional-note">OPTIONAL</span></span><textarea id="ns-extra" placeholder="Share anything you\'d like us to know..." style="min-height:70px;"></textarea></div>',
+      success: 'We\'re excited to have you on the team! Someone will reach out soon to connect you with the right ministry.'
+    },
+    'Join a Group': {
+      field: '<div class="field-group"><label>What type of group are you looking for? <span class="optional-note">select all that apply</span></label><div class="interests-grid" style="margin-top:10px;"><div class="interest-item"><input type="checkbox" class="ns-ministry" value="Bible Study"><label>Bible Study</label></div><div class="interest-item"><input type="checkbox" class="ns-ministry" value="Youth Group"><label>Youth Group</label></div><div class="interest-item"><input type="checkbox" class="ns-ministry" value="Women\'s Ministry"><label>Women\'s Ministry</label></div><div class="interest-item"><input type="checkbox" class="ns-ministry" value="Men\'s Ministry"><label>Men\'s Ministry</label></div><div class="interest-item"><input type="checkbox" class="ns-ministry" value="Not sure yet"><label>Not sure yet</label></div></div></div>',
+      success: 'Great! Someone from our team will reach out to help connect you with the right group.'
+    }
+  };
+
+  function nsNext() {
+    var checked = document.querySelectorAll('input[name="ns-choice"]:checked');
+    if (!checked.length) return;
+    nsChoice = checked[0].value;
+    window.nsAllChoices = Array.from(checked).map(function(c){return c.value;});
+    var isMultiple = checked.length > 1;
+    if (isMultiple) {
+      document.getElementById('ns-modal-title').innerHTML = 'We\'re Ready to<br>Walk With You';
+      document.getElementById('ns-modal-subtitle').textContent = 'Tell us how to reach you and someone from our team will walk with you through each step.';
+      document.getElementById('ns-submit-btn').textContent = 'Let\'s Connect';
+      document.getElementById('ns-dynamic-section').style.display = 'block';
+      document.getElementById('ns-dynamic-field').innerHTML = '<div class="field-group"><span class="section-label">ANYTHING YOU\'D LIKE US TO KNOW? <span class="optional-note">OPTIONAL</span></span><textarea id="ns-extra" placeholder="Share any questions, thoughts, or what\'s on your heart..." style="min-height:70px;"></textarea></div>';
+    } else {
+      var config = nsDynamic[nsChoice];
+      document.getElementById('ns-modal-title').innerHTML = config.title;
+      document.getElementById('ns-modal-subtitle').textContent = config.subtitle;
+      document.getElementById('ns-submit-btn').textContent = config.btn;
+      var dynSection = document.getElementById('ns-dynamic-section');
+      document.getElementById('ns-dynamic-field').innerHTML = config.field;
+      dynSection.style.display = 'block';
+    }
+    document.getElementById('ns-step1').style.display = 'none';
+    document.getElementById('ns-step2').style.display = 'block';
+    document.querySelector('#modal-serve .modal-close').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Back';
+    document.querySelector('#modal-serve .modal-close').onclick = function() { nsBack(); };
+    document.querySelector('#modal-serve .modal').scrollTop = 0;
+  }
+
+  function serveBack() { closeModal('serve'); }
+
+  function nsBack() {
+    clearErr('ns-name'); clearErr('ns-contact');
+    document.getElementById('ns-step2').style.display = 'none';
+    document.getElementById('ns-step1').style.display = 'block';
+    document.getElementById('ns-modal-title').innerHTML = 'We\'ll Help You Take<br>Your Next Step';
+    document.getElementById('ns-modal-title').style.display = '';
+    document.getElementById('ns-modal-subtitle').textContent = 'Choose the next step you\'d like to take, and we\'ll help you move forward.';
+    document.getElementById('ns-modal-subtitle').style.display = '';
+    document.getElementById('serve-modal-hero').style.padding = '';
+    document.querySelector('#modal-serve .modal-close').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home';
+    document.querySelector('#modal-serve .modal-close').onclick = function() { closeModal('serve'); };
+    document.querySelector('#modal-serve .modal').scrollTop = 0;
+  }
+
+  function nsSubmit() {
+    var name = document.getElementById('ns-name').value.trim();
+    var nsEmail = document.getElementById('ns-email') ? document.getElementById('ns-email').value.trim() : '';
+    var nsPhone = document.getElementById('ns-phone') ? document.getElementById('ns-phone').value.trim() : '';
+    var contact = nsEmail || nsPhone;
+    if (!name) { showErr('ns-name', 'Please enter your name.'); return; }
+    if (!nsEmail && !nsPhone) { showErr('ns-contact', 'Please enter at least an email or phone number.'); return; }
+    if (nsEmail && !isValidEmail(nsEmail)) { showErr('ns-contact', 'Please enter a valid email address.'); return; }
+    if (nsPhone && nsPhone.replace(/\D/g, '').length < 10) { showErr('ns-contact', 'Please enter a complete 10-digit phone number.'); return; }
+
+    var extra = '';
+    var extraField = document.getElementById('ns-extra');
+    if (extraField) extra = extraField.value.trim();
+    var extraField2 = document.getElementById('ns-extra-2');
+    if (extraField2 && extraField2.value.trim()) extra = (extra ? extra + ' | ' : '') + extraField2.value.trim();
+    var ministries = [];
+    var boxes = document.querySelectorAll('.ns-ministry:checked');
+    for (var i = 0; i < boxes.length; i++) { ministries.push(boxes[i].value); }
+    if (ministries.length > 0) extra = ministries.join(', ');
+
+    var nsFirstName = document.getElementById('ns-name').value.trim().split(' ')[0];
+    document.getElementById('ns-ty-title').textContent = nsFirstName ? 'Thank You, ' + nsFirstName + '!' : 'Thank You!';
+    document.getElementById('ns-step2').style.display = 'none';
+    document.getElementById('serve-success').style.display = 'block';
+    document.getElementById('ns-modal-title').style.display = 'none';
+    document.getElementById('ns-modal-subtitle').style.display = 'none';
+    document.getElementById('serve-modal-hero').style.padding = '16px 24px 16px';
+    document.querySelector('#modal-serve .modal-body').style.paddingTop = '0';
+    var allChoices = window.nsAllChoices || [nsChoice];
+    var successMsg;
+    if (allChoices.length > 1) {
+      var boldArr = allChoices.map(function(c) { return '<strong>' + c + '</strong>'; });
+      var boldChoices = boldArr.length > 1 ? boldArr.slice(0, -1).join(', ') + ' and ' + boldArr[boldArr.length - 1] : boldArr[0];
+      successMsg = 'Someone from our team will reach out to walk with you through: ' + boldChoices + '.';
+    } else if (nsChoice === 'Serving' && ministries.length > 0) {
+      successMsg = 'We\'re excited to have you on the team! We see you are interested in serving in <strong>' + ministries.join(', ') + '</strong>. Someone will reach out soon.';
+    } else if (nsChoice === 'Serving') {
+      successMsg = 'We\'re excited to have you on the team! Someone will reach out soon to connect you with the right ministry.';
+    } else {
+      successMsg = nsDynamic[nsChoice].success;
+    }
+    document.getElementById('ns-success-msg').innerHTML = successMsg;
+    document.querySelector('#modal-serve .modal-close').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Home';
+    document.querySelector('#modal-serve .modal-close').onclick = function() { closeModal('serve'); };
+
+    try {
+      var email = nsEmail || ('phone-' + Date.now() + '@cfc-nextsteps.local');
+      var phone = nsPhone;
+      fetch('https://connect.mailerlite.com/api/subscribers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + MAILERLITE_API_KEY },
+        body: JSON.stringify({
+          email: email,
+          fields: { name: name, phone: phone, ministry_areas: nsChoice + (extra ? ' — ' + extra : '') },
+          groups: [MAILERLITE_SERVE_ID]
+        })
+      }).then(function(res) {
+        if (!res.ok) res.text().then(function(t) { console.log('ML nextsteps err:', t); });
+      });
+    } catch(e) { console.log('ML nextsteps error:', e); }
+  }
+
+  function submitServe() { nsSubmit(); }
+
+  function toggleAccordion(el) {
+    var isOpen = el.classList.contains('open');
+    var allDays = el.closest('.tab-panel').querySelectorAll('.accordion-day');
+    allDays.forEach(function(d) { d.classList.remove('open'); });
+    if (!isOpen) el.classList.add('open');
+  }
+
+  function switchTab(id, btn) {
+    var panels = document.querySelectorAll('.tab-panel');
+    for (var i = 0; i < panels.length; i++) { panels[i].style.display = 'none'; }
+    var btns = document.querySelectorAll('.tab-btn');
+    for (var j = 0; j < btns.length; j++) { btns[j].classList.remove('active'); }
+    document.getElementById('tab-' + id).style.display = 'block';
+    btn.classList.add('active');
+    if (id === 'thismonth') buildCalendar();
+  }
+
+  function buildCalendar() {
+    var container = document.getElementById('cal-container');
+    if (!container || container.innerHTML) return;
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth();
+    var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+    // Monthly events - day of month: {name, time}
+    var monthlyEvents = {
+      'first_sunday': [{name:'Super Sunday', time:'10:30 AM'}],
+      'third_sunday': [{name:'Baby Dedications', time:'10:30 AM'}, {name:'Sunday Worship', time:'10:30 AM'}],
+      'third_saturday': [{name:'Soup for the Soul', time:'12:00 PM'}]
+    };
+
+    // Get first day and days in month
+    var firstDay = new Date(year, month, 1).getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    // Find special Sundays and Saturdays
+    var eventDays = {};
+    for (var d = 1; d <= daysInMonth; d++) {
+      var date = new Date(year, month, d);
+      var dow = date.getDay();
+      var events = [];
+
+      // Find which occurrence of this weekday it is
+      var occurrence = Math.ceil(d / 7);
+
+      if (dow === 0) { // Sunday
+        events.push({name:'Adult Bible Class', time:'9:00 AM'});
+        events.push({name:'Sunday Morning Worship', time:'10:30 AM'});
+        if (occurrence === 1) events.push({name:'Super Sunday', time:'10:30 AM'});
+        if (occurrence === 3) events.push({name:'Baby Dedications', time:'10:30 AM'});
+      }
+      if (dow === 2) { // Tuesday
+        events.push({name:'Oaklawn Bible Study', time:'7:00 PM'});
+      }
+      if (dow === 3) { // Wednesday
+        events.push({name:'Wednesday Night Reset', time:'7:00 PM'});
+      }
+      if (dow === 6 && occurrence === 3) { // 3rd Saturday
+        events.push({name:'Soup for the Soul', time:'12:00 PM'});
+      }
+
+      if (events.length > 0) eventDays[d] = events;
+    }
+
+    // Build calendar HTML
+    var html = '<div class="cal-wrap">';
+    html += '<div class="cal-header"><div class="cal-month">' + monthNames[month] + ' ' + year + '</div></div>';
+    html += '<div class="cal-grid">';
+
+    // Day headers
+    for (var i = 0; i < 7; i++) {
+      html += '<div class="cal-dow">' + dayNames[i] + '</div>';
+    }
+
+    // Empty cells before first day
+    for (var i = 0; i < firstDay; i++) {
+      html += '<div class="cal-day empty"></div>';
+    }
+
+    // Days
+    var today = now.getDate();
+    for (var d = 1; d <= daysInMonth; d++) {
+      var isToday = (d === today);
+      var hasEvent = eventDays[d] ? true : false;
+      var cls = 'cal-day';
+      if (isToday) cls += ' today';
+      if (hasEvent && !isToday) cls += ' has-event';
+      html += '<div class="' + cls + '">' + d + '</div>';
+    }
+
+    html += '</div>'; // end grid
+
+    // Events list
+    html += '<div class="cal-events-list">';
+    var eventDayKeys = Object.keys(eventDays).map(Number).sort(function(a,b){return a-b;});
+    for (var k = 0; k < eventDayKeys.length; k++) {
+      var day = eventDayKeys[k];
+      var date = new Date(year, month, day);
+      var dayName = dayNames[date.getDay()];
+      var evs = eventDays[day];
+      for (var e = 0; e < evs.length; e++) {
+        html += '<div class="cal-event-row">';
+        html += '<div class="cal-event-date-badge"><div class="cal-event-date-num">' + day + '</div><div class="cal-event-date-day">' + dayName + '</div></div>';
+        html += '<div><div class="cal-event-info-name">' + evs[e].name + '</div><div class="cal-event-info-time">' + evs[e].time + '</div></div>';
+        html += '</div>';
+      }
+    }
+    html += '</div></div>'; // end events list and cal-wrap
+
+    container.innerHTML = html;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var pPrivate = document.getElementById('p-private');
+    if (pPrivate) {
+      pPrivate.addEventListener('change', function() {
+        document.getElementById('p-private-note').style.display = this.checked ? 'block' : 'none';
+      });
+    }
+    var ph = document.getElementById('c-phone');
+    if (ph) {
+      ph.addEventListener('input', function() { formatPhone(ph); });
+      ph.addEventListener('keyup', function() { formatPhone(ph); });
+      ph.addEventListener('change', function() { formatPhone(ph); });
+    }
+  });
+} catch(e) { console.log("Script error:", e); }
+
+  function openNav() {
+    document.querySelectorAll('.nav-link-item').forEach(function(el){el.classList.remove('active');});
+    var cur = null;
+    ['connect','prayer','events','serve','give','here','faith'].forEach(function(id){
+      if(document.getElementById('modal-'+id).classList.contains('open')) cur = id;
+    });
+    var a = document.querySelector('[data-nav="'+(cur||'home')+'"]');
+    if(a) a.classList.add('active');
+    document.getElementById('navDropdown').classList.add('open');
+    document.getElementById('navOverlay').classList.add('open');
+  }
+  function closeNav() {
+    document.getElementById('navDropdown').classList.remove('open');
+    document.getElementById('navOverlay').classList.remove('open');
+  }
+  function smoothGoHome() {
+    closeNav();
+    var _reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    ['connect','prayer','events','serve','give','here','faith'].forEach(function(id){
+      var m=document.getElementById('modal-'+id);
+      if (!_reduced && m.classList.contains('open')) m.classList.add('closing');
+    });
+    setTimeout(function(){
+      var wasOpen = false;
+      ['connect','prayer','events','serve','give','here','faith'].forEach(function(id){
+        var m=document.getElementById('modal-'+id);
+        if (m.classList.contains('open')) wasOpen = true;
+        m.classList.remove('open'); m.classList.remove('closing'); m.style.display='none';
+      });
+      document.body.style.overflow='';
+      if (wasOpen && !_reduced) playHomeReturn();
+    }, 280);
+  }
+  function switchModal(id) {
+    closeNav();
+    setTimeout(function(){
+      ['connect','prayer','events','serve','give','here','faith'].forEach(function(mid){
+        var m=document.getElementById('modal-'+mid);
+        m.classList.remove('open'); m.style.display='none';
+      });
+      document.body.style.overflow='';
+      openModal(id);
+    }, 250);
+  }
+
+  
+  function updateServiceStrip() {
+    var now = new Date();
+    var day = now.getDay(); // 0=Sun, 3=Wed
+    var hour = now.getHours();
+    
+    var name, time;
+    // If it's Sunday before 10:30am, show Sunday. If Wednesday before 7pm, show Wednesday.
+    // Otherwise show the next upcoming one.
+    if (day === 0 && hour < 11) {
+      name = 'Sunday Morning Worship'; time = '10:30 AM';
+    } else if (day === 3 && hour < 19) {
+      name = 'Wednesday Night Word'; time = '7:00 PM';
+    } else {
+      // Find next service
+      var daysToSun = (7 - day) % 7 || 7;
+      var daysToWed = (3 - day + 7) % 7 || 7;
+      if (daysToSun <= daysToWed) {
+        name = 'Sunday Morning Worship'; time = '10:30 AM';
+      } else {
+        name = 'Wednesday Night Word'; time = '7:00 PM';
+      }
+    }
+    
+    var nameEl = document.getElementById('serviceStripName');
+    var timeEl = document.getElementById('serviceStripTime');
+    if (nameEl) nameEl.textContent = name;
+    if (timeEl) timeEl.textContent = time;
+  }
+  updateServiceStrip();
+
+  
+  function updateServiceStrip() {
+    var now = new Date();
+    var day = now.getDay();
+    var hour = now.getHours();
+    var name, time;
+    if (day === 0 && hour < 11) {
+      name = 'Sunday Morning Worship'; time = '10:30 AM';
+    } else if (day === 3 && hour < 19) {
+      name = 'Wednesday Night Word'; time = '7:00 PM';
+    } else {
+      var daysToSun = (7 - day) % 7 || 7;
+      var daysToWed = (3 - day + 7) % 7 || 7;
+      if (daysToSun <= daysToWed) {
+        name = 'Sunday Morning Worship'; time = '10:30 AM';
+      } else {
+        name = 'Wednesday Night Word'; time = '7:00 PM';
+      }
+    }
+    var nameEl = document.getElementById('serviceStripName');
+    var timeEl = document.getElementById('serviceStripTime');
+    if (nameEl) nameEl.textContent = name;
+    if (timeEl) timeEl.textContent = time;
+  }
+  updateServiceStrip();
+
+  /* ============================================
+     MICRO-INTERACTIONS: scroll reveal, parallax,
+     haptic submit feedback (progressive enhancement)
+     ============================================ */
+  (function() {
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* --- Haptic-style submit feedback (all .btn-primary taps) --- */
+    document.addEventListener('click', function(e) {
+      var t = e.target;
+      while (t && t !== document) {
+        if (t.classList && t.classList.contains('btn-primary')) break;
+        t = t.parentNode;
+      }
+      if (!t || t === document) return;
+      if (!reduceMotion) {
+        t.classList.remove('btn-haptic');
+        void t.offsetWidth; /* restart animation */
+        t.classList.add('btn-haptic');
+      }
+      if (navigator.vibrate) navigator.vibrate(12); /* Android; iOS ignores */
+    }, true);
+
+    if (reduceMotion) return; /* no reveal/parallax for reduced-motion users */
+
+    /* --- Scroll-linked tile reveal --- */
+    if ('IntersectionObserver' in window) {
+      document.body.classList.add('js-anim');
+      var tiles = document.querySelectorAll('.grid .grid-tile');
+      var firstBatchDone = false;
+      var io = new IntersectionObserver(function(entries) {
+        var visible = [];
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].isIntersecting) visible.push(entries[i].target);
+        }
+        for (var j = 0; j < visible.length; j++) {
+          visible[j].style.animationDelay = firstBatchDone ? '0.05s' : (0.14 + j * 0.06) + 's';
+          visible[j].classList.add('in');
+          io.unobserve(visible[j]);
+        }
+        if (visible.length) firstBatchDone = true;
+      }, { threshold: 0.15 });
+      for (var k = 0; k < tiles.length; k++) io.observe(tiles[k]);
+    }
+
+    /* --- Hero parallax: heading drifts + fades as you scroll --- */
+    var header = document.querySelector('.header');
+    if (header) {
+      var kids = header.children;
+      var ticking = false;
+      var applyParallax = function() {
+        ticking = false;
+        var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var shift = Math.min(y * 0.35, 90);
+        var fade = Math.max(0, 1 - y / 240);
+        for (var i = 0; i < kids.length; i++) {
+          kids[i].style.transform = 'translateY(' + shift + 'px)';
+          kids[i].style.opacity = fade;
+        }
+      };
+      window.addEventListener('scroll', function() {
+        if (!ticking) { ticking = true; requestAnimationFrame(applyParallax); }
+      }, { passive: true });
+    }
+  })();
+  </script>
+
+  <div class="nav-overlay" id="navOverlay" onclick="closeNav()"></div>
+  <div class="nav-dropdown" id="navDropdown">
+    <div class="nav-dropdown-inner">
+      <div class="nav-dropdown-header" style="justify-content:flex-end; margin-bottom:12px;">
+        <button class="nav-close-btn" onclick="closeNav()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="nav-dropdown-links">
+        <div class="nav-link-item home-link" data-nav="home" onclick="smoothGoHome()"><span class="nav-link-label">Home</span></div>
+        <div class="nav-link-item" data-nav="connect" onclick="closeNav();switchModal('connect')"><span class="nav-link-label">Let's Get Connected</span></div>
+        <div class="nav-link-item" data-nav="prayer" onclick="closeNav();switchModal('prayer')"><span class="nav-link-label">Need Prayer?</span></div>
+        <div class="nav-link-item" data-nav="events" onclick="closeNav();switchModal('events')"><span class="nav-link-label">What's Happening</span></div>
+        <div class="nav-link-item" data-nav="serve" onclick="closeNav();switchModal('serve')"><span class="nav-link-label">Take Your Next Step</span></div>
+        <div class="nav-link-item" data-nav="give" onclick="closeNav();switchModal('give')"><span class="nav-link-label">Give Tithes &amp; Offerings</span></div>
+        <div class="nav-link-item" data-nav="here" onclick="closeNav();switchModal('here')"><span class="nav-link-label">How Can We Help?</span></div>
+      </div>
+    </div>
+    <div data-nav="faith" onclick="closeNav();switchModal('faith')" style="background:#8B4FCF; border-radius:0 0 24px 24px; padding:18px 24px; cursor:pointer; -webkit-tap-highlight-color:transparent; text-align:center; display:block;">
+      <span style="font-size:18px; font-weight:600; color:#ffffff;">New to Faith?</span>
+    </div>
+  </div>
+
+</body>
+</html>
